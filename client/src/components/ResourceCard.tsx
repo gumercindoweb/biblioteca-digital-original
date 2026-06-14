@@ -5,7 +5,8 @@
 // ============================================================
 
 import { Resource, ResourceType, statusColors, statusLabels } from "@/lib/data";
-import { BookOpen, Headphones, Monitor, Youtube, ExternalLink, Tag } from "lucide-react";
+import { BookOpen, Headphones, Monitor, Youtube, ExternalLink, Tag, FileText } from "lucide-react";
+import { useNotes } from "@/contexts/NotesContext";
 
 const typeIcons: Record<ResourceType, React.ReactNode> = {
   libro: <BookOpen size={13} />,
@@ -34,14 +35,26 @@ interface ResourceCardProps {
 }
 
 export default function ResourceCard({ resource, index }: ResourceCardProps) {
+  const { setSelectedResource, getResourceNotes } = useNotes();
+  const notes = getResourceNotes(resource.id);
+  const hasNotes = notes.length > 0;
   const color = typeColors[resource.type];
   const bg = typeBg[resource.type];
 
   return (
     <div
-      className="resource-card p-4 animate-fade-slide-up"
+      className="resource-card p-4 animate-fade-slide-up cursor-pointer transition-all hover:shadow-lg hover:border-amber-600/50"
       style={{ animationDelay: `${index * 40}ms` }}
+      onClick={() => setSelectedResource(resource)}
     >
+      {/* Indicador de notas */}
+      {hasNotes && (
+        <div className="flex items-center gap-1 mb-2 text-amber-600">
+          <FileText size={13} />
+          <span className="text-xs font-medium">{notes.length} nota{notes.length > 1 ? "s" : ""}</span>
+        </div>
+      )}
+
       {/* Header de la tarjeta */}
       <div className="flex items-start justify-between gap-2 mb-3">
         <div className="flex items-center gap-2 flex-wrap">
@@ -89,6 +102,7 @@ export default function ResourceCard({ resource, index }: ResourceCardProps) {
             style={{ color: "#8A7D6B" }}
             onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "#C8922A")}
             onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "#8A7D6B")}
+            onClick={(e) => e.stopPropagation()}
           >
             <ExternalLink size={13} />
           </a>

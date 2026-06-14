@@ -5,6 +5,14 @@
 
 export type ResourceType = "libro" | "podcast" | "plataforma" | "youtube";
 export type Status = "leyendo" | "en-cola" | "completado";
+export type NoteType = "aprendizaje" | "semilla" | "conexion";
+
+export type Note = {
+  id: string;
+  type: NoteType;
+  content: string;
+  createdAt: string;
+};
 
 export type Category = {
   id: string;
@@ -23,6 +31,7 @@ export type Resource = {
   status?: Status;
   url?: string;
   tags?: string[];
+  notes?: Note[];
 };
 
 export const categories: Category[] = [
