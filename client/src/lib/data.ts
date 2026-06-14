@@ -38,6 +38,7 @@ export type Resource = {
   tags?: string[];
   notes?: Note[];
   subscription?: Subscription; // Para plataformas con suscripción
+  featured?: boolean; // Para marcar recursos destacados
 };
 
 export const categories: Category[] = [
@@ -533,6 +534,69 @@ export const resources: Resource[] = [
     status: "en-cola",
     url: "https://youtu.be/cLdMjVvP7kE",
     tags: ["emprendimiento", "YouTube", "éxito"],
+  },
+  {
+    id: "podcast-money-making-expert-priestley",
+    title: "El Experto en Ganar Dinero: La Fórmula Exacta para Convertir $100 en $100k por Mes",
+    description: "Daniel Priestley revela la fórmula exacta para convertir $100 en $100,000 mensuales. Estrategias de emprendimiento probadas.",
+    type: "podcast",
+    category: "negocios",
+    status: "en-cola",
+    url: "https://youtu.be/u0o3IlsEQbI",
+    tags: ["emprendimiento", "dinero", "estrategia"],
+  },
+  {
+    id: "podcast-seminario-fenix-brian-tracy",
+    title: "Seminario Fénix Brian Tracy Completo en Español",
+    description: "Seminario completo de Brian Tracy sobre psicología del éxito, mentalidad y logro de objetivos. Destacado.",
+    type: "podcast",
+    category: "desarrollo-personal",
+    status: "en-cola",
+    url: "https://youtu.be/zUxj7J8HttM",
+    tags: ["éxito", "mentalidad", "seminario"],
+    featured: true,
+  },
+  {
+    id: "podcast-oz-pearlman-mentalist",
+    title: "Oz Pearlman (Mentalista): Este Pequeño Error Hace que la Gente No te Acepte",
+    description: "El mentalista Oz Pearlman revela cómo leer a las personas, construir confianza y ganar atención. Destacado.",
+    type: "podcast",
+    category: "psicologia",
+    status: "en-cola",
+    url: "https://youtu.be/4qfxHfBJ3Mw",
+    tags: ["psicología", "lenguaje corporal", "mentalismo"],
+    featured: true,
+  },
+  {
+    id: "podcast-tony-robbins-ai-future",
+    title: "Tony Robbins: Nadie Está Listo para lo que Viene (La Verdad sobre la IA)",
+    description: "Tony Robbins advierte sobre el futuro de la IA y su impacto psicológico. Reflexiones sobre el cambio y la adaptación.",
+    type: "podcast",
+    category: "desarrollo-personal",
+    status: "en-cola",
+    url: "https://youtu.be/I_w81rptxkc",
+    tags: ["IA", "futuro", "mentalidad"],
+  },
+  {
+    id: "podcast-alex-hormozi-millionaires",
+    title: "El Hombre que Crea Millonarios: Convierte $0 en $10k con Esta Fórmula Paso a Paso",
+    description: "Alex Hormozi comparte la fórmula exacta para convertir $0 en $10,000 mensuales. Estrategias de negocios probadas. Destacado.",
+    type: "podcast",
+    category: "negocios",
+    status: "en-cola",
+    url: "https://youtu.be/Kl-I7sUcAOY",
+    tags: ["emprendimiento", "dinero", "negocios"],
+    featured: true,
+  },
+  {
+    id: "podcast-vanessa-van-edwards-body-language",
+    title: "Experta en Lenguaje Corporal: Deja de Usar Esto, Hace que la Gente No te Acepte",
+    description: "Vanessa Van Edwards, experta en lenguaje corporal, revela los secretos para ser más carismático y conectar con otros.",
+    type: "podcast",
+    category: "psicologia",
+    status: "en-cola",
+    url: "https://youtu.be/VHUrdELKjDw",
+    tags: ["lenguaje corporal", "carisma", "comunicación"],
   },
   {
     id: "plat-executive-business",
