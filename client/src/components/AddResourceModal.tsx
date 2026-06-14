@@ -17,7 +17,7 @@ interface AddResourceModalProps {
     description?: string;
     type: ResourceType;
     category: string;
-    status?: Status;
+    status: Status;
     url?: string;
     tags?: string[];
   }) => void;
@@ -44,7 +44,7 @@ export default function AddResourceModal({ isOpen, onClose, onAdd }: AddResource
       description: description.trim() || undefined,
       type,
       category,
-      status: type === "libro" ? status : undefined,
+      status,
       url: url.trim() || undefined,
       tags: tags.trim() ? tags.split(",").map((t) => t.trim()).filter(Boolean) : undefined,
     });

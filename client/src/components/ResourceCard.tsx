@@ -7,6 +7,8 @@
 import { Resource, ResourceType, statusColors, statusLabels } from "@/lib/data";
 import { BookOpen, Headphones, Monitor, Youtube, ExternalLink, Tag, FileText } from "lucide-react";
 import { useNotes } from "@/contexts/NotesContext";
+import { useStatus } from "@/contexts/StatusContext";
+import { StatusSelector } from "./StatusSelector";
 
 const typeIcons: Record<ResourceType, React.ReactNode> = {
   libro: <BookOpen size={13} />,
@@ -36,7 +38,9 @@ interface ResourceCardProps {
 
 export default function ResourceCard({ resource, index }: ResourceCardProps) {
   const { setSelectedResource, getResourceNotes } = useNotes();
+  const { getResourceStatus } = useStatus();
   const notes = getResourceNotes(resource.id);
+  const currentStatus = getResourceStatus(resource.id, resource.status);
   const hasNotes = notes.length > 0;
   const color = typeColors[resource.type];
   const bg = typeBg[resource.type];
@@ -77,19 +81,10 @@ export default function ResourceCard({ resource, index }: ResourceCardProps) {
               : "YouTube"}
           </span>
 
-          {/* Badge de estado */}
-          {resource.status && (
-            <span
-              className="type-badge"
-              style={{
-                color: statusColors[resource.status],
-                borderColor: `${statusColors[resource.status]}40`,
-                background: `${statusColors[resource.status]}12`,
-              }}
-            >
-              {statusLabels[resource.status]}
-            </span>
-          )}
+          {/* Selector de estado */}
+          <div onClick={(e) => e.stopPropagation()}>
+            <StatusSelector resourceId={resource.id} currentStatus={currentStatus} />
+          </div>
         </div>
 
         {/* Enlace externo */}

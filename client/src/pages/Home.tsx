@@ -5,7 +5,8 @@
 // ============================================================
 
 import { useState, useMemo, useCallback } from "react";
-import { resources as initialResources, categories, Resource, ResourceType, Category } from "@/lib/data";
+import { resources as initialResources, categories, Resource, ResourceType, Category, Status, statusLabels, statusColors } from "@/lib/data";
+import { useStatus } from "@/contexts/StatusContext";
 import Sidebar from "@/components/Sidebar";
 import ResourceCard from "@/components/ResourceCard";
 import AddResourceModal from "@/components/AddResourceModal";
@@ -20,9 +21,11 @@ const typeIcons: Record<ResourceType, React.ReactNode> = {
 };
 
 export default function Home() {
+  const { resourceStatuses } = useStatus();
   const [allResources, setAllResources] = useState<Resource[]>(initialResources);
   const [selectedCategory, setSelectedCategory] = useState("todos");
   const [selectedType, setSelectedType] = useState<ResourceType | "todos">("todos");
+  const [selectedStatus, setSelectedStatus] = useState<Status | "todos">("todos");
   const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
@@ -32,15 +35,17 @@ export default function Home() {
     return allResources.filter((r) => {
       const matchCat = selectedCategory === "todos" || r.category === selectedCategory;
       const matchType = selectedType === "todos" || r.type === selectedType;
+      const currentStatus = resourceStatuses[r.id] || r.status;
+      const matchStatus = selectedStatus === "todos" || currentStatus === selectedStatus;
       const matchSearch =
         !searchQuery ||
         r.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         (r.author?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false) ||
         (r.description?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false) ||
         (r.tags?.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase())) ?? false);
-      return matchCat && matchType && matchSearch;
+      return matchCat && matchType && matchStatus && matchSearch;
     });
-  }, [allResources, selectedCategory, selectedType, searchQuery]);
+  }, [allResources, selectedCategory, selectedType, selectedStatus, searchQuery, resourceStatuses]);
 
   // Categoría activa
   const activeCat: Category | undefined = categories.find((c) => c.id === selectedCategory);
@@ -54,7 +59,12 @@ export default function Home() {
 
   const handleAddResource = useCallback(
     (data: Omit<Resource, "id">) => {
-      setAllResources((prev) => [...prev, { ...data, id: nanoid() }]);
+      const newResource: Resource = {
+        ...data,
+        id: nanoid(),
+        status: data.status || "en-cola",
+      };
+      setAllResources((prev) => [...prev, newResource]);
     },
     []
   );
@@ -128,7 +138,7 @@ export default function Home() {
             <div className="amber-line mt-3 mb-4" style={{ width: "120px" }} />
 
             {/* Contadores por tipo */}
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-4 mb-4">
               {(Object.entries(typeCounts) as [ResourceType, number][])
                 .filter(([, count]) => count > 0)
                 .map(([type, count]) => (
@@ -150,6 +160,24 @@ export default function Home() {
                   Sin resultados
                 </span>
               )}
+            </div>
+
+            {/* Filtro por estado */}
+            <div className="flex flex-wrap gap-2">
+              {(["todos", "en-cola", "leyendo", "completado"] as (Status | "todos")[]).map((status) => (
+                <button
+                  key={status}
+                  onClick={() => setSelectedStatus(status as Status | "todos")}
+                  className="px-3 py-1.5 rounded-md text-xs font-medium transition-all"
+                  style={{
+                    backgroundColor: selectedStatus === status ? `${status === "todos" ? "#C8922A" : statusColors[status as Status]}20` : "transparent",
+                    color: selectedStatus === status ? (status === "todos" ? "#C8922A" : statusColors[status as Status]) : "#8A7D6B",
+                    border: `1px solid ${selectedStatus === status ? (status === "todos" ? "#C8922A" : statusColors[status as Status]) : "#8A7D6B"}40`,
+                  }}
+                >
+                  {status === "todos" ? "Todos" : statusLabels[status as Status]}
+                </button>
+              ))}
             </div>
           </div>
 
