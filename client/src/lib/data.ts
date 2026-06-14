@@ -21,6 +21,11 @@ export type Category = {
   color: string;
 };
 
+export type Subscription = {
+  expiresAt?: string; // Fecha de vencimiento (YYYY-MM-DD) o "evergreen"
+  isActive: boolean;
+};
+
 export type Resource = {
   id: string;
   title: string;
@@ -32,6 +37,7 @@ export type Resource = {
   url?: string;
   tags?: string[];
   notes?: Note[];
+  subscription?: Subscription; // Para plataformas con suscripción
 };
 
 export const categories: Category[] = [
@@ -346,6 +352,76 @@ export const resources: Resource[] = [
     category: "desarrollo-personal",
     status: "en-cola",
     tags: ["resúmenes", "libros", "recordatorios"],
+  },
+  {
+    id: "plat-mindvalley",
+    title: "Mindvalley",
+    description: "Plataforma de aprendizaje con cursos de desarrollo personal, meditación, y transformación de vida.",
+    type: "plataforma",
+    category: "desarrollo-personal",
+    status: "en-cola",
+    url: "https://home.mindvalley.com/today",
+    tags: ["desarrollo personal", "cursos", "meditación"],
+    subscription: {
+      expiresAt: "2028-11-18",
+      isActive: true,
+    },
+  },
+  {
+    id: "plat-masterclass",
+    title: "MasterClass",
+    description: "Plataforma de cursos en línea con clases de maestros reconocidos en diversos campos.",
+    type: "plataforma",
+    category: "desarrollo-personal",
+    status: "en-cola",
+    url: "https://www.masterclass.com/homepage",
+    tags: ["cursos", "maestros", "aprendizaje"],
+    subscription: {
+      expiresAt: "2026-08-17",
+      isActive: true,
+    },
+  },
+  {
+    id: "plat-weplash",
+    title: "WePlay Academy",
+    description: "Academia de aprendizaje con cursos especializados en creatividad y desarrollo profesional.",
+    type: "plataforma",
+    category: "desarrollo-personal",
+    status: "en-cola",
+    url: "https://academia.weplash.com/feed",
+    tags: ["academia", "creatividad", "profesional"],
+    subscription: {
+      expiresAt: "2026-06-30",
+      isActive: true,
+    },
+  },
+  {
+    id: "plat-marisa-peer",
+    title: "Marisa Peer - Reshape Your Future",
+    description: "Programas de hipnosis y transformación personal con Marisa Peer para cambiar creencias limitantes.",
+    type: "plataforma",
+    category: "psicologia",
+    status: "en-cola",
+    url: "https://marisapeer.mykajabi.com/products/reshape-your-future-with-hypnosis/categories/2156439401/posts/2182477995",
+    tags: ["hipnosis", "transformación", "creencias"],
+    subscription: {
+      expiresAt: "evergreen",
+      isActive: true,
+    },
+  },
+  {
+    id: "plat-mastermind",
+    title: "Official Mastermind",
+    description: "Comunidad y plataforma de mastermind para emprendedores y líderes en crecimiento.",
+    type: "plataforma",
+    category: "negocios",
+    status: "en-cola",
+    url: "https://official.mastermind.com/c/start-here",
+    tags: ["mastermind", "emprendimiento", "comunidad"],
+    subscription: {
+      expiresAt: "evergreen",
+      isActive: true,
+    },
   },
   // ─── PODCASTS (Videos sueltos) ────────────────────────────────
   {

@@ -5,7 +5,7 @@
 // ============================================================
 
 import { Resource, ResourceType, statusColors, statusLabels } from "@/lib/data";
-import { BookOpen, Headphones, Monitor, Youtube, ExternalLink, Tag, FileText } from "lucide-react";
+import { BookOpen, Headphones, Monitor, Youtube, ExternalLink, Tag, FileText, Clock } from "lucide-react";
 import { useNotes } from "@/contexts/NotesContext";
 import { useStatus } from "@/contexts/StatusContext";
 import { StatusSelector } from "./StatusSelector";
@@ -45,19 +45,50 @@ export default function ResourceCard({ resource, index }: ResourceCardProps) {
   const color = typeColors[resource.type];
   const bg = typeBg[resource.type];
 
+  // Calcular estado de suscripción
+  const getSubscriptionStatus = () => {
+    if (!resource.subscription) return null;
+    if (resource.subscription.expiresAt === "evergreen") return "evergreen";
+    if (!resource.subscription.expiresAt) return null;
+    
+    const expiryDate = new Date(resource.subscription.expiresAt);
+    const today = new Date();
+    const daysUntilExpiry = Math.ceil((expiryDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+    
+    if (daysUntilExpiry < 0) return "expired";
+    if (daysUntilExpiry <= 30) return "expiring-soon";
+    return "active";
+  };
+
+  const subscriptionStatus = getSubscriptionStatus();
+
   return (
     <div
       className="resource-card p-4 animate-fade-slide-up cursor-pointer transition-all hover:shadow-lg hover:border-amber-600/50"
       style={{ animationDelay: `${index * 40}ms` }}
       onClick={() => setSelectedResource(resource)}
     >
-      {/* Indicador de notas */}
-      {hasNotes && (
-        <div className="flex items-center gap-1 mb-2 text-amber-600">
-          <FileText size={13} />
-          <span className="text-xs font-medium">{notes.length} nota{notes.length > 1 ? "s" : ""}</span>
-        </div>
-      )}
+      {/* Indicadores de notas y suscripción */}
+      <div className="flex items-center gap-2 mb-2 flex-wrap">
+        {hasNotes && (
+          <div className="flex items-center gap-1 text-amber-600">
+            <FileText size={13} />
+            <span className="text-xs font-medium">{notes.length} nota{notes.length > 1 ? "s" : ""}</span>
+          </div>
+        )}
+        {subscriptionStatus && (
+          <div className={`flex items-center gap-1 text-xs font-medium ${
+            subscriptionStatus === "evergreen" ? "text-green-600" :
+            subscriptionStatus === "expiring-soon" ? "text-orange-500" :
+            subscriptionStatus === "expired" ? "text-red-500" : "text-blue-500"
+          }`}>
+            <Clock size={13} />
+            {subscriptionStatus === "evergreen" ? "Acceso ilimitado" :
+             subscriptionStatus === "expiring-soon" ? `Vence: ${resource.subscription?.expiresAt}` :
+             subscriptionStatus === "expired" ? "Vencida" : "Activa"}
+          </div>
+        )}
+      </div>
 
       {/* Header de la tarjeta */}
       <div className="flex items-start justify-between gap-2 mb-3">
