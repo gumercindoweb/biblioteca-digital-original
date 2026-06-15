@@ -5,7 +5,7 @@
 // ============================================================
 
 import { Resource, ResourceType, statusColors, statusLabels } from "@/lib/data";
-import { BookOpen, Headphones, Monitor, Youtube, ExternalLink, Tag, FileText, Clock } from "lucide-react";
+import { BookOpen, Headphones, Monitor, Youtube, ExternalLink, Tag, FileText, Clock, Star } from "lucide-react";
 import { useNotes } from "@/contexts/NotesContext";
 import { useStatus } from "@/contexts/StatusContext";
 import { StatusSelector } from "./StatusSelector";
@@ -68,8 +68,14 @@ export default function ResourceCard({ resource, index }: ResourceCardProps) {
       style={{ animationDelay: `${index * 40}ms` }}
       onClick={() => setSelectedResource(resource)}
     >
-      {/* Indicadores de notas y suscripción */}
+      {/* Indicadores de notas, destacado y suscripción */}
       <div className="flex items-center gap-2 mb-2 flex-wrap">
+        {resource.featured && (
+          <div className="flex items-center gap-1 text-yellow-500">
+            <Star size={13} fill="currentColor" />
+            <span className="text-xs font-medium">Destacado</span>
+          </div>
+        )}
         {hasNotes && (
           <div className="flex items-center gap-1 text-amber-600">
             <FileText size={13} />

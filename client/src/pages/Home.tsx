@@ -10,7 +10,7 @@ import { useStatus } from "@/contexts/StatusContext";
 import Sidebar from "@/components/Sidebar";
 import ResourceCard from "@/components/ResourceCard";
 import AddResourceModal from "@/components/AddResourceModal";
-import { BookOpen, Headphones, Monitor, Youtube, Grid3X3, List } from "lucide-react";
+import { BookOpen, Headphones, Monitor, Youtube, Grid3X3, List, Star } from "lucide-react";
 import { nanoid } from "nanoid";
 
 const typeIcons: Record<ResourceType, React.ReactNode> = {
@@ -29,6 +29,7 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [showOnlyFeatured, setShowOnlyFeatured] = useState(false);
 
   // Filtrado de recursos
   const filteredResources = useMemo(() => {
@@ -43,9 +44,10 @@ export default function Home() {
         (r.author?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false) ||
         (r.description?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false) ||
         (r.tags?.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase())) ?? false);
-      return matchCat && matchType && matchStatus && matchSearch;
+      const matchFeatured = !showOnlyFeatured || r.featured;
+      return matchCat && matchType && matchStatus && matchSearch && matchFeatured;
     });
-  }, [allResources, selectedCategory, selectedType, selectedStatus, searchQuery, resourceStatuses]);
+  }, [allResources, selectedCategory, selectedType, selectedStatus, searchQuery, resourceStatuses, showOnlyFeatured]);
 
   // Categoría activa
   const activeCat: Category | undefined = categories.find((c) => c.id === selectedCategory);
@@ -163,7 +165,7 @@ export default function Home() {
             </div>
 
             {/* Filtro por estado */}
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 mb-3">
               {(["todos", "en-cola", "leyendo", "completado"] as (Status | "todos")[]).map((status) => (
                 <button
                   key={status}
@@ -178,6 +180,22 @@ export default function Home() {
                   {status === "todos" ? "Todos" : statusLabels[status as Status]}
                 </button>
               ))}
+            </div>
+
+            {/* Filtro de destacados */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setShowOnlyFeatured(!showOnlyFeatured)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all"
+                style={{
+                  backgroundColor: showOnlyFeatured ? "#FFD70020" : "transparent",
+                  color: showOnlyFeatured ? "#FFD700" : "#8A7D6B",
+                  border: `1px solid ${showOnlyFeatured ? "#FFD700" : "#8A7D6B"}40`,
+                }}
+              >
+                <Star size={13} fill={showOnlyFeatured ? "currentColor" : "none"} />
+                Destacados
+              </button>
             </div>
           </div>
 
