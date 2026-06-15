@@ -50,6 +50,7 @@ export const categories: Category[] = [
   { id: "espiritualidad", name: "Espiritualidad", numeral: "V", color: "#7B9E87" },
   { id: "desarrollo-personal", name: "Desarrollo Personal", numeral: "VI", color: "#9E8B7B" },
   { id: "finanzas", name: "Finanzas", numeral: "VII", color: "#6B8E9E" },
+  { id: "idiomas", name: "Idiomas", numeral: "VIII", color: "#8B7B9E" },
 ];
 
 export const statusLabels: Record<Status, string> = {
@@ -645,7 +646,7 @@ export const resources: Resource[] = [
     title: "Programa RAIO - Kale Anders",
     description: "Programa RAIO en inglés de Kale Anders para crecimiento empresarial acelerado.",
     type: "plataforma",
-    category: "negocios",
+    category: "idiomas",
     status: "en-cola",
     url: "https://kaleanders.clickfunnels.com/members/sign_in",
     tags: ["RAIO", "crecimiento", "inglés"],
@@ -667,5 +668,16 @@ export const resources: Resource[] = [
       expiresAt: "evergreen",
       isActive: true,
     },
+  },
+  {
+    id: "podcast-chris-koerner-passive-income",
+    title: "Experto en Ingresos Pasivos: Cómo Ganar $10k Mensuales en 90 Días",
+    description: "Chris Koerner, el Rey de los Side Hustles, revela cómo construyó 80+ negocios desde cero y convirtió sus emprendimientos laterales en millones. Destacado.",
+    type: "podcast",
+    category: "negocios",
+    status: "en-cola",
+    url: "https://youtu.be/4QLWlcneJig",
+    tags: ["ingresos pasivos", "emprendimiento", "side hustles", "negocios"],
+    featured: true,
   },
 ];
