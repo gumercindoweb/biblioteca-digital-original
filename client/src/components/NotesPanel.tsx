@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { X, Plus, Trash2, Sparkles } from "lucide-react";
+import { X, Plus, Trash2, Sparkles, ExternalLink } from "lucide-react";
 import { useNotes } from "@/contexts/NotesContext";
 import { Note, NoteType } from "@/lib/data";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,7 @@ import { nanoid } from "nanoid";
 /**
  * NotesPanel - Estética Futurista Visionaria
  * Diseño innovador con gradientes cibernéticos, colores vibrantes y efectos de luz
- * Transmite: Visión, innovación, futuro, tecnología avanzada
+ * Incluye reproductor de video integrado para podcasts
  */
 
 const noteTypeConfig: Record<NoteType, { label: string; gradient: string; accentColor: string; glowColor: string }> = {
@@ -33,6 +33,25 @@ const noteTypeConfig: Record<NoteType, { label: string; gradient: string; accent
   },
 };
 
+// Función para extraer ID de YouTube de una URL
+function getYouTubeEmbedUrl(url: string): string | null {
+  if (!url) return null;
+  
+  // Detectar diferentes formatos de URL de YouTube
+  const patterns = [
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
+  ];
+  
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match && match[1]) {
+      return `https://www.youtube.com/embed/${match[1]}?modestbranding=1&rel=0`;
+    }
+  }
+  
+  return null;
+}
+
 export function NotesPanel() {
   const { selectedResource, setSelectedResource, getResourceNotes, addNote, deleteNote } =
     useNotes();
@@ -45,6 +64,10 @@ export function NotesPanel() {
   const notes = getResourceNotes(selectedResource.id);
   const tabNotes = notes.filter((n) => n.type === activeTab);
   const config = noteTypeConfig[activeTab];
+  
+  // Verificar si es un podcast y obtener URL de embed
+  const isPodcast = selectedResource.type === "podcast";
+  const embedUrl = isPodcast && selectedResource.url ? getYouTubeEmbedUrl(selectedResource.url) : null;
 
   const handleAddNote = () => {
     if (newNoteContent.trim()) {
@@ -86,15 +109,46 @@ export function NotesPanel() {
                 <p className="text-xs text-cyan-300/60 italic">{selectedResource.author}</p>
               )}
             </div>
-            <button
-              onClick={() => setSelectedResource(null)}
-              className="text-cyan-400/60 hover:text-cyan-300 transition-all flex-shrink-0 hover:scale-110 hover:drop-shadow-lg"
-              style={{ textShadow: "0 0 8px rgba(0, 217, 255, 0.3)" }}
-            >
-              <X size={20} />
-            </button>
+            <div className="flex gap-2 flex-shrink-0">
+              {isPodcast && selectedResource.url && (
+                <a
+                  href={selectedResource.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-cyan-400/60 hover:text-cyan-300 transition-all hover:scale-110 hover:drop-shadow-lg"
+                  title="Abrir en YouTube"
+                >
+                  <ExternalLink size={18} />
+                </a>
+              )}
+              <button
+                onClick={() => setSelectedResource(null)}
+                className="text-cyan-400/60 hover:text-cyan-300 transition-all flex-shrink-0 hover:scale-110 hover:drop-shadow-lg"
+                style={{ textShadow: "0 0 8px rgba(0, 217, 255, 0.3)" }}
+              >
+                <X size={20} />
+              </button>
+            </div>
           </div>
         </div>
+
+        {/* Video Player - Solo para podcasts */}
+        {embedUrl && (
+          <div className="relative px-6 pt-6 pb-4 border-b border-cyan-500/10 backdrop-blur-sm">
+            <div className="relative rounded-lg overflow-hidden border border-cyan-500/20 shadow-lg" style={{ paddingBottom: "56.25%", height: 0 }}>
+              <iframe
+                src={embedUrl}
+                title={selectedResource.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="absolute top-0 left-0 w-full h-full border-0"
+                style={{
+                  boxShadow: "0 0 20px rgba(0, 217, 255, 0.2)",
+                }}
+              />
+            </div>
+          </div>
+        )}
 
         {/* Tabs con efecto de neón */}
         <div className="relative flex border-b border-cyan-500/10 px-4 pt-3 gap-2 backdrop-blur-sm bg-gradient-to-b from-cyan-500/3 to-transparent">
