@@ -67,19 +67,9 @@ export function NotesPanel() {
   const [currentTime, setCurrentTime] = useState(0);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
-  if (!selectedResource) return null;
-
-  const notes = getResourceNotes(selectedResource.id);
-  const tabNotes = notes.filter((n) => n.type === activeTab);
-  const config = noteTypeConfig[activeTab];
-  
-  // Verificar si es un podcast y obtener URL de embed
-  const isPodcast = selectedResource.type === "podcast";
-  const embedUrl = isPodcast && selectedResource.url ? getYouTubeEmbedUrl(selectedResource.url) : null;
-
   // Obtener tiempo actual del video
   useEffect(() => {
-    if (!iframeRef.current || !isPodcast) return;
+    if (!selectedResource || !iframeRef.current) return;
 
     const checkTime = () => {
       try {
@@ -96,7 +86,18 @@ export function NotesPanel() {
 
     const interval = setInterval(checkTime, 1000);
     return () => clearInterval(interval);
-  }, [isPodcast]);
+  }, [selectedResource]);
+
+  if (!selectedResource) return null;
+
+  // Ahora es seguro acceder a selectedResource
+  const notes = getResourceNotes(selectedResource.id);
+  const tabNotes = notes.filter((n) => n.type === activeTab);
+  const config = noteTypeConfig[activeTab];
+  
+  // Verificar si es un podcast y obtener URL de embed
+  const isPodcast = selectedResource.type === "podcast";
+  const embedUrl = isPodcast && selectedResource.url ? getYouTubeEmbedUrl(selectedResource.url) : null;
 
   const handleAddNote = () => {
     if (newNoteContent.trim()) {
