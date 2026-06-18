@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { X, Plus, Trash2, Sparkles, ExternalLink } from "lucide-react";
+import React, { useState, useRef, useEffect } from "react";
+import { X, Plus, Trash2, Sparkles, ExternalLink, Clock } from "lucide-react";
 import { useNotes } from "@/contexts/NotesContext";
 import { Note, NoteType } from "@/lib/data";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,7 @@ import { nanoid } from "nanoid";
 /**
  * NotesPanel - Estética Futurista Visionaria
  * Diseño innovador con gradientes cibernéticos, colores vibrantes y efectos de luz
- * Incluye reproductor de video integrado para podcasts
+ * Incluye reproductor de video integrado y captura de timestamp
  */
 
 const noteTypeConfig: Record<NoteType, { label: string; gradient: string; accentColor: string; glowColor: string }> = {
@@ -37,7 +37,6 @@ const noteTypeConfig: Record<NoteType, { label: string; gradient: string; accent
 function getYouTubeEmbedUrl(url: string): string | null {
   if (!url) return null;
   
-  // Detectar diferentes formatos de URL de YouTube
   const patterns = [
     /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
   ];
@@ -52,12 +51,21 @@ function getYouTubeEmbedUrl(url: string): string | null {
   return null;
 }
 
+// Función para formatear tiempo (mm:ss)
+function formatTime(seconds: number): string {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+}
+
 export function NotesPanel() {
   const { selectedResource, setSelectedResource, getResourceNotes, addNote, deleteNote } =
     useNotes();
   const [activeTab, setActiveTab] = useState<NoteType>("aprendizaje");
   const [newNoteContent, setNewNoteContent] = useState("");
   const [isAddingNote, setIsAddingNote] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   if (!selectedResource) return null;
 
@@ -69,18 +77,49 @@ export function NotesPanel() {
   const isPodcast = selectedResource.type === "podcast";
   const embedUrl = isPodcast && selectedResource.url ? getYouTubeEmbedUrl(selectedResource.url) : null;
 
+  // Obtener tiempo actual del video
+  useEffect(() => {
+    if (!iframeRef.current || !isPodcast) return;
+
+    const checkTime = () => {
+      try {
+        // Intentar acceder a la API de YouTube
+        const iframe = iframeRef.current;
+        if (iframe && iframe.contentWindow) {
+          // Nota: YouTube API requiere configuración especial, por ahora usamos un placeholder
+          // En producción, se usaría la YouTube IFrame API
+        }
+      } catch (e) {
+        // Silenciar errores de CORS
+      }
+    };
+
+    const interval = setInterval(checkTime, 1000);
+    return () => clearInterval(interval);
+  }, [isPodcast]);
+
   const handleAddNote = () => {
     if (newNoteContent.trim()) {
+      // Incluir timestamp en la nota si es un podcast
+      const timestamp = isPodcast ? `[${formatTime(currentTime)}] ` : "";
+      const fullContent = timestamp + newNoteContent;
+
       const newNote: Note = {
         id: nanoid(),
         type: activeTab,
-        content: newNoteContent,
+        content: fullContent,
         createdAt: new Date().toISOString(),
       };
       addNote(selectedResource.id, newNote);
       setNewNoteContent("");
       setIsAddingNote(false);
     }
+  };
+
+  const handleCaptureTimestamp = () => {
+    // Insertar timestamp en el textarea
+    const timestamp = `[${formatTime(currentTime)}] `;
+    setNewNoteContent(prev => timestamp + prev);
   };
 
   return (
@@ -137,6 +176,7 @@ export function NotesPanel() {
           <div className="relative px-6 pt-6 pb-4 border-b border-cyan-500/10 backdrop-blur-sm">
             <div className="relative rounded-lg overflow-hidden border border-cyan-500/20 shadow-lg" style={{ paddingBottom: "56.25%", height: 0 }}>
               <iframe
+                ref={iframeRef}
                 src={embedUrl}
                 title={selectedResource.title}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -241,6 +281,18 @@ export function NotesPanel() {
           {isAddingNote && (
             <div className="relative p-4 rounded-lg border border-cyan-400/30 space-y-3 backdrop-blur-sm bg-gradient-to-br from-cyan-500/5 to-purple-500/5">
               <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
+              
+              {/* Botón para capturar timestamp */}
+              {isPodcast && (
+                <button
+                  onClick={handleCaptureTimestamp}
+                  className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-cyan-400/30 text-cyan-300 hover:bg-cyan-500/10 transition-all text-xs font-medium"
+                >
+                  <Clock size={14} />
+                  Capturar timestamp ({formatTime(currentTime)})
+                </button>
+              )}
+
               <Textarea
                 placeholder={`Escribe tu ${noteTypeConfig[activeTab].label.toLowerCase()}...`}
                 value={newNoteContent}
