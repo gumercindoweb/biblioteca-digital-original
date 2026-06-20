@@ -1,19 +1,27 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Status, statusLabels, statusColors } from "@/lib/data";
+import { Status, statusLabels, statusColors, ResourceType } from "@/lib/data";
 import { ChevronDown } from "lucide-react";
 import { useStatus } from "@/contexts/StatusContext";
+
+const bookStatusLabels: Record<Status, string> = {
+  "en-cola":    "Por leer",
+  "leyendo":    "Leyendo",
+  "completado": "Leído",
+};
 
 interface StatusSelectorProps {
   resourceId: string;
   currentStatus: Status;
+  resourceType?: ResourceType;
 }
 
-export function StatusSelector({ resourceId, currentStatus }: StatusSelectorProps) {
+export function StatusSelector({ resourceId, currentStatus, resourceType }: StatusSelectorProps) {
   const { setResourceStatus } = useStatus();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const statuses: Status[] = ["en-cola", "leyendo", "completado"];
+  const labels = resourceType === "libro" ? bookStatusLabels : statusLabels;
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -42,7 +50,7 @@ export function StatusSelector({ resourceId, currentStatus }: StatusSelectorProp
           border: `1px solid ${statusColors[currentStatus]}40`,
         }}
       >
-        {statusLabels[currentStatus]}
+        {labels[currentStatus]}
         <ChevronDown size={12} className={`transition-transform ${isOpen ? "rotate-180" : ""}`} />
       </button>
 
@@ -64,7 +72,7 @@ export function StatusSelector({ resourceId, currentStatus }: StatusSelectorProp
                 style={{ backgroundColor: statusColors[status] }}
               />
               <span style={{ color: statusColors[status], fontWeight: currentStatus === status ? 600 : 400 }}>
-                {statusLabels[status]}
+                {labels[status]}
               </span>
             </button>
           ))}

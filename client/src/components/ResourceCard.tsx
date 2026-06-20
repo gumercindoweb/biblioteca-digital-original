@@ -442,7 +442,7 @@ export default function ResourceCard({ resource, index }: ResourceCardProps) {
                 {resourceTypeLabels[resource.type]}
               </span>
               <div onClick={(e) => e.stopPropagation()}>
-                <StatusSelector resourceId={resource.id} currentStatus={currentStatus} />
+                <StatusSelector resourceId={resource.id} currentStatus={currentStatus} resourceType={resource.type} />
               </div>
             </div>
             {resource.url && (
