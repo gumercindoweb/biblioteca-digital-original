@@ -1,18 +1,19 @@
 // ============================================================
-// SIDEBAR — Biblioteca Digital
-// Diseño: Archivo Nocturno — navegación lateral persistente
-// Categorías con numerales romanos + filtros por tipo
+// SIDEBAR — Gumercindo Jiménez Brand System
+// Superficie inversa verde esmeralda · acento brass gold
 // ============================================================
 
 import { useState } from "react";
-import { categories, ResourceType, resourceTypeLabels } from "@/lib/data";
-import { BookOpen, Headphones, Monitor, Youtube, Library, Search, X, Plus } from "lucide-react";
+import { categories, ResourceType } from "@/lib/data";
+import { BookOpen, Headphones, Monitor, Youtube, Library, Search, X, Plus, Volume2, Film } from "lucide-react";
 
 const typeIcons: Record<ResourceType, React.ReactNode> = {
-  libro: <BookOpen size={14} />,
-  podcast: <Headphones size={14} />,
+  libro:      <BookOpen size={14} />,
+  podcast:    <Headphones size={14} />,
+  audiolibro: <Volume2 size={14} />,
+  documental: <Film size={14} />,
   plataforma: <Monitor size={14} />,
-  youtube: <Youtube size={14} />,
+  youtube:    <Youtube size={14} />,
 };
 
 interface SidebarProps {
@@ -39,63 +40,78 @@ export default function Sidebar({
   const [searchFocused, setSearchFocused] = useState(false);
 
   const allTypes: Array<{ id: ResourceType | "todos"; label: string }> = [
-    { id: "todos", label: "Todos los tipos" },
-    { id: "libro", label: "Libros" },
-    { id: "podcast", label: "Podcasts" },
-    { id: "plataforma", label: "Plataformas" },
-    { id: "youtube", label: "YouTube" },
+    { id: "todos",       label: "Todos los tipos" },
+    { id: "libro",       label: "Libros" },
+    { id: "podcast",     label: "Podcasts" },
+    { id: "audiolibro",  label: "Audiolibros" },
+    { id: "documental",  label: "Documentales" },
+    { id: "plataforma",  label: "Plataformas" },
+    { id: "youtube",     label: "YouTube" },
   ];
+
+  /* ---- tokens ---- */
+  const BG       = "#0E3B2E"; /* green-800  */
+  const BG_DEEP  = "#0A2E25"; /* green-900  */
+  const IVORY    = "#F8F5EE"; /* bone-50    */
+  const MUTED    = "rgba(248,245,238,0.50)";
+  const GOLD     = "#B89455"; /* gold-500   */
+  const BORDER   = "rgba(248,245,238,0.12)";
+  const FONT_UI  = "'Hanken Grotesk', system-ui, sans-serif";
+  const FONT_SER = "'Cormorant Garamond', 'Times New Roman', serif";
 
   return (
     <aside
-      className="w-[220px] min-w-[220px] h-screen sticky top-0 flex flex-col overflow-y-auto"
-      style={{
-        background: "oklch(0.10 0.008 60)",
-        borderRight: "1px solid oklch(0.20 0.008 60)",
-      }}
+      className="w-[228px] min-w-[228px] h-screen sticky top-0 flex flex-col overflow-y-auto"
+      style={{ background: BG, borderRight: `1px solid ${BORDER}` }}
     >
-      {/* Logo + Nombre */}
-      <div className="px-5 pt-6 pb-4">
-        <div className="flex items-center gap-3 mb-1">
+      {/* ── Logo / Identidad ── */}
+      <div className="px-5 pt-7 pb-5">
+        <div className="flex items-center gap-3 mb-4">
           <img
-            src="https://d2xsxph8kpxj0f.cloudfront.net/310519663762053854/aDtukih2ArR33vbrmSK4vF/biblioteca-logo-VLci4VmAnJ7BTo6JrEh2qR.webp"
-            alt="Biblioteca Logo"
-            className="w-8 h-8 object-contain"
+            src="/brand/logo/gj-symbol-ivory.png"
+            alt="GJ"
+            style={{ height: 36, width: "auto", objectFit: "contain" }}
           />
           <div>
-            <p
-              className="text-xs tracking-widest uppercase"
-              style={{ fontFamily: "'JetBrains Mono', monospace", color: "#C8922A", fontSize: "0.6rem" }}
-            >
+            <p style={{
+              fontFamily: FONT_UI,
+              fontSize: "0.58rem",
+              fontWeight: 600,
+              letterSpacing: "0.16em",
+              textTransform: "uppercase",
+              color: GOLD,
+              lineHeight: 1,
+              marginBottom: "3px",
+            }}>
               Mi
             </p>
-            <h1
-              className="leading-none"
-              style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: "1rem",
-                fontWeight: 700,
-                color: "#F0E6D3",
-              }}
-            >
+            <h1 style={{
+              fontFamily: FONT_SER,
+              fontSize: "1.15rem",
+              fontWeight: 600,
+              color: IVORY,
+              lineHeight: 1,
+              letterSpacing: "-0.01em",
+            }}>
               Biblioteca
             </h1>
           </div>
         </div>
-        <div className="amber-line-solid mt-3" />
+        {/* Regla gold */}
+        <div style={{ height: "1.5px", background: GOLD, opacity: 0.35 }} />
       </div>
 
-      {/* Buscador */}
+      {/* ── Buscador ── */}
       <div className="px-4 pb-4">
         <div
           className="flex items-center gap-2 px-3 py-2 rounded"
           style={{
-            background: "oklch(0.14 0.008 60)",
-            border: `1px solid ${searchFocused ? "rgba(200,146,42,0.5)" : "oklch(0.22 0.008 60)"}`,
-            transition: "border-color 180ms ease",
+            background: BG_DEEP,
+            border: `1px solid ${searchFocused ? `rgba(184,148,85,0.55)` : BORDER}`,
+            transition: "border-color 200ms ease",
           }}
         >
-          <Search size={13} style={{ color: "#8A7D6B" }} />
+          <Search size={12} style={{ color: MUTED }} />
           <input
             type="text"
             placeholder="Buscar..."
@@ -103,61 +119,58 @@ export default function Sidebar({
             onChange={(e) => onSearchChange(e.target.value)}
             onFocus={() => setSearchFocused(true)}
             onBlur={() => setSearchFocused(false)}
-            className="flex-1 bg-transparent outline-none text-sm"
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              color: "#F0E6D3",
-              fontSize: "0.8rem",
-            }}
+            className="flex-1 bg-transparent outline-none"
+            style={{ fontFamily: FONT_UI, color: IVORY, fontSize: "0.78rem" }}
           />
           {searchQuery && (
             <button onClick={() => onSearchChange("")}>
-              <X size={12} style={{ color: "#8A7D6B" }} />
+              <X size={11} style={{ color: MUTED }} />
             </button>
           )}
         </div>
       </div>
 
-      {/* Categorías */}
+      {/* ── Categorías ── */}
       <nav className="flex-1 px-3">
-        <p
-          className="px-2 mb-2"
-          style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: "0.6rem",
-            letterSpacing: "0.12em",
-            color: "#8A7D6B",
-            textTransform: "uppercase",
-          }}
-        >
+        <p style={{
+          fontFamily: FONT_UI,
+          fontSize: "0.58rem",
+          fontWeight: 600,
+          letterSpacing: "0.14em",
+          textTransform: "uppercase",
+          color: GOLD,
+          marginBottom: "8px",
+          paddingLeft: "10px",
+        }}>
           Estantes
         </p>
 
         <ul className="space-y-0.5">
           {categories.map((cat) => {
-            const isActive = selectedCategory === cat.id;
+            const active = selectedCategory === cat.id;
             return (
               <li key={cat.id}>
                 <button
                   onClick={() => onCategoryChange(cat.id)}
                   className="w-full flex items-center gap-2.5 px-3 py-2 rounded text-left transition-all"
                   style={{
-                    background: isActive ? "rgba(200,146,42,0.10)" : "transparent",
-                    borderLeft: isActive ? "2px solid #C8922A" : "2px solid transparent",
-                    color: isActive ? "#C8922A" : "#8A7D6B",
-                    fontSize: "0.82rem",
-                    fontFamily: "'DM Sans', sans-serif",
-                    fontWeight: isActive ? 500 : 400,
+                    background: active ? "rgba(184,148,85,0.14)" : "transparent",
+                    borderLeft: `2px solid ${active ? GOLD : "transparent"}`,
+                    color: active ? IVORY : MUTED,
+                    fontFamily: FONT_UI,
+                    fontSize: "0.8rem",
+                    fontWeight: active ? 500 : 400,
+                    transition: "background 160ms ease, color 160ms ease",
                   }}
                 >
-                  <span
-                    style={{
-                      fontFamily: "'JetBrains Mono', monospace",
-                      fontSize: "0.6rem",
-                      color: isActive ? "#C8922A" : "oklch(0.38 0.008 60)",
-                      minWidth: "16px",
-                    }}
-                  >
+                  <span style={{
+                    fontFamily: FONT_UI,
+                    fontSize: "0.58rem",
+                    fontWeight: 600,
+                    color: active ? GOLD : "rgba(184,148,85,0.45)",
+                    minWidth: "18px",
+                    letterSpacing: "0.04em",
+                  }}>
                     {cat.numeral}
                   </span>
                   <span className="truncate">{cat.name}</span>
@@ -168,47 +181,45 @@ export default function Sidebar({
         </ul>
 
         {/* Separador */}
-        <div className="amber-line-solid my-4" />
+        <div style={{ height: "1px", background: BORDER, margin: "14px 0" }} />
 
-        {/* Filtro por tipo */}
-        <p
-          className="px-2 mb-2"
-          style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: "0.6rem",
-            letterSpacing: "0.12em",
-            color: "#8A7D6B",
-            textTransform: "uppercase",
-          }}
-        >
+        {/* ── Filtro por tipo ── */}
+        <p style={{
+          fontFamily: FONT_UI,
+          fontSize: "0.58rem",
+          fontWeight: 600,
+          letterSpacing: "0.14em",
+          textTransform: "uppercase",
+          color: GOLD,
+          marginBottom: "8px",
+          paddingLeft: "10px",
+        }}>
           Tipo
         </p>
 
         <ul className="space-y-0.5">
           {allTypes.map((t) => {
-            const isActive = selectedType === t.id;
+            const active = selectedType === t.id;
             return (
               <li key={t.id}>
                 <button
                   onClick={() => onTypeChange(t.id)}
                   className="w-full flex items-center gap-2.5 px-3 py-2 rounded text-left transition-all"
                   style={{
-                    background: isActive ? "rgba(200,146,42,0.10)" : "transparent",
-                    borderLeft: isActive ? "2px solid #C8922A" : "2px solid transparent",
-                    color: isActive ? "#C8922A" : "#8A7D6B",
+                    background: active ? "rgba(184,148,85,0.14)" : "transparent",
+                    borderLeft: `2px solid ${active ? GOLD : "transparent"}`,
+                    color: active ? IVORY : MUTED,
+                    fontFamily: FONT_UI,
                     fontSize: "0.8rem",
-                    fontFamily: "'DM Sans', sans-serif",
-                    fontWeight: isActive ? 500 : 400,
+                    fontWeight: active ? 500 : 400,
+                    transition: "background 160ms ease, color 160ms ease",
                   }}
                 >
-                  {t.id !== "todos" && (
-                    <span style={{ color: isActive ? "#C8922A" : "#8A7D6B" }}>
-                      {typeIcons[t.id as ResourceType]}
-                    </span>
-                  )}
-                  {t.id === "todos" && (
-                    <Library size={14} style={{ color: isActive ? "#C8922A" : "#8A7D6B" }} />
-                  )}
+                  <span style={{ color: active ? GOLD : "rgba(248,245,238,0.35)", display: "flex" }}>
+                    {t.id === "todos"
+                      ? <Library size={13} />
+                      : typeIcons[t.id as ResourceType]}
+                  </span>
                   <span>{t.label}</span>
                 </button>
               </li>
@@ -217,39 +228,40 @@ export default function Sidebar({
         </ul>
       </nav>
 
-      {/* Footer */}
-      <div className="px-4 py-4 mt-auto">
-        <div className="amber-line-solid mb-3" />
+      {/* ── Footer ── */}
+      <div className="px-4 py-5 mt-auto">
+        <div style={{ height: "1px", background: BORDER, marginBottom: "14px" }} />
         <button
           onClick={onAddResource}
-          className="w-full flex items-center justify-center gap-2 py-2 rounded transition-all"
+          className="w-full flex items-center justify-center gap-2 py-2.5 rounded transition-all"
           style={{
-            background: "rgba(200,146,42,0.10)",
-            border: "1px solid rgba(200,146,42,0.3)",
-            color: "#C8922A",
-            fontSize: "0.78rem",
-            fontFamily: "'DM Sans', sans-serif",
-            fontWeight: 500,
+            background: "rgba(184,148,85,0.14)",
+            border: `1px solid rgba(184,148,85,0.38)`,
+            color: GOLD,
+            fontFamily: FONT_UI,
+            fontSize: "0.75rem",
+            fontWeight: 600,
+            letterSpacing: "0.05em",
           }}
           onMouseEnter={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.background = "rgba(200,146,42,0.18)";
+            (e.currentTarget as HTMLButtonElement).style.background = "rgba(184,148,85,0.24)";
           }}
           onMouseLeave={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.background = "rgba(200,146,42,0.10)";
+            (e.currentTarget as HTMLButtonElement).style.background = "rgba(184,148,85,0.14)";
           }}
         >
-          <Plus size={14} />
+          <Plus size={13} />
           Agregar recurso
         </button>
-        <p
-          className="text-center mt-3"
-          style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: "0.6rem",
-            color: "oklch(0.38 0.008 60)",
-          }}
-        >
-          {totalCount} recursos en tu estante
+        <p style={{
+          fontFamily: FONT_UI,
+          fontSize: "0.58rem",
+          color: "rgba(248,245,238,0.30)",
+          letterSpacing: "0.06em",
+          textAlign: "center",
+          marginTop: "10px",
+        }}>
+          {totalCount} recursos · estante GJ
         </p>
       </div>
     </aside>

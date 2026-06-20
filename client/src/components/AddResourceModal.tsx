@@ -1,12 +1,11 @@
 // ============================================================
-// ADD RESOURCE MODAL — Biblioteca Digital
-// Diseño: Archivo Nocturno
-// Modal para agregar nuevos recursos a la biblioteca
+// ADD RESOURCE MODAL — Gumercindo Jiménez Brand System
+// Paper white · green primary · brass detail · Hanken labels
 // ============================================================
 
 import { useState } from "react";
 import { categories, ResourceType, Status } from "@/lib/data";
-import { X, BookOpen, Headphones, Monitor, Youtube } from "lucide-react";
+import { X, BookOpen, Headphones, Monitor, Youtube, Volume2, Film } from "lucide-react";
 
 interface AddResourceModalProps {
   isOpen: boolean;
@@ -24,14 +23,14 @@ interface AddResourceModalProps {
 }
 
 export default function AddResourceModal({ isOpen, onClose, onAdd }: AddResourceModalProps) {
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
+  const [title, setTitle]           = useState("");
+  const [author, setAuthor]         = useState("");
   const [description, setDescription] = useState("");
-  const [type, setType] = useState<ResourceType>("libro");
-  const [category, setCategory] = useState("marketing");
-  const [status, setStatus] = useState<Status>("en-cola");
-  const [url, setUrl] = useState("");
-  const [tags, setTags] = useState("");
+  const [type, setType]             = useState<ResourceType>("libro");
+  const [category, setCategory]     = useState("marketing");
+  const [status, setStatus]         = useState<Status>("en-cola");
+  const [url, setUrl]               = useState("");
+  const [tags, setTags]             = useState("");
 
   if (!isOpen) return null;
 
@@ -42,9 +41,7 @@ export default function AddResourceModal({ isOpen, onClose, onAdd }: AddResource
       title: title.trim(),
       author: author.trim() || undefined,
       description: description.trim() || undefined,
-      type,
-      category,
-      status,
+      type, category, status,
       url: url.trim() || undefined,
       tags: tags.trim() ? tags.split(",").map((t) => t.trim()).filter(Boolean) : undefined,
     });
@@ -53,59 +50,95 @@ export default function AddResourceModal({ isOpen, onClose, onAdd }: AddResource
     onClose();
   };
 
-  const inputStyle = {
-    background: "oklch(0.14 0.008 60)",
-    border: "1px solid oklch(0.22 0.008 60)",
-    borderRadius: "0.375rem",
-    color: "#F0E6D3",
-    fontFamily: "'DM Sans', sans-serif",
-    fontSize: "0.82rem",
-    padding: "8px 12px",
+  /* ---- tokens ---- */
+  const FONT_DISPLAY = "'Cormorant Garamond', 'Times New Roman', serif";
+  const FONT_UI      = "'Hanken Grotesk', system-ui, sans-serif";
+  const FONT_SERIF   = "'Spectral', Georgia, serif";
+  const IVORY        = "#F8F5EE";
+  const BONE         = "#F1ECE0";
+  const SAND         = "#E5DDCC";
+  const EARTH        = "#897F66";
+  const INK          = "#221F17";
+  const GREEN        = "#11503D";
+  const GREEN_HOVER  = "#166B4F";
+  const GOLD         = "#B89455";
+
+  const inputStyle: React.CSSProperties = {
+    background: BONE,
+    border: `1px solid ${SAND}`,
+    borderRadius: "0.25rem",
+    color: INK,
+    fontFamily: FONT_SERIF,
+    fontSize: "0.85rem",
+    padding: "9px 12px",
     width: "100%",
     outline: "none",
     transition: "border-color 180ms ease",
   };
 
-  const labelStyle = {
-    fontFamily: "'JetBrains Mono', monospace",
+  const labelStyle: React.CSSProperties = {
+    fontFamily: FONT_UI,
     fontSize: "0.6rem",
-    letterSpacing: "0.1em",
-    color: "#8A7D6B",
-    textTransform: "uppercase" as const,
+    fontWeight: 600,
+    letterSpacing: "0.12em",
+    textTransform: "uppercase",
+    color: EARTH,
     display: "block",
     marginBottom: "6px",
   };
 
   const typeOptions: Array<{ id: ResourceType; label: string; icon: React.ReactNode }> = [
-    { id: "libro", label: "Libro", icon: <BookOpen size={14} /> },
-    { id: "podcast", label: "Podcast", icon: <Headphones size={14} /> },
-    { id: "plataforma", label: "Plataforma", icon: <Monitor size={14} /> },
-    { id: "youtube", label: "YouTube", icon: <Youtube size={14} /> },
+    { id: "libro",       label: "Libro",       icon: <BookOpen size={14} /> },
+    { id: "podcast",     label: "Podcast",     icon: <Headphones size={14} /> },
+    { id: "audiolibro",  label: "Audiolibro",  icon: <Volume2 size={14} /> },
+    { id: "documental",  label: "Documental",  icon: <Film size={14} /> },
+    { id: "plataforma",  label: "Plataforma",  icon: <Monitor size={14} /> },
+    { id: "youtube",     label: "YouTube",     icon: <Youtube size={14} /> },
   ];
 
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ background: "rgba(0,0,0,0.7)", backdropFilter: "blur(4px)" }}
+      style={{ background: "rgba(14,59,46,0.55)", backdropFilter: "blur(4px)" }}
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div
-        className="w-full max-w-lg rounded-lg overflow-hidden"
+        className="w-full max-w-lg rounded overflow-hidden"
         style={{
-          background: "oklch(0.12 0.008 60)",
-          border: "1px solid oklch(0.22 0.008 60)",
-          boxShadow: "0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(200,146,42,0.1)",
-          animation: "fadeSlideUp 250ms cubic-bezier(0.23, 1, 0.32, 1) both",
+          background: "#FFFFFF",
+          border: `1px solid ${SAND}`,
+          boxShadow: "0 40px 90px -30px rgba(10,46,37,0.35), 0 8px 24px -8px rgba(33,31,23,0.14)",
+          animation: "fadeSlideUp 240ms cubic-bezier(0.22, 1, 0.36, 1) both",
         }}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: "1px solid oklch(0.20 0.008 60)" }}>
-          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.1rem", fontWeight: 600, color: "#F0E6D3" }}>
-            Agregar a la biblioteca
-          </h2>
-          <button onClick={onClose} className="p-1 rounded transition-colors" style={{ color: "#8A7D6B" }}
-            onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.color = "#C8922A")}
-            onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.color = "#8A7D6B")}
+        <div
+          className="flex items-center justify-between px-6 py-5"
+          style={{ borderBottom: `1px solid ${SAND}` }}
+        >
+          <div>
+            <div className="flex items-center gap-2.5 mb-1.5">
+              <span style={{ width: 20, height: 1.5, background: GOLD, opacity: 0.65 }} />
+              <span style={{ fontFamily: FONT_UI, fontSize: "0.6rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: GOLD }}>
+                Nueva entrada
+              </span>
+            </div>
+            <h2 style={{
+              fontFamily: FONT_DISPLAY,
+              fontSize: "1.4rem",
+              fontWeight: 600,
+              color: INK,
+              letterSpacing: "-0.01em",
+            }}>
+              Agregar a la biblioteca
+            </h2>
+          </div>
+          <button
+            onClick={onClose}
+            className="p-1.5 rounded transition-colors"
+            style={{ color: EARTH }}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.color = INK)}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.color = EARTH)}
           >
             <X size={18} />
           </button>
@@ -113,7 +146,7 @@ export default function AddResourceModal({ isOpen, onClose, onAdd }: AddResource
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4">
-          {/* Tipo de recurso */}
+          {/* Tipo */}
           <div>
             <label style={labelStyle}>Tipo de recurso</label>
             <div className="grid grid-cols-4 gap-2">
@@ -122,13 +155,15 @@ export default function AddResourceModal({ isOpen, onClose, onAdd }: AddResource
                   key={t.id}
                   type="button"
                   onClick={() => setType(t.id)}
-                  className="flex flex-col items-center gap-1 py-2.5 rounded transition-all"
+                  className="flex flex-col items-center gap-1.5 py-3 rounded transition-all"
                   style={{
-                    background: type === t.id ? "rgba(200,146,42,0.15)" : "oklch(0.14 0.008 60)",
-                    border: `1px solid ${type === t.id ? "rgba(200,146,42,0.5)" : "oklch(0.22 0.008 60)"}`,
-                    color: type === t.id ? "#C8922A" : "#8A7D6B",
-                    fontSize: "0.7rem",
-                    fontFamily: "'DM Sans', sans-serif",
+                    background: type === t.id ? "#EAF2EE" : BONE,
+                    border: `1px solid ${type === t.id ? `${GREEN}40` : SAND}`,
+                    color: type === t.id ? GREEN : EARTH,
+                    fontFamily: FONT_UI,
+                    fontSize: "0.65rem",
+                    fontWeight: type === t.id ? 600 : 400,
+                    letterSpacing: "0.04em",
                   }}
                 >
                   {t.icon}
@@ -148,12 +183,12 @@ export default function AddResourceModal({ isOpen, onClose, onAdd }: AddResource
               placeholder="Nombre del recurso"
               style={inputStyle}
               required
-              onFocus={(e) => ((e.target as HTMLInputElement).style.borderColor = "rgba(200,146,42,0.5)")}
-              onBlur={(e) => ((e.target as HTMLInputElement).style.borderColor = "oklch(0.22 0.008 60)")}
+              onFocus={(e) => ((e.target as HTMLInputElement).style.borderColor = `${GREEN}55`)}
+              onBlur={(e) => ((e.target as HTMLInputElement).style.borderColor = SAND)}
             />
           </div>
 
-          {/* Autor (solo para libros) */}
+          {/* Autor */}
           {type === "libro" && (
             <div>
               <label style={labelStyle}>Autor</label>
@@ -163,13 +198,13 @@ export default function AddResourceModal({ isOpen, onClose, onAdd }: AddResource
                 onChange={(e) => setAuthor(e.target.value)}
                 placeholder="Nombre del autor"
                 style={inputStyle}
-                onFocus={(e) => ((e.target as HTMLInputElement).style.borderColor = "rgba(200,146,42,0.5)")}
-                onBlur={(e) => ((e.target as HTMLInputElement).style.borderColor = "oklch(0.22 0.008 60)")}
+                onFocus={(e) => ((e.target as HTMLInputElement).style.borderColor = `${GREEN}55`)}
+                onBlur={(e) => ((e.target as HTMLInputElement).style.borderColor = SAND)}
               />
             </div>
           )}
 
-          {/* Categoría + Estado en fila */}
+          {/* Categoría + Estado */}
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label style={labelStyle}>Categoría</label>
@@ -177,13 +212,11 @@ export default function AddResourceModal({ isOpen, onClose, onAdd }: AddResource
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
                 style={{ ...inputStyle, cursor: "pointer" }}
-                onFocus={(e) => ((e.target as HTMLSelectElement).style.borderColor = "rgba(200,146,42,0.5)")}
-                onBlur={(e) => ((e.target as HTMLSelectElement).style.borderColor = "oklch(0.22 0.008 60)")}
+                onFocus={(e) => ((e.target as HTMLSelectElement).style.borderColor = `${GREEN}55`)}
+                onBlur={(e) => ((e.target as HTMLSelectElement).style.borderColor = SAND)}
               >
                 {categories.filter(c => c.id !== "todos").map((cat) => (
-                  <option key={cat.id} value={cat.id} style={{ background: "oklch(0.12 0.008 60)" }}>
-                    {cat.name}
-                  </option>
+                  <option key={cat.id} value={cat.id}>{cat.name}</option>
                 ))}
               </select>
             </div>
@@ -193,12 +226,12 @@ export default function AddResourceModal({ isOpen, onClose, onAdd }: AddResource
                 value={status}
                 onChange={(e) => setStatus(e.target.value as Status)}
                 style={{ ...inputStyle, cursor: "pointer" }}
-                onFocus={(e) => ((e.target as HTMLSelectElement).style.borderColor = "rgba(200,146,42,0.5)")}
-                onBlur={(e) => ((e.target as HTMLSelectElement).style.borderColor = "oklch(0.22 0.008 60)")}
+                onFocus={(e) => ((e.target as HTMLSelectElement).style.borderColor = `${GREEN}55`)}
+                onBlur={(e) => ((e.target as HTMLSelectElement).style.borderColor = SAND)}
               >
-                <option value="en-cola" style={{ background: "oklch(0.12 0.008 60)" }}>En cola</option>
-                <option value="leyendo" style={{ background: "oklch(0.12 0.008 60)" }}>Leyendo</option>
-                <option value="completado" style={{ background: "oklch(0.12 0.008 60)" }}>Completado</option>
+                <option value="en-cola">En cola</option>
+                <option value="leyendo">Leyendo</option>
+                <option value="completado">Completado</option>
               </select>
             </div>
           </div>
@@ -212,8 +245,8 @@ export default function AddResourceModal({ isOpen, onClose, onAdd }: AddResource
               placeholder="Breve descripción del recurso..."
               rows={2}
               style={{ ...inputStyle, resize: "none" }}
-              onFocus={(e) => ((e.target as HTMLTextAreaElement).style.borderColor = "rgba(200,146,42,0.5)")}
-              onBlur={(e) => ((e.target as HTMLTextAreaElement).style.borderColor = "oklch(0.22 0.008 60)")}
+              onFocus={(e) => ((e.target as HTMLTextAreaElement).style.borderColor = `${GREEN}55`)}
+              onBlur={(e) => ((e.target as HTMLTextAreaElement).style.borderColor = SAND)}
             />
           </div>
 
@@ -226,8 +259,8 @@ export default function AddResourceModal({ isOpen, onClose, onAdd }: AddResource
               onChange={(e) => setUrl(e.target.value)}
               placeholder="https://..."
               style={inputStyle}
-              onFocus={(e) => ((e.target as HTMLInputElement).style.borderColor = "rgba(200,146,42,0.5)")}
-              onBlur={(e) => ((e.target as HTMLInputElement).style.borderColor = "oklch(0.22 0.008 60)")}
+              onFocus={(e) => ((e.target as HTMLInputElement).style.borderColor = `${GREEN}55`)}
+              onBlur={(e) => ((e.target as HTMLInputElement).style.borderColor = SAND)}
             />
           </div>
 
@@ -240,8 +273,8 @@ export default function AddResourceModal({ isOpen, onClose, onAdd }: AddResource
               onChange={(e) => setTags(e.target.value)}
               placeholder="ventas, persuasión, mindset"
               style={inputStyle}
-              onFocus={(e) => ((e.target as HTMLInputElement).style.borderColor = "rgba(200,146,42,0.5)")}
-              onBlur={(e) => ((e.target as HTMLInputElement).style.borderColor = "oklch(0.22 0.008 60)")}
+              onFocus={(e) => ((e.target as HTMLInputElement).style.borderColor = `${GREEN}55`)}
+              onBlur={(e) => ((e.target as HTMLInputElement).style.borderColor = SAND)}
             />
           </div>
 
@@ -253,10 +286,12 @@ export default function AddResourceModal({ isOpen, onClose, onAdd }: AddResource
               className="flex-1 py-2.5 rounded transition-all"
               style={{
                 background: "transparent",
-                border: "1px solid oklch(0.22 0.008 60)",
-                color: "#8A7D6B",
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: "0.82rem",
+                border: `1px solid ${SAND}`,
+                color: EARTH,
+                fontFamily: FONT_UI,
+                fontSize: "0.75rem",
+                fontWeight: 500,
+                letterSpacing: "0.04em",
               }}
             >
               Cancelar
@@ -265,15 +300,17 @@ export default function AddResourceModal({ isOpen, onClose, onAdd }: AddResource
               type="submit"
               className="flex-1 py-2.5 rounded transition-all"
               style={{
-                background: "#C8922A",
-                border: "1px solid #C8922A",
-                color: "oklch(0.09 0.008 60)",
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: "0.82rem",
+                background: GREEN,
+                border: `1px solid ${GREEN}`,
+                color: IVORY,
+                fontFamily: FONT_UI,
+                fontSize: "0.75rem",
                 fontWeight: 600,
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
               }}
-              onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.background = "#B8821A")}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.background = "#C8922A")}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.background = GREEN_HOVER)}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.background = GREEN)}
             >
               Agregar al estante
             </button>

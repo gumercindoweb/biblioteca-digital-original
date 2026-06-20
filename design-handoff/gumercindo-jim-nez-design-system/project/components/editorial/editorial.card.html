@@ -1,0 +1,55 @@
+<!-- @dsCard group="Components" viewport="700x600" name="Editorial — Workbook & diario blocks" subtitle="BlockLabel, WorksheetPrompt, WritingLines, QuoteBlock, RatingScale — verde y violeta" -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; padding: 28px; background: var(--surface-page); }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; align-items: start; }
+  .panel { background: var(--surface-raised); border: 1px solid var(--border-soft); border-radius: 12px; padding: 24px; box-shadow: var(--shadow-sm); }
+  .panel.v { background: #fbf9ff; border-color: #e3d6f5; }
+  .ttl { font-family: var(--font-sans); font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 16px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<script type="text/babel">
+const { BlockLabel, WorksheetPrompt, WritingLines, QuoteBlock, RatingScale } = window.GumercindoJimNezDesignSystem_5d8aa6;
+function Demo() {
+  return (
+    <div className="grid">
+      <div className="panel">
+        <div className="ttl">Workbook · línea verde</div>
+        <BlockLabel glyph="✦" style={{ marginBottom: 16 }}>Bloque 1 — La esencia</BlockLabel>
+        <QuoteBlock style={{ marginBottom: 18 }}>"La pregunta no es si deberías salir del bar, sino cuándo darás ese primer paso."</QuoteBlock>
+        <WorksheetPrompt variant="plain" number={1} style={{ marginBottom: 8 }}>
+          ¿Qué 'bar' de lo conocido te está costando más caro hoy?
+        </WorksheetPrompt>
+        <WritingLines count={2} style={{ marginBottom: 22 }} />
+        <RatingScale label="Trabajo y Carrera" hint="1 — Recién despertando · 10 — ¡Ya salí del bar!" />
+      </div>
+      <div className="panel v" data-line="quejica">
+        <div className="ttl">Diario · línea violeta</div>
+        <BlockLabel glyph="◎" style={{ marginBottom: 16 }}>Bloque 2 — El espejo</BlockLabel>
+        <WorksheetPrompt
+          variant="card"
+          lines={2}
+          example="Me quejo de que nunca tengo tiempo para lo importante."
+          style={{ marginBottom: 18 }}>
+          ¿Qué queja recurrente tenés sobre tu trabajo?
+        </WorksheetPrompt>
+        <QuoteBlock author="Gumercindo Jiménez">"Escuchá tus quejas como una brújula que apunta a lo que necesitás."</QuoteBlock>
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+</script>
+</body>
+</html>

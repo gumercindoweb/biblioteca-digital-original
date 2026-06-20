@@ -1,0 +1,3675 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MATA al quejica que llevas dentro – Preview</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Lato:wght@300;400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --purple: #5B0FAF;
+    --purple-dark: #3D0875;
+    --purple-light: #7B2FD0;
+    --purple-pale: #F3EEFF;
+    --gold: #E8B84B;
+    --gold-light: #F5D47A;
+    --white: #FFFFFF;
+    --text-dark: #2D1B4E;
+    --text-body: #3D2C60;
+    --line-color: #C5A8E8;
+    --page-shadow: 0 4px 24px rgba(91,15,175,0.15);
+  }
+
+  body {
+    background: #1a0a30;
+    font-family: 'Lato', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    gap: 40px;
+  }
+
+  /* ===== VALIDATION BANNER ===== */
+  .validation-banner {
+    background: #E8B84B;
+    color: #2D1B4E;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 12px 32px;
+    border-radius: 6px;
+    text-align: center;
+    max-width: 210mm;
+    width: 100%;
+    letter-spacing: 0.5px;
+  }
+
+  /* ===== PAGE BASE ===== */
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: white;
+    box-shadow: var(--page-shadow);
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+  }
+
+  /* ===== PAGE LABEL ===== */
+  .page-label {
+    font-family: 'Lato', sans-serif;
+    font-size: 11px;
+    color: #9990BB;
+    text-align: center;
+    padding: 6px;
+    background: #1a0a30;
+    width: 210mm;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* ===== WRITING LINES ===== */
+  .writing-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .writing-lines .line {
+    height: 38px;
+    border-bottom: 1.5px solid var(--line-color);
+    width: 100%;
+  }
+  .writing-lines-sm .line { height: 32px; }
+
+  /* ===== DIVIDER ===== */
+  .divider {
+    width: 60px;
+    height: 3px;
+    background: var(--gold);
+    margin: 12px 0;
+    border-radius: 2px;
+  }
+  .divider-full {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--purple-light), transparent);
+    margin: 20px 0;
+  }
+
+
+  /* ========================================
+     COVER PAGE
+     ======================================== */
+  .page-cover {
+    background: var(--purple);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 60px 40px 50px;
+  }
+
+  .cover-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .cover-sun {
+    margin-bottom: 20px;
+  }
+
+  .cover-mata {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 108px;
+    color: white;
+    letter-spacing: -2px;
+    line-height: 1;
+    text-align: center;
+  }
+
+  .cover-sub1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+    font-size: 38px;
+    color: white;
+    text-align: center;
+    line-height: 1.2;
+    margin-top: 4px;
+  }
+
+  .cover-dentro {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 78px;
+    color: var(--gold);
+    letter-spacing: 8px;
+    text-align: center;
+    line-height: 1;
+    margin-top: 2px;
+  }
+
+  .cover-tagline {
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+    color: rgba(255,255,255,0.85);
+    text-align: center;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-top: 28px;
+    max-width: 280px;
+    line-height: 1.7;
+  }
+
+  .cover-author {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--gold);
+    text-align: center;
+    letter-spacing: 1px;
+  }
+
+  /* ========================================
+     INTERIOR PAGES – shared helpers
+     ======================================== */
+
+  /* Purple accent header bar */
+  .section-band {
+    background: var(--purple);
+    padding: 22px 40px;
+    color: white;
+  }
+  .section-band .label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .section-band h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+  .section-band p {
+    font-size: 13px;
+    opacity: 0.85;
+    margin-top: 8px;
+    line-height: 1.6;
+  }
+
+  /* Inner page content */
+  .inner {
+    padding: 32px 40px 36px;
+    color: var(--text-body);
+  }
+
+  h2.page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--purple);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  h3.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    color: var(--purple);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  p.body-text {
+    font-size: 13px;
+    line-height: 1.75;
+    color: var(--text-body);
+    margin-bottom: 14px;
+  }
+
+  /* Quote box */
+  .quote-box {
+    border-left: 4px solid var(--gold);
+    background: var(--purple-pale);
+    padding: 16px 20px;
+    margin: 18px 0;
+    border-radius: 0 8px 8px 0;
+  }
+  .quote-box p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: var(--purple-dark);
+    line-height: 1.6;
+  }
+
+  /* Question card */
+  .question-card {
+    background: var(--purple);
+    color: white;
+    padding: 16px 22px;
+    border-radius: 8px;
+    margin: 18px 0 12px;
+  }
+  .question-card p {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  /* Example box */
+  .example-box {
+    background: #F8F5FF;
+    border: 1px solid #D4C0F0;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 10px 0 14px;
+    font-size: 12.5px;
+    color: var(--text-dark);
+    line-height: 1.6;
+  }
+  .example-box .ex-label {
+    font-weight: 700;
+    color: var(--purple-light);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  /* Bullet list */
+  .bullet-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 16px;
+  }
+  .bullet-list li {
+    padding: 8px 0 8px 28px;
+    position: relative;
+    font-size: 13px;
+    color: var(--text-body);
+    line-height: 1.55;
+    border-bottom: 1px solid #EDE8F8;
+  }
+  .bullet-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 14px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+
+  /* Checklist */
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 16px;
+    background: var(--purple-pale);
+    border-radius: 10px;
+    padding: 16px 20px;
+  }
+  .checklist li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--text-dark);
+    padding: 10px 0;
+    border-bottom: 1px solid #DDD0F5;
+    line-height: 1.5;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist .check-box {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--purple-light);
+    border-radius: 4px;
+    flex-shrink: 0;
+    background: white;
+  }
+  .checklist .si-no {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--purple-light);
+    font-weight: 700;
+    letter-spacing: 1px;
+    background: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--purple-light);
+    white-space: nowrap;
+  }
+
+  /* Goals frame */
+  .goals-frame {
+    border: 2px solid var(--gold);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 18px 0;
+    background: #FFFDF5;
+  }
+  .goals-frame h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    color: var(--purple);
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .goal-line {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .goal-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--purple-light);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    min-width: 55px;
+  }
+  .goal-input {
+    flex: 1;
+    border-bottom: 2px solid var(--line-color);
+    height: 28px;
+  }
+
+  /* Process flow */
+  .process-flow {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+    margin: 16px 0;
+  }
+  .flow-step {
+    background: var(--purple);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 8px 12px;
+    border-radius: 6px;
+    text-align: center;
+    letter-spacing: 0.5px;
+    line-height: 1.3;
+    flex: 1;
+    min-width: 80px;
+  }
+  .flow-arrow {
+    color: var(--gold);
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  /* Formula circles */
+  .formula-circles {
+    display: flex;
+    gap: 16px;
+    margin: 18px 0;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .formula-circle {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: var(--purple);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    text-align: center;
+  }
+  .formula-circle .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .formula-circle .text {
+    font-size: 10px;
+    color: white;
+    line-height: 1.4;
+    margin-top: 6px;
+  }
+
+  /* Example pair (Queja → Reencuadre → Paso) */
+  .example-pair {
+    background: #F8F5FF;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 12px 0;
+  }
+  .example-row {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: start;
+  }
+  .example-row:last-child { margin-bottom: 0; }
+  .example-key {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--purple-light);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding-top: 2px;
+  }
+  .example-val {
+    font-size: 12.5px;
+    color: var(--text-dark);
+    line-height: 1.55;
+  }
+
+  /* Table */
+  table.tracking-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11.5px;
+    margin: 14px 0;
+  }
+  table.tracking-table th {
+    background: var(--purple);
+    color: white;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 10.5px;
+    letter-spacing: 0.5px;
+  }
+  table.tracking-table td {
+    padding: 12px;
+    border-bottom: 1px solid #E0D8F4;
+    color: var(--text-body);
+    vertical-align: top;
+  }
+  table.tracking-table tr.example-row-tr td {
+    background: #F8F5FF;
+    font-style: italic;
+    font-size: 11px;
+    color: #7B6A9A;
+  }
+  .tracking-empty td {
+    height: 48px;
+  }
+
+  /* Page number */
+  .page-num {
+    position: absolute;
+    bottom: 18px;
+    width: 100%;
+    text-align: center;
+    font-size: 10px;
+    color: #B0A0D0;
+    letter-spacing: 1px;
+  }
+
+  /* ========================================
+     SPECIFIC PAGE STYLES
+     ======================================== */
+
+  /* Quote page */
+  .page-quote {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: white;
+  }
+  .page-quote .big-quote {
+    padding: 80px 60px;
+    text-align: center;
+  }
+  .page-quote .big-quote .quote-mark {
+    font-family: 'Playfair Display', serif;
+    font-size: 120px;
+    color: var(--purple-pale);
+    line-height: 0.5;
+    display: block;
+    margin-bottom: 20px;
+  }
+  .page-quote .big-quote p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-style: italic;
+    color: var(--purple-dark);
+    line-height: 1.6;
+  }
+  .page-quote .big-quote .gold-line {
+    width: 60px;
+    height: 3px;
+    background: var(--gold);
+    margin: 28px auto;
+  }
+
+  /* Section header page */
+  .page-section-header {
+    background: var(--purple);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 50px;
+    color: white;
+  }
+  .page-section-header .section-num {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .page-section-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 44px;
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+  .page-section-header h2 {
+    font-family: 'Lato', sans-serif;
+    font-size: 17px;
+    font-weight: 300;
+    opacity: 0.9;
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+  .page-section-header .section-quote {
+    border-left: 3px solid var(--gold);
+    padding-left: 20px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-style: italic;
+    opacity: 0.9;
+    line-height: 1.7;
+  }
+  .page-section-header .compass-icon {
+    margin-top: 40px;
+    align-self: flex-end;
+  }
+
+  /* Transformation page */
+  .page-transform {
+    background: linear-gradient(160deg, var(--purple) 60%, var(--purple-dark) 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 50px;
+    text-align: center;
+    color: white;
+  }
+  .page-transform h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 34px;
+    font-weight: 700;
+    margin-bottom: 28px;
+    line-height: 1.3;
+  }
+  .page-transform p {
+    font-size: 15px;
+    line-height: 1.8;
+    opacity: 0.92;
+    max-width: 360px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 20px;
+  }
+
+  /* Motivational phrase */
+  .motivational-phrase {
+    background: var(--purple-pale);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    border: 1px solid #D4C0F0;
+    text-align: center;
+  }
+  .motivational-phrase p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: var(--purple-dark);
+    line-height: 1.6;
+  }
+
+  /* Story box */
+  .story-box {
+    background: #FBF8FF;
+    border: 1px solid #E0D0F8;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    position: relative;
+  }
+  .story-box .story-tag {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .story-box p {
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: var(--text-body);
+    font-style: italic;
+  }
+
+  /* Closing section */
+  .closing-band {
+    background: var(--purple);
+    padding: 20px 40px;
+    color: white;
+    border-radius: 0 0 8px 8px;
+  }
+  .closing-band p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-style: italic;
+    opacity: 0.9;
+    line-height: 1.7;
+  }
+
+  /* Subsection label */
+  .subsection-label {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  /* Purple pill tag */
+  .pill {
+    display: inline-block;
+    background: var(--purple-pale);
+    border: 1px solid #D4C0F0;
+    color: var(--purple);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 12px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  /* Affirmation box */
+  .affirmation-box {
+    background: var(--purple);
+    color: white;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 16px 0;
+    text-align: center;
+  }
+  .affirmation-box p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  /* Limits checklist */
+  .limits-list {
+    list-style: none;
+    padding: 14px 18px;
+    background: #FFF8E8;
+    border-radius: 10px;
+    border: 1px solid #F0D898;
+    margin: 14px 0;
+  }
+  .limits-list li {
+    font-size: 13px;
+    color: var(--text-dark);
+    padding: 8px 0 8px 26px;
+    position: relative;
+    border-bottom: 1px solid #F5E8C0;
+    line-height: 1.5;
+  }
+  .limits-list li:last-child { border-bottom: none; }
+  .limits-list li::before {
+    content: '⚠';
+    position: absolute;
+    left: 0;
+    font-size: 14px;
+  }
+
+  /* Exercise block */
+  .exercise-block {
+    background: var(--purple-pale);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin: 16px 0;
+  }
+  .exercise-block .ex-title {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--purple-light);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  /* Progress journey icons */
+  .progress-journey {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+  }
+  .journey-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .journey-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--purple);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+  }
+  .journey-step span {
+    font-size: 10px;
+    color: var(--text-body);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-align: center;
+    max-width: 64px;
+    line-height: 1.3;
+  }
+  .journey-line {
+    width: 30px;
+    height: 2px;
+    background: var(--line-color);
+    margin-top: -22px;
+  }
+
+  .page-footer-rule {
+    height: 4px;
+    background: linear-gradient(to right, var(--purple), var(--gold), var(--purple));
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  .page-top-rule {
+    height: 4px;
+    background: linear-gradient(to right, var(--purple), var(--gold), var(--purple));
+  }
+
+</style>
+</head>
+<body>
+
+<div class="validation-banner">
+  📋 VERSIÓN PARA VALIDACIÓN — Revisá el contenido antes de generar el PDF final
+</div>
+
+<!-- ============================================================
+     PÁGINA 1: PORTADA
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 1 · Portada</div>
+  <div class="page page-cover">
+    <!-- Sun SVG icon -->
+    <div class="cover-sun">
+      <svg width="80" height="54" viewBox="0 0 80 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M40 42 C22 42 8 34 8 34" stroke="#E8B84B" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M40 42 C58 42 72 34 72 34" stroke="#E8B84B" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M40 10 L40 2" stroke="#E8B84B" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M40 10 C30 10 22 18 22 28 C22 38 30 42 40 42 C50 42 58 38 58 28 C58 18 50 10 40 10Z" stroke="#E8B84B" stroke-width="2.5" fill="none"/>
+        <path d="M18 14 L12 8" stroke="#E8B84B" stroke-width="2" stroke-linecap="round"/>
+        <path d="M62 14 L68 8" stroke="#E8B84B" stroke-width="2" stroke-linecap="round"/>
+        <path d="M10 28 L2 28" stroke="#E8B84B" stroke-width="2" stroke-linecap="round"/>
+        <path d="M70 28 L78 28" stroke="#E8B84B" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <div class="cover-top">
+      <div class="cover-mata">MATA</div>
+      <div class="cover-sub1">al quejica que llevas</div>
+      <div class="cover-dentro">DENTRO</div>
+      <div class="cover-tagline">El sistema de alarma que<br>nunca te enseñaron a escuchar.</div>
+    </div>
+
+    <div class="cover-author">Gumercindo Jiménez</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 2: CITA DE APERTURA
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 2 · Cita de apertura</div>
+  <div class="page page-quote" style="height:297mm; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+    <div class="big-quote">
+      <span class="quote-mark">"</span>
+      <p>No son las circunstancias las que te definen, sino lo que decides hacer con ellas.</p>
+      <div class="gold-line"></div>
+      <p style="font-size:14px; font-style:normal; color:#9980BB; letter-spacing:2px; text-transform:uppercase; font-family:'Lato',sans-serif;">Gumercindo Jiménez</p>
+    </div>
+    <div class="page-footer-rule"></div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 3: INTRODUCCIÓN
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 3 · Introducción</div>
+  <div class="page" style="height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="section-band">
+      <div class="label">Introducción</div>
+      <h1>¿Qué te están diciendo tus quejas?</h1>
+    </div>
+    <div class="inner" style="flex:1;">
+      <p class="body-text">Durante años nos enseñaron que quejarse es de perdedores. Que la gente exitosa no se queja, actúa. Que si te la pasás quejando, el problema sos vos.</p>
+      <p class="body-text" style="margin-top:12px;">Pero eso es mentira.</p>
+      <p class="body-text" style="margin-top:12px;">Quejarte no es tu defecto — es tu sistema de alarma. Cada queja que repetís una y otra vez no es debilidad: es una señal de que algo que valorás está siendo ignorado. Por vos. Por los demás. Por cómo estás viviendo.</p>
+      <p class="body-text" style="margin-top:12px;">Este diario no es para que dejes de quejarte. Es para que empieces a escucharte.</p>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 3 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 4: PROPÓSITO + CAMINO DE PROGRESO
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 4 · Propósito del diario</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <div class="subsection-label">Propósito del diario</div>
+      <h2 class="page-title">¿Por qué usar este diario?</h2>
+      <div class="divider"></div>
+
+      <p class="body-text">Este diario está diseñado para ayudarte a...</p>
+
+      <ul class="bullet-list">
+        <li>Identificar las quejas recurrentes y lo que significan.</li>
+        <li>Descubrir tus valores, necesidades y deseos más profundos.</li>
+        <li>Diseñar acciones claras que te permitan vivir alineado contigo mismo.</li>
+        <li>Sentir paz, claridad y empoderamiento personal mientras creas la vida que deseas.</li>
+      </ul>
+
+      <!-- Progress journey visual (implementa instrucción eliminada) -->
+      <div class="progress-journey">
+        <div class="journey-step">
+          <div class="journey-icon">🔍</div>
+          <span>Identifica</span>
+        </div>
+        <div class="journey-line"></div>
+        <div class="journey-step">
+          <div class="journey-icon">💡</div>
+          <span>Reflexiona</span>
+        </div>
+        <div class="journey-line"></div>
+        <div class="journey-step">
+          <div class="journey-icon">🔄</div>
+          <span>Reencuadra</span>
+        </div>
+        <div class="journey-line"></div>
+        <div class="journey-step">
+          <div class="journey-icon">🎯</div>
+          <span>Actúa</span>
+        </div>
+        <div class="journey-line"></div>
+        <div class="journey-step">
+          <div class="journey-icon">🌟</div>
+          <span>Transforma</span>
+        </div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 4 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 5: PRIMEROS PASOS – PREGUNTA 1
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 5 · Primeros pasos – Pregunta 1</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <div class="subsection-label">Tus primeros pasos</div>
+      <h2 class="page-title">Reflexiona sobre tus quejas</h2>
+      <div class="divider"></div>
+
+      <div class="question-card">
+        <p>¿Qué quejas recurrentes tienes últimamente?</p>
+      </div>
+
+      <!-- Líneas de escritura (implementa instrucción eliminada) -->
+      <div class="writing-lines" style="margin-top: 8px;">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 5 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 6: PRIMEROS PASOS – PREGUNTA 2
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 6 · Primeros pasos – Pregunta 2</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <div class="subsection-label">Tus primeros pasos</div>
+      <h2 class="page-title">Reflexiona sobre tus quejas</h2>
+      <div class="divider"></div>
+
+      <!-- Quote box (implementa "Elemento visual opcional") -->
+      <div class="quote-box">
+        <p>"Escucha tus quejas como si fueran una brújula que apunta a lo que necesitas."</p>
+      </div>
+
+      <div class="question-card">
+        <p>Si esas quejas quisieran comunicarte algo, ¿qué te estarían diciendo?</p>
+      </div>
+
+      <!-- Líneas de escritura (implementa instrucción) -->
+      <div class="writing-lines" style="margin-top: 8px;">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 6 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 7: DEFINE TUS METAS
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 7 · Define tus metas para este viaje</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <div class="subsection-label">Define tus metas</div>
+      <h2 class="page-title">Para este viaje</h2>
+      <div class="divider"></div>
+
+      <div class="question-card">
+        <p>¿Qué te gustaría cambiar en tu vida al completar este diario?</p>
+      </div>
+      <div class="writing-lines" style="margin-top: 4px;">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div>
+      </div>
+
+      <div class="question-card" style="margin-top:16px;">
+        <p>¿Qué resultados esperas lograr al transformar tus quejas?</p>
+      </div>
+      <div class="writing-lines" style="margin-top: 4px;">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div>
+      </div>
+
+      <!-- Goals frame (implementa "Elemento visual: marco suave") -->
+      <div class="goals-frame">
+        <h4>Mis metas personales</h4>
+        <div class="goal-line">
+          <span class="goal-label">Meta 1</span>
+          <div class="goal-input"></div>
+        </div>
+        <div class="goal-line">
+          <span class="goal-label">Meta 2</span>
+          <div class="goal-input"></div>
+        </div>
+        <div class="goal-line">
+          <span class="goal-label">Meta 3</span>
+          <div class="goal-input"></div>
+        </div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 7 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 8: COMIENZA TU TRANSFORMACIÓN HOY
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 8 · Comienza tu transformación hoy</div>
+  <div class="page page-transform" style="height:297mm;">
+    <!-- Visual inspirador grande (implementa "Elemento visual grande") -->
+    <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:24px; opacity:0.25;">
+      <circle cx="50" cy="50" r="45" stroke="#E8B84B" stroke-width="2"/>
+      <circle cx="50" cy="50" r="30" stroke="#E8B84B" stroke-width="2"/>
+      <path d="M50 20 L50 5 M50 95 L50 80 M20 50 L5 50 M95 50 L80 50" stroke="#E8B84B" stroke-width="2" stroke-linecap="round"/>
+      <path d="M50 35 L55 48 L68 50 L58 60 L61 73 L50 66 L39 73 L42 60 L32 50 L45 48 Z" fill="#E8B84B" opacity="0.5"/>
+    </svg>
+
+    <h2>Comienza tu transformación hoy</h2>
+
+    <p>"Tus quejas son una brújula. Este diario te ayudará a encontrar tu camino, paso a paso. A medida que escribas, descubrirás nuevas formas de actuar, pensar y sentir que transformarán tu vida. Toma tu pluma y da el primer paso."</p>
+
+    <div class="page-footer-rule" style="position:absolute; bottom:0; left:0; right:0;"></div>
+    <div class="page-num" style="color:rgba(255,255,255,0.4);">— 8 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 9: SECCIÓN – TRABAJO Y CARRERA (header)
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 9 · Sección: Trabajo y Carrera</div>
+  <div class="page page-section-header" style="height:297mm;">
+    <div class="section-num">Sección 1</div>
+    <h1>Trabajo<br>y Carrera</h1>
+    <h2>Transforma tus quejas laborales en<br>oportunidades de crecimiento</h2>
+    <div class="section-quote">
+      "El trabajo no es solo una fuente de ingresos, también es una pieza clave para tu bienestar general. Resolver las quejas laborales no solo mejora tu carrera, sino que impacta positivamente en tu vida personal, tus relaciones y tu salud emocional."
+    </div>
+
+    <!-- Compass icon (implementa "ilustración simbólica: brújula") -->
+    <div class="compass-icon" style="margin-top:auto; align-self:flex-end;">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" opacity="0.3">
+        <circle cx="40" cy="40" r="36" stroke="#E8B84B" stroke-width="2"/>
+        <circle cx="40" cy="40" r="4" fill="#E8B84B"/>
+        <path d="M40 10 L44 36 L40 40 L36 36 Z" fill="white"/>
+        <path d="M40 70 L36 44 L40 40 L44 44 Z" fill="#E8B84B" opacity="0.5"/>
+        <path d="M10 40 L36 44 L40 40 L36 36 Z" fill="white" opacity="0.5"/>
+        <path d="M70 40 L44 36 L40 40 L44 44 Z" fill="white" opacity="0.3"/>
+        <text x="40" y="8" fill="white" text-anchor="middle" font-size="8" font-family="Lato">N</text>
+        <text x="40" y="76" fill="#E8B84B" text-anchor="middle" font-size="8" font-family="Lato">S</text>
+        <text x="74" y="43" fill="white" text-anchor="middle" font-size="8" font-family="Lato">E</text>
+        <text x="6" y="43" fill="white" text-anchor="middle" font-size="8" font-family="Lato">O</text>
+      </svg>
+    </div>
+
+    <div class="page-footer-rule" style="position:absolute; bottom:0; left:0; right:0;"></div>
+    <div class="page-num" style="color:rgba(255,255,255,0.4);">— 9 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 10: EL TRABAJO COMO MOTOR DE TRANSFORMACIÓN
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 10 · El trabajo como motor de transformación</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <h3 class="section-title">El trabajo como motor de transformación</h3>
+      <div class="divider"></div>
+
+      <p class="body-text">"El trabajo no es solo una actividad diaria; es un reflejo de tus valores, necesidades y metas. Si te quejas de tu entorno laboral, es porque algo importante para ti no está siendo satisfecho. Pero, ¿sabías que detrás de cada queja hay una oportunidad para crecer y transformar tu experiencia laboral?"</p>
+
+      <div class="story-box">
+        <div class="story-tag">Historia real</div>
+        <p>"Sofía, una diseñadora gráfica, se sentía atrapada en un trabajo que no valoraba su creatividad. Constantemente se quejaba con sus amigos: 'Siempre termino haciendo trabajos aburridos.' Un día, decidió plantear un cambio. Preparó una propuesta, habló con su jefe y logró un proyecto que le permitió brillar."</p>
+      </div>
+
+      <div class="divider-full"></div>
+
+      <h3 class="section-title" style="margin-top:8px;">¿Qué obtendrás al completar esta sección?</h3>
+      <ul class="bullet-list">
+        <li>Identificarás los valores y necesidades ocultos detrás de tus quejas laborales.</li>
+        <li>Aprenderás a comunicarte de manera asertiva con compañeros y líderes.</li>
+        <li>Diseñarás un plan práctico para abordar tus desafíos laborales.</li>
+        <li>Sentirás mayor control, confianza y satisfacción en tu entorno laboral.</li>
+      </ul>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 10 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 11: PROCESO + CHECKLIST DE DECISIÓN
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 11 · Proceso y checklist de decisión</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+
+      <div class="motivational-phrase">
+        <p>"Tus quejas son una brújula que te guía hacia lo que realmente importa."</p>
+      </div>
+
+      <!-- Process flow (implementa "indicadores visuales / diagrama de flujo") -->
+      <div class="process-flow">
+        <div class="flow-step">Identifica<br>una queja</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">Descubre el<br>valor detrás</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">Reencuádralo</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">Define un<br>paso concreto</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">Mide los<br>resultados</div>
+      </div>
+
+      <div class="divider-full"></div>
+
+      <h3 class="section-title">¿Esta queja merece acción?</h3>
+      <!-- Checklist (implementa "lista para evaluar rápidamente") -->
+      <ul class="checklist">
+        <li>
+          <div class="check-box"></div>
+          ¿Puedo influir en esta situación?
+          <span class="si-no">Sí / No</span>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          ¿Está afectando mi bienestar personal o profesional?
+          <span class="si-no">Sí / No</span>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          ¿Qué valor personal está en juego?
+          <div style="flex:1; border-bottom: 1.5px solid var(--line-color); margin-left:8px; height:20px;"></div>
+        </li>
+      </ul>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 11 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 12: EJERCICIO – ¿QUÉ TE DICEN TUS QUEJAS?
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 12 · Ejercicio: ¿Qué te están diciendo tus quejas?</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="section-band" style="padding:14px 40px;">
+      <h1 style="font-size:20px;">¿Qué te están diciendo tus quejas?</h1>
+    </div>
+    <div class="inner" style="flex:1;">
+
+      <div class="question-card">
+        <p>"¿Qué queja recurrente tienes sobre tu trabajo o tu carrera?"</p>
+      </div>
+      <div class="example-box">
+        <div class="ex-label">Ejemplo</div>
+        "Me quejo de que nunca tengo tiempo para enfocarme en proyectos importantes porque siempre estoy apagando incendios."
+      </div>
+      <div class="writing-lines writing-lines-sm">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+
+      <div class="question-card" style="margin-top:14px;">
+        <p>"¿Qué emociones surgen cuando te quejas? (Frustración, enojo, tristeza)."</p>
+      </div>
+      <div class="example-box">
+        <div class="ex-label">Ejemplo</div>
+        "Me siento frustrado porque siento que mis esfuerzos no son estratégicos."
+      </div>
+      <div class="writing-lines writing-lines-sm">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+
+      <div class="question-card" style="margin-top:14px;">
+        <p>"Si tu queja fuera una pista sobre lo que realmente necesitas o valoras, ¿qué estaría tratando de decirte?"</p>
+      </div>
+      <div class="example-box">
+        <div class="ex-label">Ejemplo</div>
+        "Creo que necesito más tiempo para planificar y priorizar tareas importantes."
+      </div>
+      <div class="writing-lines writing-lines-sm">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+
+      <div class="question-card" style="margin-top:14px;">
+        <p>¿Es algo que puedes cambiar? ¿Qué paso pequeño podrías dar?</p>
+      </div>
+      <!-- Espacio de escritura (implementa instrucción eliminada) -->
+      <div class="writing-lines writing-lines-sm">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 12 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 13: VISUALIZA EL IMPACTO DEL CAMBIO
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 13 · Visualiza el impacto del cambio</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <h2 class="page-title">Visualiza el impacto del cambio</h2>
+      <div class="divider"></div>
+
+      <div class="question-card">
+        <p>"¿Cómo se vería tu vida laboral si tomaras esta acción? Escribe cómo te sentirías al lograrlo."</p>
+      </div>
+
+      <div class="writing-lines" style="margin-top:12px;">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 13 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 14: DESCUBRE EL MENSAJE DETRÁS DE TUS QUEJAS
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 14 · Descubre el mensaje detrás de tus quejas</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <h2 class="page-title">Descubre el mensaje detrás de tus quejas</h2>
+      <div class="divider"></div>
+
+      <p class="body-text">"Ahora que has identificado tus quejas, es momento de analizarlas para descubrir patrones. ¿Están relacionadas con la falta de tiempo, reconocimiento, propósito, o algo más? Muchas veces, nuestras quejas tienen un tema común que apunta a un valor o necesidad no satisfecha. Reflexiona sobre tus respuestas anteriores."</p>
+
+      <div class="question-card">
+        <p>"¿Qué patrones notas en tus quejas laborales? ¿Se repiten ciertos temas o emociones?"</p>
+      </div>
+      <div class="writing-lines writing-lines-sm">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div>
+      </div>
+
+      <div class="question-card" style="margin-top:16px;">
+        <p>"¿Qué valores o necesidades crees que están reflejando estos patrones?"</p>
+      </div>
+      <div class="writing-lines writing-lines-sm">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 14 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 15: CONVIERTE TUS QUEJAS EN PASOS CONCRETOS
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 15 · Convierte tus quejas en pasos concretos</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="section-band" style="padding:14px 40px;">
+      <h1 style="font-size:20px;">Convierte tus quejas en pasos concretos</h1>
+    </div>
+    <div class="inner" style="flex:1;">
+      <p class="body-text">"El siguiente paso es reencuadrar tus quejas como oportunidades de crecimiento. Esto significa cambiar la perspectiva desde la que miras tus problemas para encontrar soluciones proactivas y alineadas con tus valores."</p>
+
+      <div class="subsection-label">Ejemplo práctico</div>
+      <div class="example-pair">
+        <div class="example-row">
+          <span class="example-key">Queja</span>
+          <span class="example-val">"Mi jefe no aprecia mi trabajo."</span>
+        </div>
+        <div class="example-row">
+          <span class="example-key">Reencuadre</span>
+          <span class="example-val">"Esta es una oportunidad para comunicar mejor mis logros y buscar reconocimiento de forma asertiva."</span>
+        </div>
+        <div class="example-row">
+          <span class="example-key">Paso concreto</span>
+          <span class="example-val">"Programaré una reunión con mi jefe para hablar de mi desempeño y pedir retroalimentación específica."</span>
+        </div>
+      </div>
+
+      <div class="exercise-block">
+        <div class="ex-title">Ejercicio práctico</div>
+        <p class="body-text" style="margin-bottom:8px;">"Elige una de tus quejas más importantes y escribe un reencuadre positivo. ¿Cómo podrías verla como una oportunidad para crecer o cambiar algo?"</p>
+        <div class="writing-lines writing-lines-sm">
+          <div class="line"></div><div class="line"></div><div class="line"></div>
+        </div>
+        <p class="body-text" style="margin-top:14px; margin-bottom:8px;">"Define un pequeño paso que puedas dar esta semana para abordar esta queja de manera proactiva."</p>
+        <div class="writing-lines writing-lines-sm">
+          <div class="line"></div><div class="line"></div><div class="line"></div>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <p>"¿Cómo se vería tu vida laboral si tomaras esta acción? Escribe cómo te sentirías al lograrlo."</p>
+      </div>
+      <div class="writing-lines writing-lines-sm" style="margin-top:4px;">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 15 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 16: COMUNICACIÓN ASERTIVA
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 16 · Herramientas: Comunicación asertiva</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <div class="subsection-label">Herramientas prácticas</div>
+      <h2 class="page-title">Comunicación asertiva</h2>
+      <h3 class="section-title" style="font-size:14px; margin-bottom:8px;">Exprésate con claridad y respeto</h3>
+      <div class="divider"></div>
+
+      <p class="body-text">La comunicación asertiva te permite expresar tus necesidades sin culpar ni atacar a los demás. Esto fomenta relaciones laborales más saludables y soluciones prácticas. Usa esta fórmula para estructurar tus conversaciones importantes:</p>
+
+      <!-- Fórmula circular (implementa "gráfico circular") -->
+      <div class="formula-circles">
+        <div class="formula-circle">
+          <div class="num">1</div>
+          <div class="text">Describe la situación objetivamente</div>
+        </div>
+        <div class="formula-circle">
+          <div class="num">2</div>
+          <div class="text">Expresa cómo te hace sentir</div>
+        </div>
+        <div class="formula-circle">
+          <div class="num">3</div>
+          <div class="text">Proporciona una solución clara</div>
+        </div>
+      </div>
+
+      <div class="example-pair" style="font-size:12px;">
+        <div class="example-row">
+          <span class="example-key">Paso 1</span>
+          <span class="example-val">"Cuando no recibo retroalimentación sobre mi desempeño..."</span>
+        </div>
+        <div class="example-row">
+          <span class="example-key">Paso 2</span>
+          <span class="example-val">"...me siento inseguro sobre si estoy avanzando correctamente."</span>
+        </div>
+        <div class="example-row">
+          <span class="example-key">Paso 3</span>
+          <span class="example-val">"Me gustaría que programemos reuniones semanales para hablar de mi progreso."</span>
+        </div>
+      </div>
+
+      <div class="exercise-block">
+        <div class="ex-title">Ejercicio práctico</div>
+        <p class="body-text" style="margin-bottom:8px;">"Escribe una queja laboral importante que tengas y redáctala como una frase asertiva utilizando la fórmula anterior."</p>
+        <div class="writing-lines writing-lines-sm">
+          <div class="line"></div><div class="line"></div><div class="line"></div>
+        </div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 16 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 17: LÍMITES SALUDABLES
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 17 · Límites saludables</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <div class="subsection-label">Herramientas prácticas</div>
+      <h2 class="page-title">Límites saludables</h2>
+      <h3 class="section-title" style="font-size:14px; margin-bottom:8px;">Aprende a decir no y proteger tu bienestar</h3>
+      <div class="divider"></div>
+
+      <p class="body-text">"Tus quejas a menudo indican que tus límites están siendo desafiados. Aprende a identificar cuándo decir no:"</p>
+
+      <ul class="limits-list">
+        <li>Te sientes agotado o sobrecargado.</li>
+        <li>Te piden cosas que no son tu responsabilidad.</li>
+        <li>Aceptas tareas por miedo al conflicto, pero te generan frustración.</li>
+      </ul>
+
+      <div class="example-box">
+        <div class="ex-label">Ejemplo práctico</div>
+        "Si constantemente te piden que trabajes horas extras sin recompensa, podrías decir: 'Aprecio que confíen en mí, pero necesito priorizar otras responsabilidades y no puedo quedarme más tiempo hoy.'"
+      </div>
+
+      <div class="exercise-block">
+        <div class="ex-title">Ejercicio práctico</div>
+        <p class="body-text" style="margin-bottom:8px;">"Piensa en una situación laboral donde necesites poner un límite. Escribe cómo lo comunicarías de manera respetuosa y firme."</p>
+        <!-- Espacio de escritura (implementa instrucción eliminada) -->
+        <div class="writing-lines writing-lines-sm">
+          <div class="line"></div><div class="line"></div><div class="line"></div>
+          <div class="line"></div><div class="line"></div>
+        </div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 17 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 18: TABLA DE SEGUIMIENTO
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 18 · Tabla de seguimiento</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <h2 class="page-title">Evalúa tu progreso</h2>
+      <p class="body-text">Registra el impacto de las acciones que tomaste a partir de tus quejas.</p>
+      <div class="divider"></div>
+
+      <table class="tracking-table">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Queja inicial</th>
+            <th>Acción tomada</th>
+            <th>Resultado logrado</th>
+            <th>Cómo me siento ahora</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="example-row-tr">
+            <td>Ej: 25/01</td>
+            <td>No tengo tiempo para proyectos estratégicos.</td>
+            <td>Bloqueé 2 horas semanales para planificación.</td>
+            <td>Pude completar un informe clave a tiempo.</td>
+            <td>Más tranquilo y organizado.</td>
+          </tr>
+          <tr class="tracking-empty"><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="tracking-empty"><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="tracking-empty"><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="tracking-empty"><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="tracking-empty"><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 18 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 19: REPROGRAMA TU MENTE
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 19 · Reprograma tu mente para el éxito laboral</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <h2 class="page-title">Reprograma tu mente para el éxito laboral</h2>
+      <div class="divider"></div>
+
+      <p class="body-text">"Las quejas no solo reflejan nuestras necesidades, sino también nuestras creencias limitantes. Una forma poderosa de transformar esas creencias es crear afirmaciones positivas que reprogramen tu mente. Usa estas frases para recordarte que tienes el poder de cambiar tu situación y construir la carrera que deseas."</p>
+
+      <div class="subsection-label">Ejemplo práctico</div>
+      <div class="example-pair">
+        <div class="example-row">
+          <span class="example-key">Queja</span>
+          <span class="example-val">"Me pagan mal y no valoran mi trabajo."</span>
+        </div>
+        <div class="example-row">
+          <span class="example-key">Afirmación</span>
+          <span class="example-val">"Estoy aprendiendo las habilidades necesarias para elevar mis ingresos, y quienes me rodean aprecian mi aporte."</span>
+        </div>
+      </div>
+
+      <div class="exercise-block">
+        <div class="ex-title">Ejercicio práctico</div>
+        <p class="body-text" style="margin-bottom:8px;">"Escribe una afirmación positiva que contrarreste una queja importante que tengas sobre tu trabajo."</p>
+        <div class="writing-lines writing-lines-sm">
+          <div class="line"></div><div class="line"></div><div class="line"></div>
+        </div>
+        <p class="body-text" style="margin-top:14px;">"Léela todos los días esta semana para reforzar una nueva perspectiva sobre tu carrera."</p>
+      </div>
+
+      <div class="closing-band" style="border-radius:10px; background:var(--purple-pale); border:1px solid #D4C0F0; padding:16px 20px; margin-top:8px;">
+        <p style="font-family:'Cormorant Garamond',serif; font-size:15px; font-style:italic; color:var(--purple-dark); line-height:1.7;">
+          "Recuerda, el trabajo es un reflejo de lo que valoras y buscas en tu vida. Con cada paso que des, no solo estarás transformando tu entorno laboral, sino también a ti mismo como profesional. Confía en que estás construyendo una carrera alineada con tus valores y sueños."
+        </p>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 19 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 20: TRANSICIÓN A LA PRÓXIMA SECCIÓN
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 20 · Cierre de sección y transición</div>
+  <div class="page page-transform" style="height:297mm;">
+    <div style="text-align:center; max-width:340px;">
+      <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:20px; opacity:0.4;">
+        <path d="M30 5 L35 25 L55 30 L35 35 L30 55 L25 35 L5 30 L25 25 Z" stroke="#E8B84B" stroke-width="2" fill="none"/>
+      </svg>
+      <p style="font-family:'Cormorant Garamond',serif; font-size:17px; font-style:italic; opacity:0.9; line-height:1.8;">
+        "Ahora que has trabajado en tus quejas laborales, es momento de voltear la mirada hacia adentro. En la próxima sección, exploraremos cómo convertir las quejas sobre tu salud y bienestar en el combustible que necesitas para vivir con plena energía."
+      </p>
+    </div>
+    <div class="page-footer-rule" style="position:absolute; bottom:0; left:0; right:0;"></div>
+    <div class="page-num" style="color:rgba(255,255,255,0.4);">— 20 —</div>
+  </div>
+</div>
+
+
+
+<!-- ============================================================
+     PÁGINA 21: SECCIÓN – SALUD Y BIENESTAR (header)
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 21 · Sección: Salud y Bienestar</div>
+  <div class="page page-section-header" style="height:297mm;">
+    <div class="section-num">Sección 2</div>
+    <h1>Salud<br>y Bienestar</h1>
+    <h2>Tus quejas sobre el cuerpo no son señales de vejez.<br>Son señales de que algo pide atención.</h2>
+    <div class="section-quote">
+      "Durante años viví con dolores de cabeza, agotamiento crónico y un cuerpo que gritaba cosas que yo elegía ignorar. No era la edad. Era la falta de atención a lo que más importa: yo mismo. El bienestar no es un lujo para cuando tengas tiempo — es la base desde la que construís todo lo demás."
+    </div>
+
+    <!-- Heartbeat icon -->
+    <div class="compass-icon" style="margin-top:auto; align-self:flex-end;">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" opacity="0.3">
+        <circle cx="40" cy="40" r="36" stroke="#E8B84B" stroke-width="2"/>
+        <path d="M12 40 L24 40 L30 26 L37 54 L44 34 L49 44 L55 40 L68 40" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </div>
+
+    <div class="page-footer-rule" style="position:absolute; bottom:0; left:0; right:0;"></div>
+    <div class="page-num" style="color:rgba(255,255,255,0.4);">— 21 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 22: EL BIENESTAR COMO BASE DE TODO
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 22 · El bienestar como base de todo</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <h3 class="section-title">El bienestar como base de todo</h3>
+      <div class="divider"></div>
+
+      <p class="body-text">"Hay un patrón que se repite demasiado: dolores de espalda, rodillas que 'ya no aguantan', alergias, fatiga constante — y casi siempre viene acompañado de la misma explicación: 'es la edad.' Pero la mayoría de las veces no es la edad: es el sedentarismo, la alimentación descuidada, el estrés acumulado y años de ignorar al cuerpo. La edad es la excusa más cómoda para no hacer nada."</p>
+
+      <div class="story-box">
+        <div class="story-tag">Experiencia propia</div>
+        <p>"Viví con dolores de cabeza frecuentes, erupciones en el cuero cabelludo, cansancio físico que parecía no tener fin. Era el resultado de un exceso de trabajo sin pausas, sin ejercicio, sin atención real a mi cuerpo. Cuando entendí que no me cuidaba porque creía que descansar era pereza, todo cambió. Dormir bien, moverme y comer con conciencia no fue un sacrificio: fue la decisión más productiva que tomé."</p>
+      </div>
+
+      <div class="divider-full"></div>
+
+      <h3 class="section-title" style="margin-top:8px;">¿Qué obtendrás al completar esta sección?</h3>
+      <ul class="bullet-list">
+        <li>Identificarás si tus quejas de salud son físicas o creencias disfrazadas de síntomas.</li>
+        <li>Entenderás el bienestar como algo físico, mental, emocional y espiritual a la vez.</li>
+        <li>Diseñarás hábitos mínimos y sostenibles que no requieren tiempo extra — solo decisión.</li>
+        <li>Romperás con la creencia de que cuidarte es egoísta, frívolo o una pérdida de tiempo.</li>
+      </ul>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 22 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 23: LAS 4 DIMENSIONES DEL BIENESTAR
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 23 · Las 4 dimensiones del bienestar</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+
+      <div class="subsection-label">Marco de referencia</div>
+      <h2 class="page-title">El bienestar no es solo físico</h2>
+      <div class="divider"></div>
+
+      <p class="body-text">"Cuidar la salud no se reduce a hacer ejercicio o comer bien. El bienestar real es la combinación de cuatro dimensiones que se alimentan entre sí. Descuidar una afecta a todas las demás."</p>
+
+      <div class="formula-circles" style="gap:12px;">
+        <div class="formula-circle" style="width:118px; height:118px;">
+          <div class="num" style="font-size:20px;">🏃</div>
+          <div class="text">Físico<br><span style="font-size:9px; opacity:0.8;">Movimiento, sueño, alimentación</span></div>
+        </div>
+        <div class="formula-circle" style="width:118px; height:118px;">
+          <div class="num" style="font-size:20px;">🧠</div>
+          <div class="text">Mental<br><span style="font-size:9px; opacity:0.8;">Foco, claridad, descanso cognitivo</span></div>
+        </div>
+        <div class="formula-circle" style="width:118px; height:118px;">
+          <div class="num" style="font-size:20px;">❤️</div>
+          <div class="text">Emocional<br><span style="font-size:9px; opacity:0.8;">Terapia, vínculos, autoconocimiento</span></div>
+        </div>
+        <div class="formula-circle" style="width:118px; height:118px;">
+          <div class="num" style="font-size:20px;">🌿</div>
+          <div class="text">Espiritual<br><span style="font-size:9px; opacity:0.8;">Propósito, silencio, conexión</span></div>
+        </div>
+      </div>
+
+      <div class="divider-full"></div>
+
+      <h3 class="section-title">¿Esta queja merece acción?</h3>
+      <ul class="checklist">
+        <li>
+          <div class="check-box"></div>
+          ¿Estoy atribuyendo este malestar a la edad sin haber cambiado ningún hábito?
+          <span class="si-no">Sí / No</span>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          ¿Cuándo fue la última vez que dormí bien, me moví y comí con conciencia en la misma semana?
+          <div style="flex:1; border-bottom: 1.5px solid var(--line-color); margin-left:8px; height:20px;"></div>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          ¿Hay alguna dimensión (física, mental, emocional, espiritual) que llevo meses ignorando?
+          <div style="flex:1; border-bottom: 1.5px solid var(--line-color); margin-left:8px; height:20px;"></div>
+        </li>
+      </ul>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 23 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 24: EJERCICIO – ¿QUÉ TE DICEN TUS QUEJAS SOBRE TU SALUD?
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 24 · Ejercicio: ¿Qué te dicen tus quejas de salud?</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="section-band" style="padding:14px 40px;">
+      <h1 style="font-size:20px;">¿Qué te están diciendo tus quejas sobre tu salud?</h1>
+    </div>
+    <div class="inner" style="flex:1;">
+
+      <div class="question-card">
+        <p>"¿Cuál es tu queja de salud más recurrente? Escribila sin filtro, con las palabras exactas que usás cuando te quejás."</p>
+      </div>
+      <div class="example-box">
+        <div class="ex-label">Ejemplos frecuentes</div>
+        "Me duele la espalda todo el tiempo." · "Siempre estoy cansado." · "Ya no puedo hacer lo que hacía antes — la edad." · "Me enfermo seguido, mi sistema inmune está débil."
+      </div>
+      <div class="writing-lines writing-lines-sm">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+
+      <div class="question-card" style="margin-top:14px;">
+        <p>"¿Qué emociones aparecen cuando pensás en tu salud? (Culpa, resignación, miedo, frustración, vergüenza)."</p>
+      </div>
+      <div class="example-box">
+        <div class="ex-label">Ejemplo</div>
+        "Siento culpa porque sé que podría cuidarme más, pero siempre encuentro una razón para no hacerlo."
+      </div>
+      <div class="writing-lines writing-lines-sm">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+
+      <div class="question-card" style="margin-top:14px;">
+        <p>"¿Qué excusa usás más seguido para no cuidarte? Sé honesto — nadie más va a leer esto."</p>
+      </div>
+      <div class="example-box">
+        <div class="ex-label">Excusas más comunes</div>
+        "No tengo tiempo." · "Estoy muy cansado." · "El gimnasio es caro." · "Tengo hijos, trabajo, compromisos." · "El ejercicio no es para mí."
+      </div>
+      <div class="writing-lines writing-lines-sm">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 24 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 25: VISUALIZA EL CONTRASTE
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 25 · Visualiza el contraste</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <h2 class="page-title">El contraste que lo cambia todo</h2>
+      <div class="divider"></div>
+
+      <p class="body-text">"Hay una diferencia enorme entre una persona descansada y una descuidada. La primera tiene foco, humor, amabilidad y sensación de progreso. La segunda hace más, pero siente que está estancada. El agotamiento no es productividad — es ruido que se disfraza de ocupación."</p>
+
+      <div class="example-pair">
+        <div class="example-row">
+          <span class="example-key" style="color:#b04040;">Descuidado</span>
+          <span class="example-val">Apurado, irritable, disperso. Hace mucho pero no siente progreso. Piensa que haciendo más va a resolver todo.</span>
+        </div>
+        <div class="example-row">
+          <span class="example-key" style="color:#3D7A4F;">Descansado</span>
+          <span class="example-val">Tranquilo, amable, con foco. Logra resultados de calidad. Tiene sensación de avance — no de carrera sin destino.</span>
+        </div>
+      </div>
+
+      <div class="question-card" style="margin-top:16px;">
+        <p>"¿En cuál de los dos te reconocés más hoy? ¿Qué estarías haciendo diferente si estuvieras en el segundo?"</p>
+      </div>
+      <div class="writing-lines" style="margin-top:8px;">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 25 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 26: LAS CREENCIAS QUE BLOQUEAN TU BIENESTAR
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 26 · Las creencias que bloquean tu bienestar</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <h2 class="page-title">Las creencias que bloquean tu bienestar</h2>
+      <div class="divider"></div>
+
+      <p class="body-text">"Muchas de nuestras resistencias a cuidarnos no vienen de la falta de tiempo — vienen de creencias que aprendimos y nunca cuestionamos. Algunas vienen de la familia, otras de la cultura, otras de la religión. Todas tienen en común que nos hacen sentir que cuidarnos es algo secundario, frívolo o hasta egoísta."</p>
+
+      <ul class="limits-list">
+        <li>"Descansar es para flojos." El descanso es recuperación — sin él, el rendimiento cae.</li>
+        <li>"El trabajo duro y el sacrificio son la única forma de progresar." El sufrimiento no es mérito.</li>
+        <li>"La terapia es para los que están locos." La salud mental es tan necesaria como la física.</li>
+        <li>"Con fe y oración alcanza." La espiritualidad complementa — no reemplaza — la acción responsable.</li>
+        <li>"Cuidar mi cuerpo es vanidad." Sentirte bien no tiene nada que ver con el ego.</li>
+      </ul>
+
+      <div class="question-card" style="margin-top:12px;">
+        <p>"¿Cuál de estas creencias (u otra similar) reconocés en vos? ¿De dónde crees que viene?"</p>
+      </div>
+      <div class="writing-lines writing-lines-sm">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 26 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 27: CONVIERTE TUS QUEJAS EN PASOS CONCRETOS
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 27 · Convierte tus quejas en pasos concretos</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="section-band" style="padding:14px 40px;">
+      <h1 style="font-size:20px;">Convierte tus quejas en pasos concretos</h1>
+    </div>
+    <div class="inner" style="flex:1;">
+      <p class="body-text">"El secreto no es transformarte de golpe. Es empezar con tan poco que la excusa desaparezca. Cinco minutos de movimiento son infinitamente mejores que cero. Una comida nutritiva hoy es un paso real. El cambio sostenible no viene de la motivación — viene de empezar tan simple que no podás decir que no."</p>
+
+      <div class="subsection-label">Ejemplo práctico</div>
+      <div class="example-pair">
+        <div class="example-row">
+          <span class="example-key">Queja</span>
+          <span class="example-val">"No tengo tiempo ni energía para hacer ejercicio."</span>
+        </div>
+        <div class="example-row">
+          <span class="example-key">Reencuadre</span>
+          <span class="example-val">"No necesito ir al gimnasio. Puedo hacer 10 minutos de movimiento en casa con un video de YouTube. Eso ya es infinitamente más que nada."</span>
+        </div>
+        <div class="example-row">
+          <span class="example-key">Paso concreto</span>
+          <span class="example-val">"Esta semana, tres veces, apenas me levante: 10 minutos de estiramientos o ejercicio funcional en casa. Solo 10. No negociable."</span>
+        </div>
+      </div>
+
+      <div class="exercise-block">
+        <div class="ex-title">Ejercicio práctico</div>
+        <p class="body-text" style="margin-bottom:8px;">"Tomá tu queja de salud más recurrente. Escribí un reencuadre y un paso tan pequeño que no tengas excusa para no hacerlo."</p>
+        <div class="writing-lines writing-lines-sm">
+          <div class="line"></div><div class="line"></div><div class="line"></div>
+        </div>
+        <p class="body-text" style="margin-top:14px; margin-bottom:8px;">"¿Cuántos días por semana te comprometés a hacerlo? (No busques perfección — buscá consistencia.)"</p>
+        <div class="writing-lines writing-lines-sm">
+          <div class="line"></div><div class="line"></div>
+        </div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 27 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 28: EL DESCANSO NO ES PEREZA
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 28 · Herramientas: El descanso no es pereza</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <div class="subsection-label">Herramientas prácticas</div>
+      <h2 class="page-title">El descanso no es pereza</h2>
+      <h3 class="section-title" style="font-size:14px; margin-bottom:8px;">Es la herramienta de productividad más subestimada que existe</h3>
+      <div class="divider"></div>
+
+      <p class="body-text">"Creía que descansar era para los vagos. Sentía culpa cuando no estaba haciendo algo. Lo asociaba con perder tiempo mientras otros avanzaban. Romper esa creencia fue el cambio más simple y poderoso que hice. El descanso no te quita productividad — te la devuelve multiplicada."</p>
+
+      <!-- Process flow -->
+      <div class="process-flow">
+        <div class="flow-step">Dormí<br>bien<br>(7–8 hs)</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">Pausá<br>durante<br>el día</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">Disfrutá<br>sin culpa<br>el ocio</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">Volvé<br>con más<br>foco</div>
+      </div>
+
+      <div class="example-box">
+        <div class="ex-label">Micro-hábitos de descanso que funcionan</div>
+        "Disfrutá el café sin pantallas." · "Caminá 15 minutos sin auriculares." · "Tomá una pausa de 5 minutos cada 90 minutos de trabajo." · "Apagá el teléfono 30 minutos antes de dormir."
+      </div>
+
+      <div class="exercise-block">
+        <div class="ex-title">Tu turno</div>
+        <p class="body-text" style="margin-bottom:8px;">"¿Qué momento del día podés recuperar para vos — sin trabajo, sin pantallas, sin obligaciones? Escribí cuándo y cómo."</p>
+        <div class="writing-lines writing-lines-sm">
+          <div class="line"></div><div class="line"></div><div class="line"></div>
+        </div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 28 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 29: LA OBSESIÓN CON HACER MÁS
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 29 · La obsesión con hacer más</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <div class="subsection-label">Herramientas prácticas</div>
+      <h2 class="page-title">La trampa de la productividad sin pausa</h2>
+      <h3 class="section-title" style="font-size:14px; margin-bottom:8px;">Por qué hacer más sin descansar te mantiene estancado</h3>
+      <div class="divider"></div>
+
+      <p class="body-text">"La sociedad nos enseñó que el valor de una persona se mide en cuánto produce. Pero una persona obsesionada con el trabajo que descuida su ocio, sus relaciones, su descanso y su propósito propio, tarde o temprano colapsa. No vivís en el presente — vivís corriendo hacia un futuro que tampoco disfrutarás cuando llegues."</p>
+
+      <ul class="limits-list">
+        <li>Siempre estás en el trabajo mentalmente, incluso cuando no estás trabajando.</li>
+        <li>No recordás la última vez que disfrutaste algo sin pensar en lo que tenés pendiente.</li>
+        <li>Priorizás reuniones y compromisos de otros por encima de tu propio descanso.</li>
+        <li>Sentís que si parás, todo se va a caer — y eso no te deja parar nunca.</li>
+      </ul>
+
+      <div class="affirmation-box">
+        <p>"No soy una máquina. También requiero descanso, disfrute y presencia. Cuidarme no es abandonar mis responsabilidades — es asegurarme de poder cumplirlas bien."</p>
+      </div>
+
+      <div class="exercise-block">
+        <div class="ex-title">Ejercicio práctico</div>
+        <p class="body-text" style="margin-bottom:8px;">"¿Cuándo fue la última vez que hiciste algo solo por disfrute, sin que tuviera que 'servir para algo'? Escribí qué necesitás incorporar en tu semana para recuperar ese espacio."</p>
+        <div class="writing-lines writing-lines-sm">
+          <div class="line"></div><div class="line"></div><div class="line"></div>
+        </div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 29 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 30: TABLA DE SEGUIMIENTO – SALUD Y BIENESTAR
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 30 · Tabla de seguimiento – Salud y bienestar</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <h2 class="page-title">Evalúa tu progreso</h2>
+      <p class="body-text">Registrá los cambios que implementaste y su impacto real en tu energía y bienestar.</p>
+      <div class="divider"></div>
+
+      <table class="tracking-table">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Queja o creencia</th>
+            <th>Hábito / cambio aplicado</th>
+            <th>Resultado logrado</th>
+            <th>Cómo me siento ahora</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="example-row-tr">
+            <td>Ej: 03/06</td>
+            <td>"Siempre cansado. No tengo energía para nada."</td>
+            <td>Dormí 8 horas 5 días seguidos y caminé 15 min después de almorzar.</td>
+            <td>En 10 días mejoró mi humor y concentración notablemente.</td>
+            <td>Más presente, menos irritable. Sensación real de progreso.</td>
+          </tr>
+          <tr class="tracking-empty"><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="tracking-empty"><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="tracking-empty"><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="tracking-empty"><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="tracking-empty"><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 30 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 31: REPROGRAMA TU MENTE – BIENESTAR
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 31 · Reprograma tu mente para el bienestar</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <h2 class="page-title">Reprograma tu mente para el bienestar</h2>
+      <div class="divider"></div>
+
+      <p class="body-text">"Las quejas de salud más profundas no se resuelven solo con hábitos — se resuelven cuestionando las creencias que las sostienen. ¿Qué te decís a vos mismo sobre tu cuerpo? ¿Qué tan merecedor te sentís de vivir bien, con energía y sin culpa por cuidarte?"</p>
+
+      <div class="subsection-label">Ejemplos de reencuadre</div>
+      <div class="example-pair">
+        <div class="example-row">
+          <span class="example-key">Queja</span>
+          <span class="example-val">"Ya no puedo como antes — la edad."</span>
+        </div>
+        <div class="example-row">
+          <span class="example-key">Nuevo marco</span>
+          <span class="example-val">"No he cambiado mis hábitos y mi cuerpo lo refleja. Puedo empezar hoy con algo pequeño y consistente."</span>
+        </div>
+      </div>
+      <div class="example-pair" style="margin-top:8px;">
+        <div class="example-row">
+          <span class="example-key">Queja</span>
+          <span class="example-val">"No tengo tiempo para cuidarme."</span>
+        </div>
+        <div class="example-row">
+          <span class="example-key">Nuevo marco</span>
+          <span class="example-val">"No me he dado permiso de priorizarme. Empiezo con 10 minutos al día — eso sí lo tengo."</span>
+        </div>
+      </div>
+
+      <div class="exercise-block">
+        <div class="ex-title">Ejercicio práctico</div>
+        <p class="body-text" style="margin-bottom:8px;">"Escribí tu creencia limitante sobre la salud y a continuación su versión reencuadrada. Usala como afirmación esta semana."</p>
+        <div class="writing-lines writing-lines-sm">
+          <div class="line"></div><div class="line"></div><div class="line"></div>
+        </div>
+      </div>
+
+      <div class="closing-band" style="border-radius:10px; background:var(--purple-pale); border:1px solid #D4C0F0; padding:16px 20px; margin-top:10px;">
+        <p style="font-family:'Cormorant Garamond',serif; font-size:15px; font-style:italic; color:var(--purple-dark); line-height:1.7;">
+          "No necesitás dos horas en el gimnasio ni una dieta perfecta. Necesitás empezar — con lo que tenés, donde estás, hoy. Cinco minutos de movimiento son el primer paso de la persona que se decide a vivir mejor."
+        </p>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 31 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 32: TRANSICIÓN A LA PRÓXIMA SECCIÓN
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 32 · Cierre de sección y transición</div>
+  <div class="page page-transform" style="height:297mm;">
+    <div style="text-align:center; max-width:340px;">
+      <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:20px; opacity:0.4;">
+        <path d="M30 5 L35 25 L55 30 L35 35 L30 55 L25 35 L5 30 L25 25 Z" stroke="#E8B84B" stroke-width="2" fill="none"/>
+      </svg>
+      <p style="font-family:'Cormorant Garamond',serif; font-size:17px; font-style:italic; opacity:0.9; line-height:1.8;">
+        "Ahora que empezaste a cuidarte con más conciencia, es momento de hablar de algo que casi todos evitan mirar de frente: el dinero. En la próxima sección, exploraremos cómo convertir las quejas financieras en claridad, decisiones y nuevas fuentes de abundancia."
+      </p>
+    </div>
+    <div class="page-footer-rule" style="position:absolute; bottom:0; left:0; right:0;"></div>
+    <div class="page-num" style="color:rgba(255,255,255,0.4);">— 32 —</div>
+  </div>
+</div>
+
+
+
+<!-- ============================================================
+     PÁGINA 33: SECCIÓN – FINANZAS Y DINERO (header)
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 33 · Sección: Finanzas y Dinero</div>
+  <div class="page page-section-header" style="height:297mm;">
+    <div class="section-num">Sección 3</div>
+    <h1>Finanzas<br>y Dinero</h1>
+    <h2>Transforma tus quejas financieras en claridad,<br>decisiones y nuevas fuentes de abundancia</h2>
+    <div class="section-quote">
+      "La mayoría no tiene un problema de dinero: tiene un problema de claridad. No saben cuánto entra, no saben adónde va, y en lugar de mirar los números, prefieren quejarse de ellos. El dinero no huye de los que trabajan duro — huye de los que no lo miran de frente."
+    </div>
+
+    <!-- Coin / growth icon -->
+    <div class="compass-icon" style="margin-top:auto; align-self:flex-end;">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" opacity="0.3">
+        <circle cx="40" cy="40" r="36" stroke="#E8B84B" stroke-width="2"/>
+        <path d="M40 20 L40 60 M28 32 L40 20 L52 32" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M25 50 L40 42 L55 46" stroke="#E8B84B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="40" cy="40" r="5" stroke="white" stroke-width="1.5"/>
+      </svg>
+    </div>
+
+    <div class="page-footer-rule" style="position:absolute; bottom:0; left:0; right:0;"></div>
+    <div class="page-num" style="color:rgba(255,255,255,0.4);">— 33 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 34: EL DINERO COMO ESPEJO DE TUS CREENCIAS
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 34 · El dinero como espejo de tus creencias</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <h3 class="section-title">El dinero como espejo de tus creencias</h3>
+      <div class="divider"></div>
+
+      <p class="body-text">"Durante años me quejé de que el dinero no me alcanzaba, de que me pagaban mal, de que sentía vergüenza al cobrar lo que valía. Un día me detuve y me hice una pregunta incómoda: ¿qué es lo que realmente creo sobre el dinero? Lo que encontré me cambió: no tenía un problema de ingresos — tenía un problema de creencias. Creía que el dinero solo llegaba de una fuente (el empleo), que pedir más era una falta de respeto, y que mis conocimientos no valían tanto. Cambiar esas ideas fue el verdadero punto de inflexión."</p>
+
+      <div class="story-box">
+        <div class="story-tag">Patrón recurrente</div>
+        <p>"El 90% de las personas que dicen 'no me alcanza el dinero' no saben con exactitud cuánto ganan ni adónde va cada peso. No es un problema de ingreso: es un problema de claridad. Tienen fugas — suscripciones que no usan, gastos que se exceden, compras impulsivas — y ningún registro que les muestre el patrón real."</p>
+      </div>
+
+      <div class="divider-full"></div>
+
+      <h3 class="section-title" style="margin-top:8px;">¿Qué obtendrás al completar esta sección?</h3>
+      <ul class="bullet-list">
+        <li>Identificarás las creencias limitantes que bloquean tu relación con el dinero.</li>
+        <li>Entenderás la diferencia real entre gasto e inversión, y cómo eso cambia todo.</li>
+        <li>Diseñarás un sistema simple de registro para saber adónde va tu dinero.</li>
+        <li>Descubrirás nuevas fuentes de ingreso desde tus talentos y conocimientos actuales.</li>
+      </ul>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 34 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 35: PROCESO + CHECKLIST DE DECISIÓN
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 35 · Proceso y checklist de decisión</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+
+      <div class="motivational-phrase">
+        <p>"Al dinero le gusta el movimiento, la decisión y la acción constante — pero sobre todo, le gusta la claridad."</p>
+      </div>
+
+      <!-- Process flow -->
+      <div class="process-flow">
+        <div class="flow-step">Mirá<br>los números<br>de frente</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">Identificá<br>la creencia<br>detrás</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">Distinguí<br>gasto de<br>inversión</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">Cerrá<br>las fugas</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">Expandí<br>tus fuentes<br>de ingreso</div>
+      </div>
+
+      <div class="divider-full"></div>
+
+      <h3 class="section-title">¿Esta queja merece acción?</h3>
+      <ul class="checklist">
+        <li>
+          <div class="check-box"></div>
+          ¿Sé exactamente cuánto ingresa y cuánto gasto por mes?
+          <span class="si-no">Sí / No</span>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          ¿Tengo fugas identificadas (suscripciones, gastos sin tope)?
+          <span class="si-no">Sí / No</span>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          ¿Qué creencia sobre el dinero está sosteniendo esta queja?
+          <div style="flex:1; border-bottom: 1.5px solid var(--line-color); margin-left:8px; height:20px;"></div>
+        </li>
+      </ul>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 35 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 36: EJERCICIO – ¿QUÉ TE DICEN TUS QUEJAS SOBRE EL DINERO?
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 36 · Ejercicio: ¿Qué te dicen tus quejas sobre el dinero?</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="section-band" style="padding:14px 40px;">
+      <h1 style="font-size:20px;">¿Qué te están diciendo tus quejas sobre el dinero?</h1>
+    </div>
+    <div class="inner" style="flex:1;">
+
+      <div class="question-card">
+        <p>"¿Cuál es tu queja financiera más recurrente? Escribila sin filtro."</p>
+      </div>
+      <div class="example-box">
+        <div class="ex-label">Ejemplos frecuentes</div>
+        "No me alcanza el sueldo." · "Siempre llego justo a fin de mes." · "No sé adónde se va mi dinero." · "Siento vergüenza de cobrar lo que valgo."
+      </div>
+      <div class="writing-lines writing-lines-sm">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+
+      <div class="question-card" style="margin-top:14px;">
+        <p>"¿Qué emociones surgen cuando hablás de dinero? (vergüenza, miedo, frustración, resignación)."</p>
+      </div>
+      <div class="example-box">
+        <div class="ex-label">Ejemplo</div>
+        "Siento vergüenza cuando tengo que cobrar mis servicios, como si no mereciera ese dinero."
+      </div>
+      <div class="writing-lines writing-lines-sm">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+
+      <div class="question-card" style="margin-top:14px;">
+        <p>"¿Qué creencia sobre el dinero aprendiste en tu infancia o entorno que hoy te limita?"</p>
+      </div>
+      <div class="example-box">
+        <div class="ex-label">Ejemplos de creencias limitantes</div>
+        "El dinero no crece en los árboles." · "Para ganar bien hay que sacrificarse." · "El trabajo duro y un empleo estable son la única seguridad." · "Si tengo mucho me van a envidiar."
+      </div>
+      <div class="writing-lines writing-lines-sm">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+
+      <div class="question-card" style="margin-top:14px;">
+        <p>¿Qué pequeño paso podés dar esta semana para tener más claridad sobre tu dinero?</p>
+      </div>
+      <div class="writing-lines writing-lines-sm">
+        <div class="line"></div><div class="line"></div>
+      </div>
+
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 36 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 37: VISUALIZA EL IMPACTO DEL CAMBIO
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 37 · Visualiza el impacto del cambio</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <h2 class="page-title">Visualiza el impacto del cambio</h2>
+      <div class="divider"></div>
+
+      <div class="quote-box">
+        <p>"El dinero representa libertad, opciones, calidad de vida. No es el número en tu cuenta — es la energía que fluye cuando dás y cuando recibís con conciencia."</p>
+      </div>
+
+      <div class="question-card">
+        <p>"¿Cómo sería tu vida si tuvieras plena claridad financiera y fuentes de ingreso que se alinean con tus talentos? ¿Qué harías diferente? ¿Qué dejarías de hacer?"</p>
+      </div>
+
+      <div class="writing-lines" style="margin-top:12px;">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 37 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 38: DESCUBRE EL PATRÓN DETRÁS DE TUS QUEJAS FINANCIERAS
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 38 · Descubre el patrón detrás de tus quejas financieras</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <h2 class="page-title">Descubre el patrón detrás de tus quejas</h2>
+      <div class="divider"></div>
+
+      <p class="body-text">"La mayoría de las quejas financieras apuntan a uno de estos patrones: falta de claridad (no sé cuánto gano ni cuánto gasto), fugas de dinero (suscripciones olvidadas, gastos sin tope), creencias limitantes (el dinero es escaso, debo sacrificarme), o fuentes de ingreso únicas (dependo de una sola entrada). Identificar tu patrón es el primer paso para romperlo."</p>
+
+      <div class="question-card">
+        <p>"¿Cuál de estos patrones reconocés más en vos? ¿Por qué creés que se repite?"</p>
+      </div>
+      <ul class="limits-list">
+        <li>No llevo registro de ingresos y egresos.</li>
+        <li>Gasto más de lo que planifico, especialmente en compras impulsivas.</li>
+        <li>Tengo suscripciones o gastos fijos que no recuerdo o no uso.</li>
+        <li>Dependo de una sola fuente de ingreso y me da miedo perderla.</li>
+        <li>Me cuesta cobrar lo que valgo o pedir un aumento.</li>
+      </ul>
+      <div class="writing-lines writing-lines-sm" style="margin-top:8px;">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+
+      <div class="question-card" style="margin-top:12px;">
+        <p>"¿Qué necesidad o valor no satisfecho crees que está detrás de tu relación actual con el dinero? (seguridad, libertad, reconocimiento, autoconfianza)."</p>
+      </div>
+      <div class="writing-lines writing-lines-sm">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 38 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 39: CONVIERTE TUS QUEJAS EN PASOS CONCRETOS
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 39 · Convierte tus quejas en pasos concretos</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="section-band" style="padding:14px 40px;">
+      <h1 style="font-size:20px;">Convierte tus quejas en pasos concretos</h1>
+    </div>
+    <div class="inner" style="flex:1;">
+      <p class="body-text">"Quejarse de que 'no alcanza' sin mirar los números es como conducir con los ojos cerrados. El reencuadre financiero empieza por un acto simple pero poderoso: hacerse cargo de los propios números. No para angustiarse — sino para elegir con claridad."</p>
+
+      <div class="subsection-label">Ejemplo práctico</div>
+      <div class="example-pair">
+        <div class="example-row">
+          <span class="example-key">Queja</span>
+          <span class="example-val">"No me alcanza el dinero, siempre llego justo a fin de mes."</span>
+        </div>
+        <div class="example-row">
+          <span class="example-key">Reencuadre</span>
+          <span class="example-val">"No tengo claridad financiera. Esta es una oportunidad para registrar mis ingresos y egresos por primera vez, identificar fugas y decidir adónde quiero que vaya mi dinero."</span>
+        </div>
+        <div class="example-row">
+          <span class="example-key">Paso concreto</span>
+          <span class="example-val">"Esta semana anoto cada gasto en una app o planilla. Al final de los 7 días, reviso las categorías y elimino al menos una suscripción que no uso."</span>
+        </div>
+      </div>
+
+      <div class="exercise-block">
+        <div class="ex-title">Ejercicio práctico</div>
+        <p class="body-text" style="margin-bottom:8px;">"Tomá tu queja financiera más urgente y escribí un reencuadre: ¿qué oportunidad de claridad o acción esconde?"</p>
+        <div class="writing-lines writing-lines-sm">
+          <div class="line"></div><div class="line"></div><div class="line"></div>
+        </div>
+        <p class="body-text" style="margin-top:14px; margin-bottom:8px;">"Definí un paso concreto que podés hacer en los próximos 3 días."</p>
+        <div class="writing-lines writing-lines-sm">
+          <div class="line"></div><div class="line"></div>
+        </div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 39 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 40: GASTO VS. INVERSIÓN
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 40 · Herramientas: Gasto vs. Inversión</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <div class="subsection-label">Herramientas prácticas</div>
+      <h2 class="page-title">Gasto vs. Inversión</h2>
+      <h3 class="section-title" style="font-size:14px; margin-bottom:8px;">El error que más drena las finanzas personales y de negocio</h3>
+      <div class="divider"></div>
+
+      <p class="body-text">"Uno de los errores más comunes: ver como 'gasto' lo que en realidad es inversión. El internet que pagás, la capacitación que comprás, el colaborador que contratás — todos son combustible para que tu motor funcione. Quitarlos para 'ahorrar' es como quitarle aceite al motor del auto y esperar que rinda más."</p>
+
+      <!-- Fórmula circular -->
+      <div class="formula-circles">
+        <div class="formula-circle">
+          <div class="num" style="font-size:16px;">GASTO</div>
+          <div class="text">Consume recursos sin retorno medible. Ej: suscripción que no usás.</div>
+        </div>
+        <div class="formula-circle" style="background:var(--gold);">
+          <div class="num" style="font-size:16px; color:var(--purple-dark);">INVERSIÓN</div>
+          <div class="text" style="color:var(--purple-dark);">Genera retorno en tiempo, ingresos o calidad. Ej: una herramienta que te ahorra 3 hs/semana.</div>
+        </div>
+      </div>
+
+      <div class="example-box">
+        <div class="ex-label">Pregunta clave para cada egreso</div>
+        "¿Este dinero que salió me está generando retorno en tiempo, calidad, ingreso o bienestar? Si la respuesta es no, es un gasto a revisar. Si la respuesta es sí, es una inversión a proteger."
+      </div>
+
+      <div class="exercise-block">
+        <div class="ex-title">Ejercicio práctico</div>
+        <p class="body-text" style="margin-bottom:8px;">"Listá 5 egresos mensuales fijos. Clasificá cada uno: ¿gasto o inversión? ¿Cuál eliminarías o renegociarías?"</p>
+        <div class="writing-lines writing-lines-sm">
+          <div class="line"></div><div class="line"></div><div class="line"></div>
+          <div class="line"></div><div class="line"></div>
+        </div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 40 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 41: EL CONTENEDOR DE DINERO Y NUEVAS FUENTES DE INGRESO
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 41 · El contenedor de dinero y nuevas fuentes de ingreso</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <div class="subsection-label">Herramientas prácticas</div>
+      <h2 class="page-title">Tu contenedor de dinero</h2>
+      <h3 class="section-title" style="font-size:14px; margin-bottom:8px;">¿Qué tan grande es el espacio que le das al dinero en tu vida?</h3>
+      <div class="divider"></div>
+
+      <p class="body-text">"El concepto del 'contenedor de dinero' (adaptado de Ken Honda) es simple: tu capacidad de generar y sostener ingresos está directamente limitada por lo que creés que merecés. Si en el fondo sentís que 'tanto dinero no es para mí', vas a encontrar formas inconscientes de perderlo o no generarlo. Expandir el contenedor no es magia — es trabajar las creencias que lo achican."</p>
+
+      <div class="affirmation-box">
+        <p>"No se trata de perseguir el dinero. Se trata de convertirte en la persona que puede sostenerlo, multiplicarlo y darlo con generosidad."</p>
+      </div>
+
+      <h3 class="section-title" style="margin-top:16px; font-size:15px;">Más allá de la única fuente</h3>
+      <p class="body-text">"El dinero puede llegar de muchas más formas de las que creemos: monetizar conocimiento, cobrar por consultoría, crear contenido, enseñar lo que sabés, vender un producto digital, cobrar comisiones, generar ingresos pasivos. La pregunta no es '¿cómo trabajo más horas?' sino '¿qué talentos y conocimientos tengo que aún no estoy monetizando?'"</p>
+
+      <div class="exercise-block">
+        <div class="ex-title">Ejercicio práctico</div>
+        <p class="body-text" style="margin-bottom:8px;">"Anotá 3 conocimientos, habilidades o talentos que tenés y que otras personas estarían dispuestas a pagar. ¿Por qué no los estás ofreciendo hoy?"</p>
+        <div class="writing-lines writing-lines-sm">
+          <div class="line"></div><div class="line"></div><div class="line"></div>
+          <div class="line"></div>
+        </div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 41 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 42: TABLA DE SEGUIMIENTO – FINANZAS
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 42 · Tabla de seguimiento – Finanzas y Dinero</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <h2 class="page-title">Evalúa tu progreso</h2>
+      <p class="body-text">Registrá las acciones que tomaste y su impacto en tu situación financiera.</p>
+      <div class="divider"></div>
+
+      <table class="tracking-table">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Queja inicial</th>
+            <th>Acción tomada</th>
+            <th>Resultado logrado</th>
+            <th>Cómo me siento ahora</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="example-row-tr">
+            <td>Ej: 01/07</td>
+            <td>No sé adónde va mi dinero cada mes.</td>
+            <td>Registré todos los gastos 7 días y eliminé 2 suscripciones que no usaba.</td>
+            <td>Identifiqué $80 de fugas mensuales y recuperé ese dinero.</td>
+            <td>Con más control y menos ansiedad al final del mes.</td>
+          </tr>
+          <tr class="tracking-empty"><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="tracking-empty"><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="tracking-empty"><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="tracking-empty"><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="tracking-empty"><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 42 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 43: REPROGRAMA TU MENTE – DINERO
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 43 · Reprograma tu mente para la abundancia</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <h2 class="page-title">Reprograma tu mente para la abundancia</h2>
+      <div class="divider"></div>
+
+      <p class="body-text">"El dinero ama la responsabilidad, la disciplina, el compromiso y la acción constante. Pero antes de todo eso, ama la claridad mental de alguien que se siente merecedor de recibirlo. Las afirmaciones no son pensamiento mágico — son el entrenamiento de una identidad nueva."</p>
+
+      <div class="subsection-label">Ejemplo práctico</div>
+      <div class="example-pair">
+        <div class="example-row">
+          <span class="example-key">Queja</span>
+          <span class="example-val">"Siento vergüenza de cobrar lo que valgo. Siempre termino bajando mis precios."</span>
+        </div>
+        <div class="example-row">
+          <span class="example-key">Afirmación</span>
+          <span class="example-val">"Mi conocimiento tiene valor real. Cobrar lo que vale mi trabajo es un acto de respeto hacia mí y hacia quien me contrata."</span>
+        </div>
+      </div>
+
+      <div class="affirmation-box" style="margin-top:12px;">
+        <p>"Puedo hacer mucho con lo que tengo ahora mismo. A partir de aquí, tomo decisiones más claras, pequeñas y precisas que me acercan a la vida financiera que quiero."</p>
+      </div>
+
+      <div class="exercise-block">
+        <div class="ex-title">Ejercicio práctico</div>
+        <p class="body-text" style="margin-bottom:8px;">"Escribí una afirmación que rompa tu creencia financiera más limitante. Sé específico — cuanto más concreta, más poderosa."</p>
+        <div class="writing-lines writing-lines-sm">
+          <div class="line"></div><div class="line"></div><div class="line"></div>
+        </div>
+        <p class="body-text" style="margin-top:14px;">"Leéla cada mañana esta semana. El objetivo no es creerla de inmediato — es repetirla hasta que tu mente empiece a buscar evidencia de que es verdad."</p>
+      </div>
+
+      <div class="closing-band" style="border-radius:10px; background:var(--purple-pale); border:1px solid #D4C0F0; padding:16px 20px; margin-top:8px;">
+        <p style="font-family:'Cormorant Garamond',serif; font-size:15px; font-style:italic; color:var(--purple-dark); line-height:1.7;">
+          "El dinero no es el destino — es el combustible. Cuando lo gestionás con claridad, cuando expandís tu contenedor de creencias y cuando monetizás lo que genuinamente sabés hacer, el dinero deja de ser el problema y se convierte en el resultado natural de quien te estás convirtiendo."
+        </p>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 43 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 44: TRANSICIÓN A LA PRÓXIMA SECCIÓN
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 44 · Cierre de sección y transición</div>
+  <div class="page page-transform" style="height:297mm;">
+    <div style="text-align:center; max-width:340px;">
+      <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:20px; opacity:0.4;">
+        <path d="M30 5 L35 25 L55 30 L35 35 L30 55 L25 35 L5 30 L25 25 Z" stroke="#E8B84B" stroke-width="2" fill="none"/>
+      </svg>
+      <p style="font-family:'Cormorant Garamond',serif; font-size:17px; font-style:italic; opacity:0.9; line-height:1.8;">
+        "Ahora que empezaste a mirar tu dinero de frente, es momento de mirar a las personas que te rodean. En la próxima sección, exploraremos cómo las quejas sobre tus relaciones esconden necesidades profundas — y cómo convertirlas en vínculos que te potencian."
+      </p>
+    </div>
+    <div class="page-footer-rule" style="position:absolute; bottom:0; left:0; right:0;"></div>
+    <div class="page-num" style="color:rgba(255,255,255,0.4);">— 44 —</div>
+  </div>
+</div>
+
+
+
+<!-- ============================================================
+     PÁGINA 45: SECCIÓN – RELACIONES (header)
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 45 · Sección: Relaciones</div>
+  <div class="page page-section-header" style="height:297mm;">
+    <div class="section-num">Sección 4</div>
+    <h1>Relaciones:<br>Familia, Amigos<br>y Trabajo</h1>
+    <h2>Transforma tus quejas relacionales en vínculos<br>que te potencian en lugar de drenarte</h2>
+    <div class="section-quote">
+      "Durante mucho tiempo sentí que me interesaba por todos, pero pocos se interesaban por mí. Que estaba para todos, pero nadie estaba para mí. Esa queja no era sobre los demás — era una señal de que algo en mis vínculos, mis límites y mi manera de relacionarme necesitaba cambiar."
+    </div>
+
+    <!-- People / connection icon -->
+    <div class="compass-icon" style="margin-top:auto; align-self:flex-end;">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" opacity="0.3">
+        <circle cx="40" cy="40" r="36" stroke="#E8B84B" stroke-width="2"/>
+        <circle cx="28" cy="34" r="8" stroke="white" stroke-width="2"/>
+        <circle cx="52" cy="34" r="8" stroke="white" stroke-width="2"/>
+        <path d="M14 58 C14 48 20 44 28 44 C34 44 38 47 40 50 C42 47 46 44 52 44 C60 44 66 48 66 58" stroke="#E8B84B" stroke-width="2" stroke-linecap="round"/>
+        <path d="M40 30 L40 50" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="3 3"/>
+      </svg>
+    </div>
+
+    <div class="page-footer-rule" style="position:absolute; bottom:0; left:0; right:0;"></div>
+    <div class="page-num" style="color:rgba(255,255,255,0.4);">— 45 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 46: LAS RELACIONES COMO ESPEJO
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 46 · Las relaciones como espejo</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <h3 class="section-title">Las relaciones como espejo de cómo te ves a vos mismo</h3>
+      <div class="divider"></div>
+
+      <p class="body-text">"Las quejas relacionales más comunes tienen una cosa en común: casi siempre culpan al otro. 'Nadie me llama.' 'Me critican demasiado.' 'No me reconocen.' 'Siempre doy más de lo que recibo.' Todas válidas — pero incompletas. Porque las relaciones que sostenemos, las que toleramos y las que construimos son un espejo directo de lo que creemos que merecemos."</p>
+
+      <div class="story-box">
+        <div class="story-tag">Experiencia propia</div>
+        <p>"Durante mucho tiempo sentí que yo registraba a todos — cumpleaños, noticias, cómo estaban — pero pocos me registraban a mí. Que estaba para todos pero nadie estaba para mí. Que si desaparecía, nadie se daría cuenta. Esa soledad no era culpa de los demás. Era el resultado de no haberme puesto como prioridad, de no haber puesto límites, y de relacionarme desde la expectativa en lugar de desde la elección."</p>
+      </div>
+
+      <div class="divider-full"></div>
+
+      <h3 class="section-title" style="margin-top:8px;">¿Qué obtendrás al completar esta sección?</h3>
+      <ul class="bullet-list">
+        <li>Identificarás las quejas recurrentes en tus vínculos familiares, de amistad y laborales.</li>
+        <li>Aprenderás a distinguir relaciones que te suman de las que te drenan — y qué hacer con cada una.</li>
+        <li>Entenderás el rol de los límites y la comunicación asertiva para transformar tus vínculos.</li>
+        <li>Saldrás del rol de víctima y asumirás el de protagonista en tus relaciones.</li>
+      </ul>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 46 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 47: PROCESO + CHECKLIST
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 47 · Proceso y checklist de decisión</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+
+      <div class="motivational-phrase">
+        <p>"Solo se molesta cuando ponés un límite quien se estaba beneficiando de que no lo tuvieras."</p>
+      </div>
+
+      <div class="process-flow">
+        <div class="flow-step">Identificá<br>la queja<br>relacional</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">Preguntá:<br>¿qué rol<br>juego yo?</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">¿Suma<br>o drena?</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">Comunicá<br>o poné<br>un límite</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">Elegí<br>con quién<br>invertir</div>
+      </div>
+
+      <div class="divider-full"></div>
+
+      <h3 class="section-title">¿Esta queja relacional merece acción?</h3>
+      <ul class="checklist">
+        <li>
+          <div class="check-box"></div>
+          ¿Soy honesto sobre mi parte en esta dinámica, o solo veo lo del otro?
+          <span class="si-no">Sí / No</span>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          ¿Expresé con claridad lo que necesito o lo que me molesta, o solo lo pienso?
+          <span class="si-no">Sí / No</span>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          ¿Esta relación me deja con energía o me deja agotado? ¿Qué dice eso sobre ella?
+          <div style="flex:1; border-bottom: 1.5px solid var(--line-color); margin-left:8px; height:20px;"></div>
+        </li>
+      </ul>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 47 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 48: EJERCICIO PRINCIPAL
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 48 · Ejercicio: ¿Qué te dicen tus quejas relacionales?</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="section-band" style="padding:14px 40px;">
+      <h1 style="font-size:20px;">¿Qué te están diciendo tus quejas sobre tus relaciones?</h1>
+    </div>
+    <div class="inner" style="flex:1;">
+
+      <div class="question-card">
+        <p>"¿Cuál es tu queja relacional más recurrente — con familia, amigos o en el trabajo? Escribila con las palabras exactas que usás."</p>
+      </div>
+      <div class="example-box">
+        <div class="ex-label">Ejemplos frecuentes</div>
+        "Siempre estoy para todos pero nadie está para mí." · "Me critican por cómo vivo." · "Siento que doy más de lo que recibo." · "En el trabajo no me reconocen." · "Mi familia no entiende mis decisiones."
+      </div>
+      <div class="writing-lines writing-lines-sm">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+
+      <div class="question-card" style="margin-top:14px;">
+        <p>"¿Qué emociones te genera esa situación? (Soledad, frustración, enojo, resignación, invisibilidad)."</p>
+      </div>
+      <div class="writing-lines writing-lines-sm">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+
+      <div class="question-card" style="margin-top:14px;">
+        <p>"Si mirás la situación con honestidad, ¿qué parte te corresponde a vos? ¿Expresaste lo que necesitás? ¿Pusiste el límite que hace falta?"</p>
+      </div>
+      <div class="example-box">
+        <div class="ex-label">Ejemplo</div>
+        "Nunca dije que me sentía invisible. Esperaba que lo notaran solos. Pero nadie puede adivinar lo que no decimos."
+      </div>
+      <div class="writing-lines writing-lines-sm">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 48 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 49: VÍCTIMA VS. PROTAGONISTA
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 49 · Víctima vs. Protagonista en las relaciones</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <h2 class="page-title">El rol que cambia todo: víctima vs. protagonista</h2>
+      <div class="divider"></div>
+
+      <p class="body-text">"Hay dos formas de vivir las relaciones: como algo que te pasa o como algo que construís. La persona que se queja sin hacer nada espera que el otro cambie, que alguien venga a rescatarla, que el conflicto se resuelva solo. La que transforma sus relaciones asume su parte, expresa sus necesidades y toma decisiones — incluso cuando son incómodas."</p>
+
+      <div class="example-pair">
+        <div class="example-row">
+          <span class="example-key" style="color:#b04040;">Víctima</span>
+          <span class="example-val">Culpa al otro. No se hace cargo de su parte. Cree que siempre tiene la razón. Genera conflicto pero no lo resuelve. Espera que algo cambie sin hacer nada distinto.</span>
+        </div>
+        <div class="example-row">
+          <span class="example-key" style="color:#3D7A4F;">Protagonista</span>
+          <span class="example-val">Asume su parte. Se acerca con vulnerabilidad y objetividad. Pide lo que necesita. Pone límites. Sabe alejarse cuando la relación no aporta. Desarrolla inteligencia emocional.</span>
+        </div>
+      </div>
+
+      <div class="quote-box" style="margin-top:16px;">
+        <p>"El protagonista no busca atacar al otro — busca equipo con el otro. Y cuando el otro no quiere ser equipo, sabe retirarse con respeto."</p>
+      </div>
+
+      <div class="question-card" style="margin-top:14px;">
+        <p>"En la relación que más te genera conflicto hoy, ¿qué rol estás jugando? ¿Qué haría diferente el protagonista en tu lugar?"</p>
+      </div>
+      <div class="writing-lines writing-lines-sm">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 49 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 50: CREENCIAS QUE HEREDAMOS SOBRE LAS RELACIONES
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 50 · Creencias heredadas sobre las relaciones</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <h2 class="page-title">Las creencias que heredamos sobre los vínculos</h2>
+      <div class="divider"></div>
+
+      <p class="body-text">"Muchas de nuestras dinámicas relacionales no las elegimos — las heredamos. Vienen de la familia, la cultura, el entorno en que crecimos. Y aunque las seguimos repitiendo, vale la pena preguntarnos: ¿estas creencias me sirven hoy, o me limitan?"</p>
+
+      <ul class="limits-list">
+        <li><strong>"La familia siempre es primero."</strong> La familia importa — pero también puede ser un obstáculo para crecer si sus patrones generacionales no se cuestionan.</li>
+        <li><strong>"Los amigos verdaderos están en las buenas y en las malas."</strong> Muchos están más en las buenas. Y algunos comparten sus tragedias pero no sus logros. Eso también es una señal.</li>
+        <li><strong>"No se mezcla el trabajo con la amistad."</strong> Se puede ser cercano en el trabajo — pero la cercanía sin límites rompe el respeto y confunde los roles.</li>
+        <li><strong>"Hay que aguantar a la familia."</strong> Aguantar no es querer. Se puede amar a alguien y elegir tomar distancia para proteger tu bienestar.</li>
+      </ul>
+
+      <div class="question-card" style="margin-top:12px;">
+        <p>"¿Cuál de estas creencias (u otra similar) seguís aplicando hoy sin haberla elegido conscientemente? ¿Qué cambiaría si la cuestionaras?"</p>
+      </div>
+      <div class="writing-lines writing-lines-sm">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 50 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 51: CONVIERTE TUS QUEJAS EN PASOS CONCRETOS
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 51 · Convierte tus quejas en pasos concretos</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="section-band" style="padding:14px 40px;">
+      <h1 style="font-size:20px;">Convierte tus quejas en pasos concretos</h1>
+    </div>
+    <div class="inner" style="flex:1;">
+      <p class="body-text">"Expresar lo que necesitás no es atacar al otro — es darte el lugar que merecés. Confrontar con respeto no es pelear — es cuidar el vínculo lo suficiente como para ser honesto. Las relaciones mejoran cuando alguien da el primer paso de decir la verdad."</p>
+
+      <div class="subsection-label">Ejemplo práctico</div>
+      <div class="example-pair">
+        <div class="example-row">
+          <span class="example-key">Queja</span>
+          <span class="example-val">"Siento que siempre estoy para todos pero nadie está para mí. Me siento invisible."</span>
+        </div>
+        <div class="example-row">
+          <span class="example-key">Reencuadre</span>
+          <span class="example-val">"Nunca expresé que necesito reciprocidad. No puedo esperar que adivinen algo que no dije. Esta es una oportunidad para comunicar lo que necesito."</span>
+        </div>
+        <div class="example-row">
+          <span class="example-key">Paso concreto</span>
+          <span class="example-val">"Esta semana le digo a una persona cercana cómo me he sentido. Sin drama, sin reproches — solo honestidad: 'Necesito sentir que también me ven.'"</span>
+        </div>
+      </div>
+
+      <div class="exercise-block">
+        <div class="ex-title">Ejercicio práctico</div>
+        <p class="body-text" style="margin-bottom:8px;">"Elegí la queja relacional que más te pesa. Escribí tu reencuadre y el paso más pequeño y concreto que podés dar esta semana."</p>
+        <div class="writing-lines writing-lines-sm">
+          <div class="line"></div><div class="line"></div><div class="line"></div>
+        </div>
+        <p class="body-text" style="margin-top:14px; margin-bottom:8px;">"¿Con quién tenés que tener esa conversación? ¿Cuándo lo harás?"</p>
+        <div class="writing-lines writing-lines-sm">
+          <div class="line"></div><div class="line"></div>
+        </div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 51 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 52: RELACIONES QUE SUMAN VS. QUE DRENAN
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 52 · Herramientas: Relaciones que suman vs. que drenan</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <div class="subsection-label">Herramientas prácticas</div>
+      <h2 class="page-title">Relaciones que suman vs. relaciones que drenan</h2>
+      <h3 class="section-title" style="font-size:14px; margin-bottom:8px;">Tu energía es un recurso — elegí en qué vínculos invertirla</h3>
+      <div class="divider"></div>
+
+      <p class="body-text">"Podés identificar qué tipo de relación es con una sola pregunta: ¿cómo salís de esa conversación o de ese encuentro? Con energía o con el tanque vacío. Eso es información directa — no la ignores."</p>
+
+      <div class="example-pair">
+        <div class="example-row">
+          <span class="example-key" style="color:#3D7A4F;">Te suma</span>
+          <span class="example-val">Salís motivado, inspirado. Podés ser vos genuinamente. Te apoya, te impulsa y te critica constructivamente. Te acepta con tus sombras y tus brillos.</span>
+        </div>
+        <div class="example-row">
+          <span class="example-key" style="color:#b04040;">Te drena</span>
+          <span class="example-val">Salís agotado, con malestar físico. Te maltrata, te falta el respeto, te critica para destruirte. Te hace sentir inferior. Te consume sin aportarte nada.</span>
+        </div>
+      </div>
+
+      <div class="example-box" style="margin-top:12px;">
+        <div class="ex-label">Señales de una relación que drena — en cualquier contexto</div>
+        "Solo comparte sus tragedias, nunca sus logros." · "Habla de vos a tus espaldas." · "Te critica pero nunca te reconoce." · "Solo aparece cuando necesita algo." · "Juzga tus decisiones de vida sin que se las pidas."
+      </div>
+
+      <div class="exercise-block">
+        <div class="ex-title">Ejercicio práctico</div>
+        <p class="body-text" style="margin-bottom:8px;">"Listá 3 relaciones actuales (familia, amistad o trabajo). ¿Cuál te suma y cuál te drena? ¿Qué decisión podés tomar sobre cada una?"</p>
+        <div class="writing-lines writing-lines-sm">
+          <div class="line"></div><div class="line"></div><div class="line"></div>
+          <div class="line"></div>
+        </div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 52 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 53: LÍMITES Y COMUNICACIÓN ASERTIVA
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 53 · Herramientas: Límites y comunicación asertiva</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <div class="subsection-label">Herramientas prácticas</div>
+      <h2 class="page-title">Límites y comunicación asertiva</h2>
+      <h3 class="section-title" style="font-size:14px; margin-bottom:8px;">Decir lo que necesitás, sin atacar y sin callarte</h3>
+      <div class="divider"></div>
+
+      <p class="body-text">"La comunicación asertiva es una habilidad que se entrena. No es natural para la mayoría — aprendimos a decir sí cuando queríamos decir no, a callar cuando deberíamos hablar, a acumular hasta explotar. Empezar a cambiar eso requiere incomodidad: la incomodidad de decir la verdad antes de que sea demasiado tarde."</p>
+
+      <div class="formula-circles">
+        <div class="formula-circle">
+          <div class="num">1</div>
+          <div class="text">Expresá<br>cómo te<br>sentís</div>
+        </div>
+        <div class="formula-circle">
+          <div class="num">2</div>
+          <div class="text">Pedí lo<br>que<br>necesitás</div>
+        </div>
+        <div class="formula-circle">
+          <div class="num">3</div>
+          <div class="text">Marcá<br>el límite<br>si hace falta</div>
+        </div>
+      </div>
+
+      <div class="example-pair" style="font-size:12px;">
+        <div class="example-row">
+          <span class="example-key">Con familia</span>
+          <span class="example-val">"No me gusta que me hables así. Prefiero que hablemos cuando estés más calmado."</span>
+        </div>
+        <div class="example-row">
+          <span class="example-key">Con amigos</span>
+          <span class="example-val">"Siento que últimamente no me ves. Necesito que también te intereses por cómo estoy."</span>
+        </div>
+        <div class="example-row">
+          <span class="example-key">En el trabajo</span>
+          <span class="example-val">"Prefiero que hablemos en otro momento porque ahora podría decir algo que no quiero. ¿Podemos retomarlo más tarde?"</span>
+        </div>
+      </div>
+
+      <div class="exercise-block">
+        <div class="ex-title">Ejercicio práctico</div>
+        <p class="body-text" style="margin-bottom:8px;">"Escribí una frase asertiva para una situación relacional que venís evitando. Concreta, respetuosa, sin atacar."</p>
+        <div class="writing-lines writing-lines-sm">
+          <div class="line"></div><div class="line"></div><div class="line"></div>
+        </div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 53 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 54: TABLA DE SEGUIMIENTO – RELACIONES
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 54 · Tabla de seguimiento – Relaciones</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <h2 class="page-title">Evalúa tu progreso</h2>
+      <p class="body-text">Registrá las conversaciones, límites o decisiones relacionales que tomaste y su impacto.</p>
+      <div class="divider"></div>
+
+      <table class="tracking-table">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Queja / situación</th>
+            <th>Acción tomada</th>
+            <th>Resultado logrado</th>
+            <th>Cómo me siento ahora</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="example-row-tr">
+            <td>Ej: 10/07</td>
+            <td>"Me siento invisible para mis amigos."</td>
+            <td>Le dije a un amigo cómo me sentía, sin reproches — solo honestidad.</td>
+            <td>La conversación abrió algo. Él tampoco lo sabía. El vínculo mejoró.</td>
+            <td>Más liviano. Con menos resentimiento acumulado.</td>
+          </tr>
+          <tr class="tracking-empty"><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="tracking-empty"><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="tracking-empty"><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="tracking-empty"><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="tracking-empty"><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 54 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 55: REPROGRAMA TU MENTE – RELACIONES
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 55 · Reprograma tu mente para los vínculos</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <h2 class="page-title">Reprograma tu mente para los vínculos</h2>
+      <div class="divider"></div>
+
+      <p class="body-text">"La calidad de tus relaciones es proporcional a la calidad de tu relación con vos mismo. Los amigos que tenés, las dinámicas que tolerás, los vínculos que construís — todo refleja lo que creés que merecés. Cambiar tus relaciones empieza por cambiar lo que creés sobre vos."</p>
+
+      <div class="subsection-label">Reencuadres que liberan</div>
+      <div class="example-pair">
+        <div class="example-row">
+          <span class="example-key">Queja</span>
+          <span class="example-val">"Nadie se interesa genuinamente por mí."</span>
+        </div>
+        <div class="example-row">
+          <span class="example-key">Nuevo marco</span>
+          <span class="example-val">"Puedo empezar a expresar lo que necesito. Y si alguien no puede dármelo, tengo la libertad de elegir dónde poner mi energía."</span>
+        </div>
+      </div>
+      <div class="example-pair" style="margin-top:8px;">
+        <div class="example-row">
+          <span class="example-key">Queja</span>
+          <span class="example-val">"Mi familia no entiende mis decisiones y me juzga constantemente."</span>
+        </div>
+        <div class="example-row">
+          <span class="example-key">Nuevo marco</span>
+          <span class="example-val">"No necesito su aprobación para vivir alineado con mis valores. Puedo amarlos y mantener una distancia saludable al mismo tiempo."</span>
+        </div>
+      </div>
+
+      <div class="exercise-block">
+        <div class="ex-title">Ejercicio práctico</div>
+        <p class="body-text" style="margin-bottom:8px;">"Escribí tu queja relacional más recurrente y su versión reencuadrada. ¿Qué identidad necesitás adoptar para que ese nuevo marco sea real?"</p>
+        <div class="writing-lines writing-lines-sm">
+          <div class="line"></div><div class="line"></div><div class="line"></div>
+        </div>
+      </div>
+
+      <div class="closing-band" style="border-radius:10px; background:var(--purple-pale); border:1px solid #D4C0F0; padding:16px 20px; margin-top:10px;">
+        <p style="font-family:'Cormorant Garamond',serif; font-size:15px; font-style:italic; color:var(--purple-dark); line-height:1.7;">
+          "No necesitás muchos vínculos — necesitás vínculos de calidad. Personas que te vean, te impulsen y te permitan ser genuino. Eso empieza cuando vos te ves, te impulsás y te permitís ser genuino primero."
+        </p>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 55 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 56: TRANSICIÓN A LA PRÓXIMA SECCIÓN
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 56 · Cierre de sección y transición</div>
+  <div class="page page-transform" style="height:297mm;">
+    <div style="text-align:center; max-width:340px;">
+      <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:20px; opacity:0.4;">
+        <path d="M30 5 L35 25 L55 30 L35 35 L30 55 L25 35 L5 30 L25 25 Z" stroke="#E8B84B" stroke-width="2" fill="none"/>
+      </svg>
+      <p style="font-family:'Cormorant Garamond',serif; font-size:17px; font-style:italic; opacity:0.9; line-height:1.8;">
+        "Trabajaste tus vínculos con familia, amigos y colegas. Ahora viene quizás el vínculo más íntimo y desafiante de todos: el romántico. En la próxima sección, exploraremos cómo transformar las quejas en la pareja en una oportunidad real de conexión y crecimiento."
+      </p>
+    </div>
+    <div class="page-footer-rule" style="position:absolute; bottom:0; left:0; right:0;"></div>
+    <div class="page-num" style="color:rgba(255,255,255,0.4);">— 56 —</div>
+  </div>
+</div>
+
+
+
+<!-- ============================================================
+     PÁGINA 57: SECCIÓN – ROMANCE (header)
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 57 · Sección: Romance</div>
+  <div class="page page-section-header" style="height:297mm;">
+    <div class="section-num">Sección 5</div>
+    <h1>Romance y vínculos íntimos</h1>
+    <h2>Del amor que te falta al amor que elegís</h2>
+    <p style="font-family:'Lato',sans-serif; font-size:13px; color:rgba(243,238,255,0.65); letter-spacing:0.8px; margin-top:6px; font-style:italic;">Soltero no es sinónimo de incompleto. En pareja no es sinónimo de pleno.<br>Esta sección es sobre vínculos que nutren sin atarte.</p>
+    <div class="section-quote">
+      "Muchas de mis relaciones fueron ilusiones construidas sobre mis propias necesidades emocionales. Amores que idealicé, expectativas que nunca comuniqué, y la costumbre de moldearme al otro para conseguir su aprobación — sin darme cuenta de que eso solo alimentaba mi propia inseguridad. El amor real empieza cuando dejás de necesitar al otro para sentirte completo."
+    </div>
+
+    <!-- Heart / connection icon -->
+    <div class="compass-icon" style="margin-top:auto; align-self:flex-end;">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" opacity="0.3">
+        <circle cx="40" cy="40" r="36" stroke="#E8B84B" stroke-width="2"/>
+        <path d="M40 55 C40 55 20 42 20 30 C20 23 26 18 33 20 C36 21 38 23 40 26 C42 23 44 21 47 20 C54 18 60 23 60 30 C60 42 40 55 40 55Z" stroke="white" stroke-width="2" fill="none"/>
+      </svg>
+    </div>
+
+    <div class="page-footer-rule" style="position:absolute; bottom:0; left:0; right:0;"></div>
+    <div class="page-num" style="color:rgba(255,255,255,0.4);">— 57 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 58: EL AMOR COMO ESPEJO
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 58 · El amor como espejo de lo que creemos merecer</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <h3 class="section-title">El amor como espejo de lo que creemos merecer</h3>
+      <div class="divider"></div>
+
+      <p class="body-text"><em>Para los que están en pareja, para los que están solos y no están solos, para los que eligieron otro camino.</em> Esta sección no habla de estado civil — habla de cómo te relacionás con el deseo, la conexión y la intimidad. Ya sea que estés construyendo una vida con alguien, explorando vínculos afectivos sin etiquetas, o disfrutando tu sexualidad con plena conciencia: todo eso es romance.</p>
+
+      <div class="quote-box">
+        "La <strong>completitud compartida</strong> es cuando dos personas ya enteras eligen encontrarse — no porque les falte algo, sino porque juntas la vida es mejor. Nadie completa a nadie: cada uno ya es suficiente. Lo que se comparte es el excedente de quien ya se quiere y se conoce."
+      </div>
+
+      <div class="story-box">
+        <div class="story-tag">Experiencia propia</div>
+        <p>"Hubo relaciones en las que me moldeé al otro para ser correspondido. Hacía cosas para encajar, para que se quedara, para no perder algo que en el fondo era una ilusión construida sobre mis propias ausencias. Cuando entendí que estaba alimentando mi inseguridad en lugar de construir algo real, cambié la pregunta: ya no me pregunté 'cómo lo convenzo' — me pregunté 'qué necesito yo realmente, y quién está genuinamente alineado con eso.'"</p>
+      </div>
+
+      <h3 class="section-title" style="margin-top:12px;">¿Qué obtendrás al completar esta sección?</h3>
+      <ul class="bullet-list">
+        <li>Identificarás las quejas íntimas que son señales de necesidades no comunicadas — estés en pareja o no.</li>
+        <li>Entenderás qué creencias sobre el amor te llevan a elegir mal, a quedarte donde no deberías, o a cerrarte a lo que sí querés.</li>
+        <li>Aprenderás a construir desde la completitud — no desde la necesidad de ser completado por otro.</li>
+        <li>Distinguirás cuándo un vínculo te nutre y cuándo te drena, sin importar la forma que tenga ese vínculo.</li>
+      </ul>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 58 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 59: PROCESO + CHECKLIST
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 59 · Proceso y checklist de decisión</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+
+      <div class="motivational-phrase">
+        <p>"El amor sano no se construye desde el miedo a estar solo — se construye desde la elección genuina de estar con el otro."</p>
+      </div>
+
+      <div class="process-flow">
+        <div class="flow-step">Identificá<br>la queja<br>romántica</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">¿Expresé<br>lo que<br>necesito?</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">¿Elijo<br>desde completitud<br>o escasez?</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">Comunicá<br>o tomá<br>una decisión</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">Construí<br>o elegí<br>soltar</div>
+      </div>
+
+      <div class="divider-full"></div>
+
+      <h3 class="section-title">¿Esta queja romántica merece acción?</h3>
+      <ul class="checklist">
+        <li>
+          <div class="check-box"></div>
+          ¿Comuniqué claramente lo que necesito o lo espero sin decirlo?
+          <span class="si-no">Sí / No</span>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          ¿Estoy en esta relación por elección genuina o por miedo, costumbre o comodidad?
+          <span class="si-no">Sí / No</span>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          ¿Esta relación o vínculo me hace crecer o me mantiene estancado? ¿Qué dice eso?
+          <div style="flex:1; border-bottom: 1.5px solid var(--line-color); margin-left:8px; height:20px;"></div>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          ¿Hay deseo genuino, interés mutuo y responsabilidad afectiva — aunque no haya compromiso formal? ¿O solo hay necesidad disfrazada de conexión?
+          <span class="si-no">Sí / No</span>
+        </li>
+      </ul>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 59 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 60: EJERCICIO PRINCIPAL
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 60 · Ejercicio: ¿Qué te dicen tus quejas sobre el romance?</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="section-band" style="padding:14px 40px;">
+      <h1 style="font-size:20px;">¿Qué te están diciendo tus quejas sobre el amor?</h1>
+    </div>
+    <div class="inner" style="flex:1;">
+
+      <div class="question-card">
+        <p>"¿Cuál es tu queja romántica más recurrente — en tu relación actual o en las que tuviste? Escribila sin filtro."</p>
+      </div>
+      <div class="example-box">
+        <div class="ex-label">Ejemplos frecuentes</div>
+        "No me siento reconocido/a." · "El otro no adivina lo que necesito." · "Siempre termino lastimado/a." · "No encontramos a nadie." · "Todas mis relaciones terminan igual." · "Ya no hay deseo ni conexión."
+      </div>
+      <div class="writing-lines writing-lines-sm">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+
+      <div class="question-card" style="margin-top:14px;">
+        <p>"¿Alguna vez comunicaste esa necesidad con claridad — sin esperar que el otro la adivinara?"</p>
+      </div>
+      <div class="example-box">
+        <div class="ex-label">Para reflexionar</div>
+        "Nadie puede adivinar lo que no decimos. Si esperás que el otro lo descubra solo, la queja no es sobre el otro — es sobre lo que vos no estás diciendo."
+      </div>
+      <div class="writing-lines writing-lines-sm">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+
+      <div class="question-card" style="margin-top:14px;">
+        <p>"¿Estás en tu relación actual (o en los vínculos que buscás) desde la completitud o desde el miedo a estar solo/a?"</p>
+      </div>
+      <div class="writing-lines writing-lines-sm">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 60 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 61: DAR TODO PARA SER AMADO
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 61 · La trampa de dar todo para ser amado</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <h2 class="page-title">La trampa de dar todo para ser amado</h2>
+      <div class="divider"></div>
+
+      <p class="body-text">"Si siempre terminás lastimado porque diste todo, hay una pregunta antes de culpar al otro: ¿dónde aprendiste que la única forma de merecer amor era dándolo todo? Porque no necesitás hacer nada para merecer amor — simplemente existir ya te hace merecedor. Cuando eras bebé y llorабas a las tres de la mañana o ensuciabas el pañal, alguien venía igual. Eso es amor. No se gana — se recibe porque existís."</p>
+
+      <div class="quote-box">
+        <p>"No podés dar desde el vacío. La persona que da todo esperando aprobación no está amando al otro — está buscando en el otro lo que todavía no se ha dado a sí misma."</p>
+      </div>
+
+      <div class="example-pair" style="margin-top:14px;">
+        <div class="example-row">
+          <span class="example-key" style="color:#b04040;">Desde escasez</span>
+          <span class="example-val">Me amoldo al otro para que se quede. Hago más para llamar su atención. Siento ansiedad cuando no responde. Busco una pareja para no sentirme solo — no para elegirla genuinamente.</span>
+        </div>
+        <div class="example-row">
+          <span class="example-key" style="color:#3D7A4F;">Desde completitud</span>
+          <span class="example-val">Me conozco y sé lo que necesito. Elijo al otro porque quiero — no porque lo necesito para sentirme entero. Puedo estar soltero sin sentirme solo. Puedo conectar profundamente sin perder quién soy. Doy desde el deseo genuino, no desde el miedo al rechazo.</span>
+        </div>
+      </div>
+
+      <div class="quote-box" style="margin-top:12px;">
+        <p>"Estar soltero no es un problema a resolver — es una forma válida de vivir desde la que podés disfrutar del deseo, la conexión y la intimidad sin que eso te defina como incompleto. Lo que cambia todo es si lo elegís o lo sufrís."</p>
+      </div>
+
+      <div class="question-card" style="margin-top:12px;">
+        <p>"¿En qué momentos — en pareja o en vínculos libres — actuaste desde la escasez? ¿Qué necesitabas en realidad que podías haberte dado vos mismo?"</p>
+      </div>
+      <div class="writing-lines writing-lines-sm">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 61 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 62: CREENCIAS HEREDADAS SOBRE EL AMOR
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 62 · Creencias heredadas sobre el amor</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <h2 class="page-title">Las creencias que heredamos sobre el amor</h2>
+      <div class="divider"></div>
+
+      <p class="body-text">"Nadie llega a una relación desde cero. Llegamos con todo lo que aprendimos sobre el amor — en la familia, la cultura, las canciones, las películas. Y muchas de esas ideas, aunque las repetimos, no resisten un cuestionamiento honesto."</p>
+
+      <ul class="limits-list">
+        <li><strong>"El amor lo tolera todo."</strong> No. El amor sano tiene límites — y saber ponerlos es respetarse a uno mismo y al otro.</li>
+        <li><strong>"El amor es para siempre."</strong> Los vínculos evolucionan. Cambiar de opinión con el tiempo no es fracaso — es honestidad.</li>
+        <li><strong>"Con amor alcanza."</strong> El amor no reemplaza los valores alineados, la visión compartida ni la comunicación asertiva.</li>
+        <li><strong>"Puedo cambiarlo/a."</strong> No podés cambiar a nadie que no quiera cambiar. Entrar a una relación esperando transformar al otro es una trampa garantizada.</li>
+        <li><strong>"Mejor estar con alguien que estar solo/a."</strong> Estar solo con uno mismo puede ser más nutritivo que estar acompañado en vacío.</li>
+        <li><strong>"Sin pareja estás incompleto/a."</strong> La completitud no depende del otro — depende de cuánto te conocés y te aceptás. Podés ser soltero y estar entero. Podés estar en pareja y sentirte vacío.</li>
+      </ul>
+
+      <div class="question-card" style="margin-top:12px;">
+        <p>"¿Cuál de estas creencias (u otra similar) reconocés en cómo has vivido tus relaciones? ¿Qué cambiaría si la soltaras?"</p>
+      </div>
+      <div class="writing-lines writing-lines-sm">
+        <div class="line"></div><div class="line"></div><div class="line"></div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 62 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 63: CONVIERTE TUS QUEJAS EN PASOS CONCRETOS
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 63 · Convierte tus quejas en pasos concretos</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="section-band" style="padding:14px 40px;">
+      <h1 style="font-size:20px;">Convierte tus quejas en pasos concretos</h1>
+    </div>
+    <div class="inner" style="flex:1;">
+      <p class="body-text">"El amor de calidad no se encuentra a la vuelta de la esquina — igual que las cosas de verdadero valor, escasea y requiere estrategia para encontrarlo. Pero antes de buscarlo afuera, es indispensable construirlo adentro: conocerse, saber qué se necesita, y elegir desde ahí."</p>
+
+      <div class="subsection-label">Ejemplo práctico</div>
+      <div class="example-pair">
+        <div class="example-row">
+          <span class="example-key">Queja</span>
+          <span class="example-val">"Mi pareja no me reconoce, no valora lo que hago. Me siento invisible."</span>
+        </div>
+        <div class="example-row">
+          <span class="example-key">Reencuadre</span>
+          <span class="example-val">"Nunca le dije concretamente cómo necesito ser reconocido/a. El otro no puede adivinar mi lenguaje del amor si no lo comparto."</span>
+        </div>
+        <div class="example-row">
+          <span class="example-key">Paso concreto</span>
+          <span class="example-val">"Esta semana le digo al otro qué gestos concretos me hacen sentir valorado/a — sin reproches, sin drama. Solo honestidad: 'Me hace sentir visto/a cuando…'"</span>
+        </div>
+      </div>
+
+      <div class="exercise-block">
+        <div class="ex-title">Ejercicio práctico</div>
+        <p class="body-text" style="margin-bottom:8px;">"Elegí tu queja romántica más urgente. Escribí el reencuadre y la conversación concreta que tenés pendiente dar."</p>
+        <div class="writing-lines writing-lines-sm">
+          <div class="line"></div><div class="line"></div><div class="line"></div>
+        </div>
+        <p class="body-text" style="margin-top:14px; margin-bottom:8px;">"¿Qué hace que esa conversación te resulte difícil? ¿Miedo al rechazo, a la reacción del otro, a lo que podrías descubrir?"</p>
+        <div class="writing-lines writing-lines-sm">
+          <div class="line"></div><div class="line"></div>
+        </div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 63 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 64: LOS TRES PILARES DEL AMOR SANO
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 64 · Herramientas: Los tres pilares del amor sano</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <div class="subsection-label">Herramientas prácticas</div>
+      <h2 class="page-title">Los tres pilares del amor sano</h2>
+      <h3 class="section-title" style="font-size:14px; margin-bottom:8px;">Lo que no puede faltar en un vínculo romántico genuino</h3>
+      <div class="divider"></div>
+
+      <p class="body-text">"Una relación sana no es perfecta — es honesta. Dos personas completas que eligen construir algo juntas, con acuerdos claros, comunicación real y atracción genuina. Sin estos tres pilares, lo que queda es costumbre."</p>
+
+      <div class="formula-circles">
+        <div class="formula-circle">
+          <div class="num" style="font-size:16px;">🤝</div>
+          <div class="text">Química de<br>mejores amigos<br><span style="font-size:9px; opacity:0.8;">Confianza, apoyo genuino, disfrute de la compañía</span></div>
+        </div>
+        <div class="formula-circle">
+          <div class="num" style="font-size:16px;">🔥</div>
+          <div class="text">Química<br>sexual<br><span style="font-size:9px; opacity:0.8;">Deseo, conexión íntima, sentirse deseado</span></div>
+        </div>
+        <div class="formula-circle">
+          <div class="num" style="font-size:16px;">🌟</div>
+          <div class="text">Admiración<br>y respeto<br><span style="font-size:9px; opacity:0.8;">Verlo como igual. Mantener la admiración del inicio.</span></div>
+        </div>
+      </div>
+
+      <div class="example-box">
+        <div class="ex-label">Los lenguajes del amor — Gary Chapman</div>
+        "Cada persona siente que es amada de una forma distinta: palabras de afirmación, actos de servicio, regalos, tiempo de calidad, o contacto físico. Conocer el tuyo y el del otro es la diferencia entre sentirse amado y sentirse ignorado — aunque el otro esté haciendo todo lo que puede."
+      </div>
+
+      <div class="exercise-block">
+        <div class="ex-title">Ejercicio práctico</div>
+        <p class="body-text" style="margin-bottom:8px;">"¿Cuál es tu lenguaje del amor principal? ¿Se lo comunicaste al otro? ¿Sabés cuál es el del otro?"</p>
+        <div class="writing-lines writing-lines-sm">
+          <div class="line"></div><div class="line"></div><div class="line"></div>
+        </div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 64 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 65: SEÑALES DE SABOTAJE Y CUÁNDO SOLTAR
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 65 · Herramientas: Señales de sabotaje y cuándo soltar</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <div class="subsection-label">Herramientas prácticas</div>
+      <h2 class="page-title">Señales de sabotaje — y el coraje de soltar</h2>
+      <h3 class="section-title" style="font-size:14px; margin-bottom:8px;">Quedarse por costumbre no es amor — es miedo disfrazado</h3>
+      <div class="divider"></div>
+
+      <p class="body-text">"Las señales de un vínculo que drena no cambian según la etiqueta que le pongas. Aplican en la pareja formal, en el vínculo libre, en el encuentro esporádico. Lo que importa no es cómo se llama — es cómo te hace sentir."</p>
+
+      <div class="subsection-label" style="margin-top:8px;">En una pareja formal</div>
+      <ul class="limits-list" style="margin-top:4px;">
+        <li>Comparten techo y rutina, pero no visión ni deseo genuino.</li>
+        <li>La monotonía reemplazó al deseo — y nadie hace nada al respecto.</li>
+        <li>Estás por costumbre o miedo a la soledad — no por elección real.</li>
+        <li>Ya no son quienes se eligieron, y ninguno tuvo el coraje de decirlo.</li>
+      </ul>
+
+      <div class="subsection-label" style="margin-top:10px;">En un vínculo libre o sin etiqueta</div>
+      <ul class="limits-list" style="margin-top:4px;">
+        <li>Sentís ansiedad cuando no te responde — y hacés más para llamar su atención.</li>
+        <li>No muestra responsabilidad afectiva: el interés es unilateral, los actos no acompañan.</li>
+        <li>No sabe lo que quiere — ni de la vida, ni de su sexualidad, ni de vos.</li>
+        <li>Te busca para desahogarse o para el encuentro sexual, pero no para la conexión real.</li>
+        <li>Vivís más desde la máscara que desde quien realmente sos cuando estás con esa persona.</li>
+      </ul>
+
+      <div class="affirmation-box" style="margin-top:10px;">
+        <p>"Un vínculo que te nutre — con etiqueta o sin ella — se siente como conocerse de antes. Podés mostrar tus miedos, tus sombras, tus deseos. No necesitás hacer nada para merecer ese espacio."</p>
+      </div>
+
+      <div class="exercise-block">
+        <div class="ex-title">Ejercicio práctico</div>
+        <p class="body-text" style="margin-bottom:8px;">"Pensá en el vínculo más activo que tenés hoy. ¿Cuántas de estas señales reconocés? ¿Estás ahí por elección genuina o por algo que no quisiste mirar todavía?"</p>
+        <div class="writing-lines writing-lines-sm">
+          <div class="line"></div><div class="line"></div><div class="line"></div>
+        </div>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 65 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 66: TABLA DE SEGUIMIENTO – ROMANCE
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 66 · Tabla de seguimiento – Romance</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <h2 class="page-title">Evalúa tu progreso</h2>
+      <p class="body-text">Registrá las conversaciones, decisiones o cambios que tomaste en tu vida romántica y su impacto.</p>
+      <div class="divider"></div>
+
+      <table class="tracking-table">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Queja / situación</th>
+            <th>Acción tomada</th>
+            <th>Resultado logrado</th>
+            <th>Cómo me siento ahora</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="example-row-tr">
+            <td>Ej: 15/07</td>
+            <td>"Mi pareja no me reconoce. Me siento invisible."</td>
+            <td>Le dije concretamente cómo me hace sentir amado/a — sin reproches.</td>
+            <td>Descubrimos que hablamos lenguajes distintos. Empezamos a hablarlos.</td>
+            <td>Más conectados. La conversación abrió algo que llevaba meses cerrado.</td>
+          </tr>
+          <tr class="tracking-empty"><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="tracking-empty"><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="tracking-empty"><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="tracking-empty"><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="tracking-empty"><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 66 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 67: REPROGRAMA TU MENTE – ROMANCE
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 67 · Reprograma tu mente para el amor</div>
+  <div class="page" style="min-height:297mm; display:flex; flex-direction:column;">
+    <div class="page-top-rule"></div>
+    <div class="inner" style="flex:1;">
+      <h2 class="page-title">Reprograma tu mente para el amor</h2>
+      <div class="divider"></div>
+
+      <p class="body-text">"La manera en que amás al otro es proporcional a la manera en que te amás a vos mismo. Si confundís intensidad con amor, conflicto con pasión o dependencia con conexión, el problema no está en quien elegís — está en lo que creés que el amor tiene que sentirse."</p>
+
+      <div class="subsection-label">Reencuadres que liberan</div>
+      <div class="example-pair">
+        <div class="example-row">
+          <span class="example-key">Queja</span>
+          <span class="example-val">"Siempre termino lastimado/a. Doy todo y nunca es suficiente."</span>
+        </div>
+        <div class="example-row">
+          <span class="example-key">Nuevo marco</span>
+          <span class="example-val">"No necesito hacer nada para merecer amor — existo y eso es suficiente. Empiezo a darme a mí lo que le pedía al otro."</span>
+        </div>
+      </div>
+      <div class="example-pair" style="margin-top:8px;">
+        <div class="example-row">
+          <span class="example-key">Queja</span>
+          <span class="example-val">"Si no hay drama, siento que no hay amor."</span>
+        </div>
+        <div class="example-row">
+          <span class="example-key">Nuevo marco</span>
+          <span class="example-val">"Lo que confundí con intensidad era toxicidad. El amor sano se siente tranquilo, seguro y genuino — no ansioso ni dramático."</span>
+        </div>
+      </div>
+
+      <div class="exercise-block">
+        <div class="ex-title">Ejercicio práctico</div>
+        <p class="body-text" style="margin-bottom:8px;">"Escribí la creencia sobre el amor que más te ha limitado. Luego escribí su versión reencuadrada — la que elegiría la persona que ya se conoce y se quiere."</p>
+        <div class="writing-lines writing-lines-sm">
+          <div class="line"></div><div class="line"></div><div class="line"></div>
+        </div>
+      </div>
+
+      <div class="closing-band" style="border-radius:10px; background:var(--purple-pale); border:1px solid #D4C0F0; padding:16px 20px; margin-top:10px;">
+        <p style="font-family:'Cormorant Garamond',serif; font-size:15px; font-style:italic; color:var(--purple-dark); line-height:1.7;">
+          "El amor más importante que vas a construir en tu vida es el que tenés con vos mismo. Todo lo que venga después va a reflejar exactamente eso."
+        </p>
+      </div>
+    </div>
+    <div class="page-footer-rule"></div>
+    <div class="page-num">— 67 —</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 68: TRANSICIÓN A LA PRÓXIMA SECCIÓN
+     ============================================================ -->
+<div>
+  <div class="page-label">Página 68 · Cierre de sección y transición</div>
+  <div class="page page-transform" style="height:297mm;">
+    <div style="text-align:center; max-width:340px;">
+      <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:20px; opacity:0.4;">
+        <path d="M30 5 L35 25 L55 30 L35 35 L30 55 L25 35 L5 30 L25 25 Z" stroke="#E8B84B" stroke-width="2" fill="none"/>
+      </svg>
+      <p style="font-family:'Cormorant Garamond',serif; font-size:17px; font-style:italic; opacity:0.9; line-height:1.8;">
+        "Trabajaste tus vínculos más íntimos. Ahora viene la pregunta más profunda de todas: ¿para qué estás acá? En la próxima sección, exploraremos cómo las quejas sobre el propósito y el sentido de vida son la señal más poderosa de que algo importante está pidiendo ser escuchado."
+      </p>
+    </div>
+    <div class="page-footer-rule" style="position:absolute; bottom:0; left:0; right:0;"></div>
+    <div class="page-num" style="color:rgba(255,255,255,0.4);">— 68 —</div>
+  </div>
+</div>
+
+
+
+<!-- ============================================================
+     CONTRAPORTADA
+     ============================================================ -->
+<div>
+  <div class="page-label">Contraportada</div>
+  <div class="page" style="height:297mm; background: linear-gradient(175deg, #3D0875 0%, #5B0FAF 50%, #2D1B4E 100%); display:flex; flex-direction:column; align-items:center; justify-content:space-between; padding: 60px 48px 40px;">
+
+    <!-- Ornamento superior -->
+    <svg width="40" height="40" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.35;">
+      <path d="M30 5 L35 25 L55 30 L35 35 L30 55 L25 35 L5 30 L25 25 Z" stroke="#E8B84B" stroke-width="2" fill="none"/>
+    </svg>
+
+    <!-- Cita central -->
+    <div style="text-align:center; max-width:360px;">
+      <p style="font-family:'Cormorant Garamond',serif; font-size:22px; font-style:italic; color:#F3EEFF; line-height:1.75; margin-bottom:24px;">
+        "Tus quejas no son ruido:<br>son el mapa de tu alma."
+      </p>
+      <div style="width:48px; height:2px; background:#E8B84B; margin:0 auto 24px;"></div>
+      <p style="font-family:'Lato',sans-serif; font-size:14px; color:rgba(243,238,255,0.75); line-height:1.8; letter-spacing:0.2px;">
+        Cada queja recurrente señala un valor que amás,<br>
+        un deseo que ignorás,<br>
+        una necesidad que clama por ser escuchada.
+      </p>
+      <div style="width:48px; height:2px; background:#E8B84B; margin:24px auto;"></div>
+      <p style="font-family:'Lato',sans-serif; font-size:13px; color:rgba(243,238,255,0.55); line-height:1.8; letter-spacing:0.3px; text-transform:uppercase;">
+        Mata al quejica pasivo.<br>Despierta al buscador consciente.
+      </p>
+    </div>
+
+    <!-- Autor + sello -->
+    <div style="text-align:center;">
+      <p style="font-family:'Playfair Display',serif; font-size:15px; color:#E8B84B; letter-spacing:2px; text-transform:uppercase; margin-bottom:8px;">Gumercindo Jiménez</p>
+      <p style="font-family:'Lato',sans-serif; font-size:11px; color:rgba(243,238,255,0.4); letter-spacing:1.5px; text-transform:uppercase;">Consultor · Conferencista · Autor</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

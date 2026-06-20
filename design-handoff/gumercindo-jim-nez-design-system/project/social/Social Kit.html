@@ -1,0 +1,404 @@
+<!-- @dsCard group="Social" viewport="1280x760" name="Social Kit — Instagram & LinkedIn" subtitle="Stories, feed (4:5 / 1:1), horizontal & LinkedIn — servicios + libro + diario de introspección, con copy persuasivo" -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gumercindo Jiménez — Kit de publicaciones</title>
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  :root { --bp:#0E3B2E; }
+  body { margin: 0; background: var(--bone-100); color: var(--text-body); }
+  .page { max-width: 1200px; margin: 0 auto; padding: 56px 40px 120px; }
+  .masthead { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; border-bottom:1px solid var(--border-strong); padding-bottom:24px; margin-bottom:8px; }
+  .masthead h1 { font-family:var(--font-display); font-weight:600; font-size:46px; line-height:1; color:var(--text-strong); margin:0; }
+  .masthead .k { font-family:var(--font-sans); font-size:12px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--text-accent); margin-bottom:14px; display:block; }
+  .masthead p { font-family:var(--font-serif); font-size:15px; color:var(--text-muted); max-width:40ch; margin:0; }
+
+  .sec { margin-top:64px; }
+  .sec-h { display:flex; align-items:center; gap:16px; margin-bottom:8px; }
+  .sec-h .num { font-family:var(--font-display); font-size:22px; font-weight:600; color:var(--green-200); }
+  .sec-h h2 { font-family:var(--font-display); font-weight:600; font-size:30px; color:var(--text-strong); margin:0; }
+  .sec-sub { font-family:var(--font-serif); font-size:15px; color:var(--text-muted); margin:0 0 30px; max-width:60ch; }
+
+  .piece { display:grid; grid-template-columns: auto 1fr; gap:36px; align-items:start; padding:30px 0; border-top:1px solid var(--border-hair); }
+  .holder { overflow:hidden; border-radius:8px; box-shadow:var(--shadow-lg); flex:none; background:#000; }
+  .art { transform-origin: top left; }
+  .pmeta { font-family:var(--font-sans); font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--text-faint); margin:14px 0 0; }
+
+  .copy h3 { font-family:var(--font-display); font-size:22px; font-weight:600; color:var(--text-strong); margin:0 0 4px; }
+  .copy .fmt { font-family:var(--font-sans); font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--text-accent); }
+  .cap { background:var(--surface-raised); border:1px solid var(--border-soft); border-radius:8px; padding:18px 20px; margin-top:16px; box-shadow:var(--shadow-xs); }
+  .cap .lab { font-family:var(--font-sans); font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-700); display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+  .cap .lab::before { content:""; width:18px; height:2px; background:var(--gold-500); }
+  .cap p { font-family:var(--font-serif); font-size:14.5px; line-height:1.6; color:var(--text-body); margin:0 0 10px; white-space:pre-wrap; }
+  .cap .tags { font-family:var(--font-sans); font-size:12px; color:var(--green-600); font-weight:500; }
+  .cap.li .lab { color:var(--green-700); }
+  .cap.li .lab::before { background:var(--green-600); }
+
+  /* ============ ART PRIMITIVES (true-pixel) ============ */
+  .art * { box-sizing:border-box; }
+  .art .logo { height:46px; }
+  .art .ey { font-family:var(--font-sans); font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:var(--gold-400); display:inline-flex; align-items:center; gap:16px; }
+  .art .ey::before { content:""; width:42px; height:2px; background:var(--gold-500); }
+  .art .disp { font-family:var(--font-display); font-weight:600; letter-spacing:-.01em; color:var(--bone-50); margin:0; }
+  .art .disp em { font-style:italic; color:var(--gold-400); }
+  .art .serif { font-family:var(--font-serif); color:var(--green-200); }
+  .art .cta { font-family:var(--font-sans); font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--green-950); background:var(--gold-400); display:inline-flex; align-items:center; gap:14px; }
+  .art .cta.clay { background:var(--clay-500); color:var(--bone-50); }
+  .art .handle { font-family:var(--font-sans); letter-spacing:.04em; color:var(--text-on-dark-muted); }
+  .grain { position:absolute; inset:0; opacity:.05; background-image:radial-gradient(circle at 1px 1px, #fff 1px, transparent 0); background-size:5px 5px; pointer-events:none; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="masthead">
+    <div>
+      <span class="k">Kit de publicaciones · 2026</span>
+      <h1>Instagram & LinkedIn</h1>
+    </div>
+    <p>Piezas listas para publicar — Stories, feed vertical y cuadrado, horizontal y LinkedIn. Cada una con su copy persuasivo. Diseñá a 1080px reales; exportá por captura.</p>
+  </div>
+
+  <!-- ============================ SERVICIOS ============================ -->
+  <div class="sec">
+    <div class="sec-h"><span class="num">01</span><h2>Servicios — Consultoría</h2></div>
+    <p class="sec-sub">Autoridad con alivio. El caos del dueño, convertido en método y dinero. CTA siempre hacia la auditoría gratuita.</p>
+
+    <!-- S1 Story servicios -->
+    <div class="piece">
+      <div>
+        <div class="holder" style="width:281px;height:499px">
+          <div class="art" style="width:1080px;height:1920px;transform:scale(.26);position:relative;background:linear-gradient(168deg,#0E3B2E,#07211A 70%);padding:96px 90px;display:flex;flex-direction:column">
+            <div class="grain"></div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <img class="logo" src="../assets/logo/gj-symbol-ivory.png" style="height:78px" />
+              <span class="handle" style="font-size:30px">@gumercindoweb</span>
+            </div>
+            <div style="margin-top:150px">
+              <span class="ey" style="font-size:30px">Marketing · Ventas · Negocio</span>
+              <h2 class="disp" style="font-size:118px;line-height:1.0;margin-top:54px">Si tu negocio vive de <em>urgencias</em>, no de estructura…</h2>
+              <p class="serif" style="font-size:46px;line-height:1.45;margin-top:48px;max-width:18ch">ahí entro yo. Convierto el caos en un sistema que funciona con o sin vos.</p>
+            </div>
+            <div style="margin-top:auto;display:flex;flex-direction:column;gap:40px">
+              <span class="cta" style="font-size:38px;padding:36px 54px;border-radius:8px;align-self:flex-start">Solicitá tu auditoría — gratis →</span>
+              <span style="font-family:var(--font-sans);font-size:28px;color:var(--text-on-dark-muted);text-align:center">Deslizá hacia arriba ↑</span>
+            </div>
+          </div>
+        </div>
+        <p class="pmeta">1080 × 1920</p>
+      </div>
+      <div class="copy">
+        <span class="fmt">Story / Reel cover · 9:16</span>
+        <h3>Hook de servicios</h3>
+        <div class="cap">
+          <div class="lab">Copy · Instagram</div>
+          <p>El caos te encuentra. Yo lo convierto en método. 🔒→📈
+
+Si tu negocio factura pero todo pasa por vos, no tenés un negocio: tenés un trabajo que no podés soltar.
+
+Pedí tu auditoría gratuita (valorada en $250) y llevate un plan de acción Mínimo Viable. Link en bio.</p>
+          <span class="tags">#consultoría #marketing #ventas #sistemas #emprendedores</span>
+        </div>
+        <div class="cap li">
+          <div class="lab">Copy · LinkedIn</div>
+          <p>Durante 8 años transformé negocios desde adentro: del caos operativo a una máquina de atracción, conversión y fidelización.
+
+La diferencia nunca fue trabajar más. Fue tener un sistema.
+
+¿Tu negocio depende de tu presencia para funcionar? Hablemos. Auditoría sin costo esta semana.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- F1 Feed 4:5 servicios -->
+    <div class="piece">
+      <div>
+        <div class="holder" style="width:324px;height:405px">
+          <div class="art" style="width:1080px;height:1350px;transform:scale(.30);position:relative;background:var(--bone-50);padding:90px;display:flex;flex-direction:column">
+            <span class="ey" style="font-size:28px;color:var(--clay-600)">El método gana</span>
+            <h2 class="disp" style="font-size:96px;line-height:1.02;margin-top:40px;color:var(--ink-900)">Del caos<br><em style="color:var(--green-700)">al método.</em><br>Y del método,<br>al dinero.</h2>
+            <div style="margin-top:64px;display:flex;flex-direction:column;gap:30px">
+              <div style="display:flex;gap:24px;align-items:flex-start"><span style="font-family:var(--font-display);font-size:44px;font-weight:600;color:var(--green-200)">01</span><div><div style="font-family:var(--font-display);font-size:42px;font-weight:600;color:var(--ink-900)">Automatización</div><div style="font-family:var(--font-serif);font-size:30px;color:var(--earth-500)">Tu negocio en piloto inteligente.</div></div></div>
+              <div style="display:flex;gap:24px;align-items:flex-start"><span style="font-family:var(--font-display);font-size:44px;font-weight:600;color:var(--green-200)">02</span><div><div style="font-family:var(--font-display);font-size:42px;font-weight:600;color:var(--ink-900)">Ventas</div><div style="font-family:var(--font-serif);font-size:30px;color:var(--earth-500)">Embudos que convierten, no que adornan.</div></div></div>
+              <div style="display:flex;gap:24px;align-items:flex-start"><span style="font-family:var(--font-display);font-size:44px;font-weight:600;color:var(--green-200)">03</span><div><div style="font-family:var(--font-display);font-size:42px;font-weight:600;color:var(--ink-900)">Negocio</div><div style="font-family:var(--font-serif);font-size:30px;color:var(--earth-500)">Delegá sin perder el control.</div></div></div>
+            </div>
+            <div style="margin-top:auto;display:flex;justify-content:space-between;align-items:center;border-top:2px solid var(--border-gold);padding-top:34px">
+              <img src="../assets/logo/gj-lockup-light.png" style="height:58px" />
+              <span style="font-family:var(--font-sans);font-size:26px;font-weight:600;letter-spacing:.04em;color:var(--green-700)">@gumercindoweb</span>
+            </div>
+          </div>
+        </div>
+        <p class="pmeta">1080 × 1350</p>
+      </div>
+      <div class="copy">
+        <span class="fmt">Feed vertical · 4:5</span>
+        <h3>Carrusel — los 3 frentes</h3>
+        <div class="cap">
+          <div class="lab">Copy · Instagram</div>
+          <p>No necesitás hacer más. Necesitás un sistema.
+
+3 frentes donde entro yo:
+→ Automatización: que el flujo trabaje por vos.
+→ Ventas: embudos con criterio, no plantillas.
+→ Negocio: SOPs y tableros para delegar con confianza.
+
+¿Por cuál empezarías? Te leo 👇</p>
+          <span class="tags">#automatización #embudos #productividad #pymes</span>
+        </div>
+        <div class="cap li">
+          <div class="lab">Idea · LinkedIn (carrusel)</div>
+          <p>Slide 1: "Trabajar más nunca fue la respuesta."
+Slide 2–4: un frente por slide (automatización / ventas / negocio) con un antes-y-después real.
+Slide 5: CTA a la auditoría. Tono: directo, con criterio, sin hype.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q1 Square quote servicios -->
+    <div class="piece">
+      <div>
+        <div class="holder" style="width:340px;height:340px">
+          <div class="art" style="width:1080px;height:1080px;transform:scale(.3148);position:relative;background:linear-gradient(150deg,#11503D,#07211A);padding:110px;display:flex;flex-direction:column;justify-content:center">
+            <div class="grain"></div>
+            <span style="font-family:var(--font-display);font-size:200px;line-height:.5;color:var(--gold-500);height:90px">“</span>
+            <h2 class="disp" style="font-size:104px;line-height:1.08;margin-top:30px">Al caos lo <em>busco</em>, y lo convierto en dinero.</h2>
+            <div style="display:flex;align-items:center;gap:22px;margin-top:70px">
+              <span style="width:54px;height:2px;background:var(--gold-500)"></span>
+              <span style="font-family:var(--font-sans);font-size:30px;font-weight:600;letter-spacing:.04em;color:var(--bone-50)">Gumercindo Jiménez</span>
+            </div>
+            <img src="../assets/logo/gj-symbol-gold.png" style="position:absolute;bottom:90px;right:100px;height:96px;opacity:.9" />
+          </div>
+        </div>
+        <p class="pmeta">1080 × 1080</p>
+      </div>
+      <div class="copy">
+        <span class="fmt">Feed cuadrado · 1:1</span>
+        <h3>Cita de autoridad</h3>
+        <div class="cap">
+          <div class="lab">Copy · Instagram</div>
+          <p>El caos no es tu enemigo. Es materia prima.
+
+La mayoría lo evita. Yo lo busco — porque ahí está la oportunidad que tu negocio no supo aterrizar.
+
+Guardá esta frase para cuando todo se sienta urgente. 🔖</p>
+          <span class="tags">#mentalidad #negocios #estrategia</span>
+        </div>
+        <div class="cap li">
+          <div class="lab">Copy · LinkedIn</div>
+          <p>"Al caos lo busco, y lo convierto en dinero."
+
+No es una pose. Es un método: ejecuto, documento, automatizo y escalo. El orden no mata la creatividad — la hace rentable.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- L1 Horizontal LinkedIn -->
+    <div class="piece">
+      <div>
+        <div class="holder" style="width:480px;height:251px">
+          <div class="art" style="width:1200px;height:627px;transform:scale(.40);position:relative;background:var(--bone-50);display:flex">
+            <div style="flex:1.25;padding:74px 70px;display:flex;flex-direction:column;justify-content:center">
+              <span class="ey" style="font-size:21px;color:var(--clay-600)">Consultoría · Marketing, Ventas y Negocio</span>
+              <h2 class="disp" style="font-size:76px;line-height:1.04;margin-top:30px;color:var(--ink-900)">El caos, convertido en <em style="color:var(--green-700)">método</em>.</h2>
+              <p class="serif" style="color:var(--earth-500);font-size:28px;margin-top:26px;max-width:30ch">8 años transformando negocios que ya venden en sistemas rentables y sostenibles.</p>
+              <span style="margin-top:38px;font-family:var(--font-sans);font-size:22px;font-weight:600;letter-spacing:.04em;color:var(--green-700)">gumercindojimenez.com</span>
+            </div>
+            <div style="flex:.85;background:linear-gradient(160deg,#11503D,#07211A);position:relative;display:flex;align-items:center;justify-content:center">
+              <div class="grain"></div>
+              <img src="../assets/logo/gj-symbol-gold.png" style="height:200px;opacity:.95" />
+            </div>
+          </div>
+        </div>
+        <p class="pmeta">1200 × 627</p>
+      </div>
+      <div class="copy">
+        <span class="fmt">Horizontal · LinkedIn banner / post</span>
+        <h3>Tarjeta de autoridad</h3>
+        <div class="cap li">
+          <div class="lab">Copy · LinkedIn</div>
+          <p>La mayoría de los negocios no tiene un problema de ventas. Tiene un problema de estructura.
+
+Vendés, pero todo depende de vos. Crecés, pero el caos crece más rápido.
+
+Mi trabajo: convertir ese caos en un sistema que rinde con o sin tu presencia. ¿Te suena? Auditoría gratuita esta semana — comentá "ORDEN" y te escribo.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================ LIBRO 1 ============================ -->
+  <div class="sec">
+    <div class="sec-h"><span class="num">02</span><h2>Libro — Hay que salir del bar</h2></div>
+    <p class="sec-sub">Reflexiones que pondrán en jaque tu zona de confort. Tono introspectivo, elegante, con un punto de provocación.</p>
+
+    <!-- S2 Story libro 1 -->
+    <div class="piece">
+      <div>
+        <div class="holder" style="width:281px;height:499px">
+          <div class="art" style="width:1080px;height:1920px;transform:scale(.26);position:relative;background:linear-gradient(168deg,#0E3B2E,#07211A 72%);padding:96px 0 110px;display:flex;flex-direction:column;align-items:center;text-align:center">
+            <div class="grain"></div>
+            <span class="ey" style="font-size:28px">Nuevo libro</span>
+            <h2 class="disp" style="font-size:90px;line-height:1.0;margin-top:46px;padding:0 80px">¿Y si tu zona de confort fuera el problema?</h2>
+            <div style="margin:64px 0;width:100%;background:var(--bone-50);padding:70px 0;box-shadow:var(--shadow-xl)"><img src="../assets/books/hay-que-salir-del-bar.png" style="width:90%" /></div>
+            <p class="serif" style="font-size:40px;line-height:1.4;padding:0 110px;color:var(--text-on-dark-muted)">Reflexiones que pondrán en jaque tu zona de confort.</p>
+            <span class="cta" style="font-size:36px;padding:34px 52px;border-radius:8px;margin-top:auto">Conseguí tu ejemplar →</span>
+          </div>
+        </div>
+        <p class="pmeta">1080 × 1920</p>
+      </div>
+      <div class="copy">
+        <span class="fmt">Story / Reel cover · 9:16</span>
+        <h3>Lanzamiento del libro</h3>
+        <div class="cap">
+          <div class="lab">Copy · Instagram</div>
+          <p>Lo cómodo no te está cuidando. Te está frenando. 🚪
+
+"Hay que salir del bar" son reflexiones para poner en jaque tu zona de confort — el estancamiento, el miedo, el agotamiento.
+
+Ya disponible. Link en bio. ¿Estás listo para salir?</p>
+          <span class="tags">#crecimientopersonal #zonadeconfort #introspección #libro</span>
+        </div>
+        <div class="cap li">
+          <div class="lab">Copy · LinkedIn</div>
+          <p>Escribí un libro sobre algo incómodo: la comodidad.
+
+"Hay que salir del bar" es un viaje de introspección para quien siente que su rutina lo atrapa. Sin fórmulas mágicas — con preguntas que importan.
+
+Disponible ahora. Te dejo el primer capítulo en comentarios.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q2 Square libro 1 -->
+    <div class="piece">
+      <div>
+        <div class="holder" style="width:340px;height:340px">
+          <div class="art" style="width:1080px;height:1080px;transform:scale(.3148);position:relative;background:var(--bone-50);display:flex;align-items:center;padding:80px;gap:56px">
+            <img src="../assets/books/hay-que-salir-del-bar.png" style="width:46%;filter:drop-shadow(0 30px 50px rgba(10,46,37,.25))" />
+            <div style="flex:1">
+              <span class="ey" style="font-size:26px;color:var(--clay-600)">Disponible ahora</span>
+              <h2 class="disp" style="font-size:78px;line-height:1.02;margin-top:30px;color:var(--ink-900)">Salí del bar.<br><em style="color:var(--green-700)">Salí del molde.</em></h2>
+              <p class="serif" style="font-size:32px;line-height:1.45;color:var(--earth-500);margin-top:30px">Un viaje de introspección para desbloquear tu verdadero potencial.</p>
+              <div style="margin-top:46px;display:inline-flex;align-items:center;gap:14px;font-family:var(--font-sans);font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:26px;color:var(--green-700);border-bottom:2px solid var(--gold-500);padding-bottom:10px">Conseguilo en bio →</div>
+            </div>
+          </div>
+        </div>
+        <p class="pmeta">1080 × 1080</p>
+      </div>
+      <div class="copy">
+        <span class="fmt">Feed cuadrado · 1:1</span>
+        <h3>Producto + promesa</h3>
+        <div class="cap">
+          <div class="lab">Copy · Instagram</div>
+          <p>Nadie crece desde la comodidad. 🌱
+
+Este libro no te va a dar respuestas fáciles. Te va a dar mejores preguntas — las que evitás hacerte.
+
+"Hay que salir del bar", ya disponible. ¿Te animás?</p>
+          <span class="tags">#desarrollopersonal #mindset #lectura</span>
+        </div>
+        <div class="cap li">
+          <div class="lab">Idea · LinkedIn</div>
+          <p>Post de producto con foto real del libro en mano. Copy corto + 1 cita del prefacio. CTA suave a comentarios.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================ LIBRO 2 ============================ -->
+  <div class="sec">
+    <div class="sec-h"><span class="num">03</span><h2>Diario de introspección — Mata al quejica que llevas dentro</h2></div>
+    <p class="sec-sub">Un método para convertir tus quejas en poder personal. Tono más filoso y directo — el lado Forajido de la marca.</p>
+
+    <!-- S3 Story libro 2 -->
+    <div class="piece">
+      <div>
+        <div class="holder" style="width:281px;height:499px">
+          <div class="art" style="width:1080px;height:1920px;transform:scale(.26);position:relative;background:linear-gradient(165deg,#1a0f2e,#07211A 78%);padding:96px 0 110px;display:flex;flex-direction:column;align-items:center;text-align:center">
+            <div class="grain"></div>
+            <span class="ey" style="font-size:28px;color:#caa7ff">Nuevo diario de introspección</span>
+            <h2 class="disp" style="font-size:104px;line-height:.98;margin-top:46px;padding:0 70px">Tu peor enemigo se queja con <em style="color:#caa7ff">tu voz</em>.</h2>
+            <div style="margin:56px 0;width:100%;background:var(--bone-50);padding:64px 0;box-shadow:var(--shadow-xl)"><img src="../assets/books/mata-al-quejica.png" style="width:88%" /></div>
+            <p class="serif" style="font-size:38px;line-height:1.4;padding:0 120px;color:var(--text-on-dark-muted)">Un método para convertir tus quejas en poder personal.</p>
+            <span class="cta clay" style="font-size:36px;padding:34px 52px;border-radius:8px;margin-top:auto">Matá al quejica →</span>
+          </div>
+        </div>
+        <p class="pmeta">1080 × 1920</p>
+      </div>
+      <div class="copy">
+        <span class="fmt">Story / Reel cover · 9:16</span>
+        <h3>Hook provocador</h3>
+        <div class="cap">
+          <div class="lab">Copy · Instagram</div>
+          <p>Quejarte se siente bien por 5 minutos. Después te deja igual de estancado. 🔥
+
+"Mata al quejica que llevas dentro" es un método para convertir cada queja en una señal — y cada señal en poder personal.
+
+¿Listo para callar esa voz? Link en bio.</p>
+          <span class="tags">#poderpersonal #hábitos #mentalidad #disciplina</span>
+        </div>
+        <div class="cap li">
+          <div class="lab">Copy · LinkedIn</div>
+          <p>La queja es información disfrazada de víctima.
+
+Detrás de cada "esto no funciona" hay un valor tuyo que no está siendo honrado. Mi nuevo diario de introspección es un método para escucharlo y actuar.
+
+"Mata al quejica que llevas dentro" — ya disponible.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- F2 Feed 4:5 libro 2 -->
+    <div class="piece">
+      <div>
+        <div class="holder" style="width:324px;height:405px">
+          <div class="art" style="width:1080px;height:1350px;transform:scale(.30);position:relative;background:linear-gradient(160deg,#0E3B2E,#07211A);padding:90px;display:flex;flex-direction:column">
+            <div class="grain"></div>
+            <span class="ey" style="font-size:26px">Del lamento a la acción</span>
+            <h2 class="disp" style="font-size:92px;line-height:1.04;margin-top:40px">Antes te <em>quejabas</em>. Ahora decidís.</h2>
+            <div style="margin-top:54px;display:grid;grid-template-columns:1fr 1fr;gap:26px">
+              <div style="background:rgba(255,255,255,.05);border:1px solid var(--border-on-dark);border-radius:10px;padding:40px 34px">
+                <div style="font-family:var(--font-sans);font-size:24px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--clay-300)">Quejica</div>
+                <ul style="margin:24px 0 0;padding-left:36px;font-family:var(--font-serif);font-size:31px;line-height:1.7;color:var(--text-on-dark-muted)"><li>"No tengo tiempo"</li><li>"Es muy difícil"</li><li>"No depende de mí"</li></ul>
+              </div>
+              <div style="background:rgba(184,148,85,.12);border:1px solid var(--border-gold);border-radius:10px;padding:40px 34px">
+                <div style="font-family:var(--font-sans);font-size:24px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-400)">Poder</div>
+                <ul style="margin:24px 0 0;padding-left:36px;font-family:var(--font-serif);font-size:31px;line-height:1.7;color:var(--bone-50)"><li>"Elijo mi foco"</li><li>"Empiezo pequeño"</li><li>"Yo decido"</li></ul>
+              </div>
+            </div>
+            <div style="margin-top:auto;display:flex;justify-content:space-between;align-items:center;border-top:2px solid var(--border-gold);padding-top:32px">
+              <span style="font-family:var(--font-display);font-size:38px;font-weight:600;color:var(--bone-50)">Mata al quejica</span>
+              <span style="font-family:var(--font-sans);font-size:24px;font-weight:600;color:var(--gold-400)">@gumercindoweb</span>
+            </div>
+          </div>
+        </div>
+        <p class="pmeta">1080 × 1350</p>
+      </div>
+      <div class="copy">
+        <span class="fmt">Feed vertical · 4:5</span>
+        <h3>Antes / Después</h3>
+        <div class="cap">
+          <div class="lab">Copy · Instagram</div>
+          <p>La misma situación. Dos voces distintas.
+
+Una se queja y te deja donde estás. La otra decide y te mueve. El método del diario te enseña a cambiar de voz — en serio, con ejercicios.
+
+Guardá este post para tu próxima excusa. 🔖</p>
+          <span class="tags">#hábitos #autoliderazgo #crecimiento</span>
+        </div>
+        <div class="cap li">
+          <div class="lab">Idea · LinkedIn (carrusel)</div>
+          <p>Carrusel "De la queja al poder": 1 queja típica por slide y su reframe accionable. Último slide: el diario + garantía 30 días.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:80px;border-top:1px solid var(--border-strong);padding-top:24px;font-family:var(--font-sans);font-size:12px;color:var(--text-faint);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <span>Gumercindo Jiménez · Kit de publicaciones</span>
+    <span>Stories 1080×1920 · Feed 1080×1350 / 1080×1080 · Horizontal 1200×627</span>
+  </div>
+</div>
+</body>
+</html>

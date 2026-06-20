@@ -1,0 +1,69 @@
+/* ============================================================
+   TYPOGRAPHY — Gumercindo Jiménez
+   Serif-forward, editorial. Display = Cormorant Garamond (elegant,
+   high contrast). Text = Spectral. Labels/UI = Hanken Grotesk in
+   tracked uppercase (fashion-editorial eyebrow style).
+   ============================================================ */
+:root {
+  /* ---- Families -------------------------------------------- */
+  --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
+  --font-serif:   'Spectral', Georgia, serif;
+  --font-sans:    'Hanken Grotesk', system-ui, -apple-system, sans-serif;
+
+  /* ---- Weights -------------------------------------------- */
+  --fw-light: 300;     /* @kind other */
+  --fw-regular: 400;   /* @kind other */
+  --fw-medium: 500;    /* @kind other */
+  --fw-semibold: 600;  /* @kind other */
+  --fw-bold: 700;      /* @kind other */
+
+  /* ---- Type scale (fluid-ready static px) ----------------- */
+  --text-2xs: 0.6875rem;  /* 11px — micro labels        */
+  --text-xs:  0.75rem;    /* 12px — eyebrows, captions   */
+  --text-sm:  0.875rem;   /* 14px — UI, meta             */
+  --text-base:1rem;       /* 16px — body baseline        */
+  --text-md:  1.125rem;   /* 18px — lead body            */
+  --text-lg:  1.375rem;   /* 22px                        */
+  --text-xl:  1.75rem;    /* 28px                        */
+  --text-2xl: 2.25rem;    /* 36px                        */
+  --text-3xl: 3rem;       /* 48px                        */
+  --text-4xl: 4rem;       /* 64px — display              */
+  --text-5xl: 5.25rem;    /* 84px — hero display         */
+  --text-6xl: 7rem;       /* 112px — statement           */
+
+  /* ---- Line heights -------------------------------------- */
+  --leading-none: 1;
+  --leading-tight: 1.08;   /* display headlines           */
+  --leading-snug: 1.22;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65; /* long-form body              */
+
+  /* ---- Tracking ------------------------------------------ */
+  --tracking-tighter: -0.03em;
+  --tracking-tight: -0.015em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+  --tracking-wider: 0.12em;   /* eyebrow caps             */
+  --tracking-widest: 0.22em;  /* fine spaced labels       */
+
+  /* ---- Semantic roles ------------------------------------ */
+  --display-family: var(--font-display);
+  --display-weight: var(--fw-semibold);
+  --display-leading: var(--leading-tight);
+  --display-tracking: var(--tracking-tight);
+
+  --heading-family: var(--font-display);
+  --heading-weight: var(--fw-medium);
+
+  --body-family: var(--font-serif);
+  --body-weight: var(--fw-regular);
+  --body-leading: var(--leading-relaxed);
+
+  --eyebrow-family: var(--font-sans);
+  --eyebrow-weight: var(--fw-semibold);
+  --eyebrow-tracking: var(--tracking-wider);
+  --eyebrow-size: var(--text-xs);
+
+  --label-family: var(--font-sans);
+  --label-weight: var(--fw-medium);
+}

@@ -1,0 +1,40 @@
+/* ============================================================
+   EDITORIAL LINE — Books, workbooks & diarios
+   Gumercindo's long-form personal-growth products. They share the
+   brand's serif + gold structure but speak to a DIFFERENT audience
+   than consulting (B2C self-development vs B2B authority).
+   The structure stays green/gold; each TITLE may carry an accent
+   (e.g. the "Mata al quejica" diario = violet).
+   ============================================================ */
+:root {
+  /* ---- Imprint gold — books use a brighter, warmer gold than
+         the consulting hairline gold (--gold-500). For covers,
+         chapter numerals and keyword highlights. ---------------- */
+  --imprint-gold:      #E5B83C;
+  --imprint-gold-soft: #F5D47A;
+
+  /* ---- Title accent · "Mata al quejica" diario (violet) ------ */
+  --violet-900: #1a0a30;
+  --violet-800: #3D0875;
+  --violet-700: #5B0FAF;   /* diario primary           */
+  --violet-600: #7B2FD0;
+  --violet-200: #C5A8E8;   /* writing-line / hairline  */
+  --violet-50:  #F3EEFF;   /* tint fill, quote boxes    */
+
+  /* ---- Worksheet ink — slightly softer than consulting ink --- */
+  --sheet-line:  var(--stone-300);   /* writing rules on paper   */
+  --sheet-tint:  var(--green-50);    /* prompt / quote fills     */
+
+  /* ---- Editorial semantic aliases ---------------------------- */
+  --editorial-keyword:  var(--imprint-gold);   /* the gold word in a headline */
+  --editorial-band:     var(--green-800);       /* chapter header band         */
+}
+
+/* Title-scoped theme: wrap a diario page in [data-line="quejica"] to
+   swap the editorial accent to violet without touching structure. */
+[data-line="quejica"] {
+  --editorial-band:    var(--violet-700);
+  --editorial-keyword: var(--imprint-gold);
+  --sheet-line:        var(--violet-200);
+  --sheet-tint:        var(--violet-50);
+}

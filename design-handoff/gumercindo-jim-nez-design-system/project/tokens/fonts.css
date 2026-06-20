@@ -1,0 +1,10 @@
+/* ============================================================
+   FONTS — Gumercindo Jiménez
+   Editorial / luxury serif system.
+   Display: Cormorant Garamond (high-contrast Didone-adjacent serif)
+   Text:    Spectral (screen-optimized editorial serif)
+   Label:   Hanken Grotesk (refined grotesque, for tracked caps + UI)
+   NOTE: Served from Google Fonts. For production, self-host the .woff2
+   binaries and replace this @import. Flagged to the user.
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap');

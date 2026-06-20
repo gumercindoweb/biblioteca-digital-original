@@ -1,0 +1,92 @@
+/* ============================================================
+   COLORS — Gumercindo Jiménez
+   Direction (from Brief de Marca): intense green over corporate
+   blue; nature / earth; sobriety with authority; nothing loud.
+   Luxury editorial — deep emerald, warm ivory paper, brass detail,
+   a single warm clay accent (nods to the brand's pink/red energy).
+   ============================================================ */
+:root {
+  /* ---- Primary · Deep Green (authority, nature) ---------- */
+  --green-950: #07211A;   /* deepest ink-green, dark surfaces   */
+  --green-900: #0A2E25;
+  --green-800: #0E3B2E;
+  --green-700: #11503D;   /* PRIMARY brand green                */
+  --green-600: #166B4F;   /* interactive / hover                */
+  --green-500: #1E8A66;   /* "verde intenso" — vivid accent     */
+  --green-400: #34A87E;   /* used sparingly (focus rings)       */
+  --green-200: #BFD9CD;   /* tint fills on dark                 */
+  --green-50:  #EAF2EE;   /* faint green wash on paper          */
+
+  /* ---- Luxury metal · Brass / Gold (fine detail) --------- */
+  --gold-700: #8A6D38;
+  --gold-600: #A6843F;
+  --gold-500: #B89455;   /* hairlines, ornaments, fine accents */
+  --gold-400: #CDAE74;
+  --gold-200: #E7D8B8;
+
+  /* ---- Warm accent · Clay / Rose (sparingly, for pop) ---- */
+  --clay-700: #8F3B36;
+  --clay-600: #AB4A40;
+  --clay-500: #BE5A53;   /* warm accent — CTA pop, highlights  */
+  --clay-300: #DFA59B;
+  --clay-100: #F3DED9;
+
+  /* ---- Neutrals · Warm Earth (ivory → ink) --------------- */
+  --bone-50:  #F8F5EE;   /* page paper                         */
+  --bone-100: #F1ECE0;
+  --sand-200: #E5DDCC;
+  --stone-300: #D2C8B2;
+  --khaki-400: #B2A789;
+  --earth-500: #897F66;
+  --bark-600:  #5E5645;
+  --umber-700: #3D3829;
+  --ink-800:   #221F17;   /* warm near-black text               */
+  --ink-900:   #15130D;
+  --white:     #FFFFFF;
+
+  /* ---- Semantic · Status --------------------------------- */
+  --success: #166B4F;
+  --warning: #A6843F;
+  --danger:  #9E3B33;
+  --info:    #11503D;
+
+  /* ============================================================
+     SEMANTIC ALIASES — reference these in components
+     ============================================================ */
+  /* Surfaces */
+  --surface-page:     var(--bone-50);
+  --surface-raised:   var(--white);
+  --surface-sunken:   var(--bone-100);
+  --surface-inverse:  var(--green-900);   /* dark sections      */
+  --surface-inverse-deep: var(--green-950);
+  --surface-tint:     var(--green-50);
+
+  /* Text */
+  --text-strong:   var(--ink-900);
+  --text-body:     var(--ink-800);
+  --text-muted:    var(--earth-500);
+  --text-faint:    var(--khaki-400);
+  --text-on-dark:        var(--bone-50);
+  --text-on-dark-muted:  #A9BDB4;
+  --text-brand:    var(--green-700);
+  --text-accent:   var(--clay-600);
+
+  /* Brand */
+  --brand:         var(--green-700);
+  --brand-hover:   var(--green-600);
+  --brand-vivid:   var(--green-500);
+  --brand-ink:     var(--green-900);
+  --accent:        var(--clay-500);
+  --accent-hover:  var(--clay-600);
+  --metal:         var(--gold-500);
+
+  /* Lines & borders */
+  --border-hair:   color-mix(in srgb, var(--ink-800) 12%, transparent);
+  --border-soft:   var(--sand-200);
+  --border-strong: var(--stone-300);
+  --border-gold:   color-mix(in srgb, var(--gold-500) 55%, transparent);
+  --border-on-dark: color-mix(in srgb, var(--bone-50) 16%, transparent);
+
+  /* Focus */
+  --focus-ring:    color-mix(in srgb, var(--green-500) 55%, transparent);
+}

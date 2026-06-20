@@ -1,0 +1,247 @@
+<!-- @dsCard group="Social" viewport="1280x780" name="Reel, Carrusel y Video" subtitle="Portada de Reel grid-safe, carrusel de 6 slides y preview de video en loop con storyboard" -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gumercindo Jiménez — Reel, Carrusel y Video</title>
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; background: var(--bone-100); color: var(--text-body); }
+  .page { max-width: 1240px; margin: 0 auto; padding: 56px 40px 120px; }
+  .masthead { border-bottom: 1px solid var(--border-strong); padding-bottom: 24px; margin-bottom: 8px; }
+  .masthead .k { font-family:var(--font-sans); font-size:12px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--text-accent); }
+  .masthead h1 { font-family:var(--font-display); font-weight:600; font-size:46px; line-height:1.04; color:var(--text-strong); margin:14px 0 0; }
+  .masthead p { font-family:var(--font-serif); font-size:15px; color:var(--text-muted); max-width:64ch; margin:14px 0 0; }
+
+  .sec { margin-top:64px; }
+  .sec-h { display:flex; align-items:center; gap:16px; margin-bottom:6px; }
+  .sec-h .num { font-family:var(--font-display); font-size:22px; font-weight:600; color:var(--green-200); }
+  .sec-h h2 { font-family:var(--font-display); font-weight:600; font-size:30px; color:var(--text-strong); margin:0; }
+  .sec-sub { font-family:var(--font-serif); font-size:15px; color:var(--text-muted); margin:0 0 28px; max-width:66ch; }
+
+  .holder { overflow:hidden; border-radius:8px; box-shadow:var(--shadow-lg); background:#000; flex:none; }
+  .art { transform-origin: top left; }
+  .art * { box-sizing:border-box; }
+  .pmeta { font-family:var(--font-sans); font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--text-faint); margin:12px 0 0; }
+  .grain { position:absolute; inset:0; opacity:.05; background-image:radial-gradient(circle at 1px 1px,#fff 1px,transparent 0); background-size:5px 5px; pointer-events:none; }
+
+  .ey { font-family:var(--font-sans); font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:var(--gold-400); display:inline-flex; align-items:center; gap:16px; }
+  .ey::before { content:""; width:42px; height:2px; background:var(--gold-500); }
+  .disp { font-family:var(--font-display); font-weight:600; letter-spacing:-.01em; color:var(--bone-50); margin:0; }
+  .disp em { font-style:italic; color:var(--gold-400); }
+  .cta { font-family:var(--font-sans); font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--green-950); background:var(--gold-400); display:inline-flex; align-items:center; gap:14px; }
+  /* photo placeholder evoking the IG feed */
+  .photo { background:linear-gradient(160deg,#2f4538,#1d3a3f 55%,#3a2f25); position:relative; display:flex; align-items:flex-end; }
+  .photo::after { content:"Tu foto · naturaleza / retrato"; position:absolute; top:50%; left:0; right:0; transform:translateY(-50%); text-align:center; font-family:var(--font-sans); font-size:26px; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.34); }
+
+  .layout-cover { display:grid; grid-template-columns:auto 1fr; gap:40px; align-items:start; }
+  .note { background:var(--surface-raised); border:1px solid var(--border-soft); border-radius:8px; padding:20px 22px; box-shadow:var(--shadow-xs); }
+  .note .lab { font-family:var(--font-sans); font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-700); display:flex; align-items:center; gap:8px; margin-bottom:12px; }
+  .note .lab::before { content:""; width:18px; height:2px; background:var(--gold-500); }
+  .note p { font-family:var(--font-serif); font-size:14.5px; line-height:1.6; color:var(--text-body); margin:0 0 10px; }
+  .note ul { margin:0; padding-left:18px; font-family:var(--font-serif); font-size:14.5px; line-height:1.6; color:var(--text-body); }
+
+  .carousel-row { display:flex; gap:18px; overflow-x:auto; padding:6px 0 18px; }
+  .slide-wrap { flex:none; }
+  .dots { display:flex; gap:7px; margin-top:14px; justify-content:center; }
+  .dot { width:7px; height:7px; border-radius:50%; background:var(--stone-300); }
+  .dot.on { background:var(--green-700); width:22px; border-radius:4px; }
+
+  /* phone frame */
+  .videowrap { display:grid; grid-template-columns:auto 1fr; gap:48px; align-items:start; }
+  .phone { width:300px; height:610px; border-radius:42px; background:#0b0b0c; padding:11px; box-shadow:var(--shadow-xl), inset 0 0 0 2px #2a2a2c; flex:none; position:relative; }
+  .phone .screen { width:100%; height:100%; border-radius:32px; overflow:hidden; position:relative; background:#07211A; }
+  .phone .notch { position:absolute; top:18px; left:50%; transform:translateX(-50%); width:96px; height:26px; background:#0b0b0c; border-radius:14px; z-index:6; }
+  .reel { position:absolute; inset:0; }
+  .frame { position:absolute; inset:0; opacity:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:42px 30px; }
+  .reel .rt { font-family:var(--font-display); font-weight:600; font-size:40px; line-height:1.06; color:var(--bone-50); margin:0; }
+  .reel .rt em { font-style:italic; color:var(--gold-400); }
+  @keyframes f1{0%,2%{opacity:0}5%,17%{opacity:1}20%,100%{opacity:0}}
+  @keyframes f2{0%,20%{opacity:0}23%,37%{opacity:1}40%,100%{opacity:0}}
+  @keyframes f3{0%,40%{opacity:0}43%,57%{opacity:1}60%,100%{opacity:0}}
+  @keyframes f4{0%,60%{opacity:0}63%,77%{opacity:1}80%,100%{opacity:0}}
+  @keyframes f5{0%,80%{opacity:0}83%,97%{opacity:1}100%{opacity:0}}
+  @keyframes kenburns{0%{transform:scale(1.08)}100%{transform:scale(1.2)}}
+  .reel .frame:nth-child(1){animation:f1 11s infinite}
+  .reel .frame:nth-child(2){animation:f2 11s infinite}
+  .reel .frame:nth-child(3){animation:f3 11s infinite}
+  .reel .frame:nth-child(4){animation:f4 11s infinite}
+  .reel .frame:nth-child(5){animation:f5 11s infinite}
+  .progress { position:absolute; top:14px; left:14px; right:14px; height:3px; background:rgba(255,255,255,.25); border-radius:2px; z-index:5; overflow:hidden }
+  .progress::after { content:""; position:absolute; inset:0; background:var(--gold-400); transform-origin:left; animation:prog 11s linear infinite }
+  @keyframes prog{0%{transform:scaleX(0)}100%{transform:scaleX(1)}}
+  @media (prefers-reduced-motion: reduce){ .reel .frame{animation:none!important} .reel .frame:nth-child(1){opacity:1} .progress::after{animation:none} }
+
+  .board { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; }
+  .kf { border:1px solid var(--border-soft); border-radius:8px; overflow:hidden; background:#07211A; box-shadow:var(--shadow-xs); }
+  .kf .mini { aspect-ratio:9/16; position:relative; display:flex; align-items:center; justify-content:center; text-align:center; padding:14px; }
+  .kf .mini p { font-family:var(--font-display); font-weight:600; font-size:14px; line-height:1.1; color:var(--bone-50); margin:0 }
+  .kf .mini em { font-style:italic; color:var(--gold-400) }
+  .kf .tc { font-family:var(--font-sans); font-size:10px; font-weight:600; letter-spacing:.08em; color:var(--text-on-dark-muted); padding:7px 9px; border-top:1px solid var(--border-on-dark); display:flex; justify-content:space-between }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="masthead">
+    <span class="k">Reel · Carrusel · Video · 2026</span>
+    <h1>Formatos en movimiento</h1>
+    <p>Inspirado en tu feed: naturaleza patagónica, tonos tierra cálidos, tu presencia y el acento rojo del sombrero. Los marcos grises esperan tus fotos reales — retrato y paisaje.</p>
+  </div>
+
+  <!-- ============ A · PORTADA DE REEL ============ -->
+  <div class="sec">
+    <div class="sec-h"><span class="num">01</span><h2>Portada de Reel</h2></div>
+    <p class="sec-sub">Pensada para la grilla: el título vive en la franja central visible; arriba y abajo quedan libres para que el recorte del perfil y la barra de acciones no tapen lo importante.</p>
+    <div class="layout-cover">
+      <div>
+        <div class="holder" style="width:300px;height:533px;position:relative">
+          <div class="art" style="width:1080px;height:1920px;transform:scale(.2778);position:relative">
+            <div class="photo" style="position:absolute;inset:0"></div>
+            <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,33,26,.55) 0%,rgba(7,33,26,.15) 28%,rgba(7,33,26,.25) 55%,rgba(7,33,26,.92) 100%)"></div>
+            <!-- safe-zone guides -->
+            <div style="position:absolute;top:0;left:0;right:0;height:380px;border-bottom:2px dashed rgba(255,255,255,.25)"></div>
+            <div style="position:absolute;bottom:0;left:0;right:0;height:480px;border-top:2px dashed rgba(255,255,255,.25)"></div>
+            <span style="position:absolute;top:24px;left:50%;transform:translateX(-50%);font-family:var(--font-sans);font-size:22px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4)">zona segura</span>
+            <!-- content in visible band -->
+            <div style="position:absolute;left:90px;right:90px;top:470px">
+              <span class="ey" style="font-size:30px">Reel · Mentalidad</span>
+              <h2 class="disp" style="font-size:128px;line-height:.98;margin-top:40px">El caos no se <em>gestiona</em>. Se convierte.</h2>
+            </div>
+            <div style="position:absolute;left:90px;right:90px;bottom:230px;display:flex;align-items:center;gap:24px">
+              <img src="../assets/logo/gj-symbol-ivory.png" style="height:64px" />
+              <span style="font-family:var(--font-sans);font-size:30px;letter-spacing:.04em;color:var(--bone-50);font-weight:500">Gumercindo Jiménez</span>
+            </div>
+          </div>
+        </div>
+        <p class="pmeta">1080 × 1920 · cubierta 9:16</p>
+      </div>
+      <div class="note">
+        <div class="lab">Cómo funciona</div>
+        <p>La <strong>foto de fondo</strong> es tu shot del feed — un paisaje patagónico o un retrato tuyo con mirada a cámara funcionan mejor. El degradado verde garantiza legibilidad del título.</p>
+        <ul>
+          <li><strong>Banda superior (~20%)</strong> — libre: ahí recorta la miniatura de perfil.</li>
+          <li><strong>Banda central</strong> — el gancho en serif, máximo 5–6 palabras.</li>
+          <li><strong>Banda inferior (~25%)</strong> — libre: la tapan los botones de like/compartir.</li>
+        </ul>
+        <p style="margin-top:10px;color:var(--text-muted)">Variá el gancho por tema: servicios, libro, mentalidad. Mantené el logo + nombre como firma fija.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ B · CARRUSEL ============ -->
+  <div class="sec">
+    <div class="sec-h"><span class="num">02</span><h2>Carrusel — "5 señales de que tu negocio vive del caos"</h2></div>
+    <p class="sec-sub">Formato 4:5. Gancho fuerte en la slide 1, una señal por slide con ritmo editorial, y cierre con la auditoría. Deslizá para ver las 6.</p>
+    <div class="carousel-row" id="car"></div>
+    <div class="dots" id="dots"></div>
+    <div class="note" style="margin-top:22px;max-width:760px">
+      <div class="lab">Copy del post (caption)</div>
+      <p>Tu negocio no tiene un problema de ventas. Tiene un problema de estructura.</p>
+      <p style="color:var(--text-muted)">Si te identificaste con 3 o más, no necesitás esforzarte más — necesitás un sistema. Comentá "ORDEN" y te paso cómo sería tu auditoría. · #consultoría #sistemas #negocios #productividad</p>
+    </div>
+  </div>
+
+  <!-- ============ C · VIDEO ============ -->
+  <div class="sec">
+    <div class="sec-h"><span class="num">03</span><h2>Cómo se vería el video</h2></div>
+    <p class="sec-sub">Un Reel de ~11s, texto sobre tu material (b-roll de naturaleza o a cámara). Tipografía que entra por capas, barra de progreso y firma final. Esto es una previsualización en loop — el ritmo es real.</p>
+    <div class="videowrap">
+      <div>
+        <div class="phone">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="progress"></div>
+            <div class="reel">
+              <div class="frame" style="background:linear-gradient(160deg,#274039,#07211A)"><div class="grain"></div><p class="rt">Tu negocio<br>factura.</p></div>
+              <div class="frame" style="background:linear-gradient(160deg,#2b3b2f,#07211A)"><div class="grain"></div><p class="rt">Pero todo<br>depende<br>de <em>vos</em>.</p></div>
+              <div class="frame" style="background:linear-gradient(160deg,#3a2f25,#1d2a22)"><div class="grain"></div><p class="rt">Eso no es<br>un negocio.</p></div>
+              <div class="frame" style="background:linear-gradient(160deg,#11503D,#07211A)"><div class="grain"></div><p class="rt">Es un trabajo<br>que no podés <em>soltar</em>.</p></div>
+              <div class="frame" style="background:linear-gradient(160deg,#0E3B2E,#07211A)">
+                <div class="grain"></div>
+                <img src="../assets/logo/gj-symbol-gold.png" style="height:66px;margin-bottom:22px" />
+                <p class="rt">El caos,<br>en <em>método</em>.</p>
+                <span style="margin-top:24px;font-family:var(--font-sans);font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--green-950);background:var(--gold-400);padding:11px 18px;border-radius:6px">Auditoría gratis →</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="pmeta">1080 × 1920 · ~11 s · loop</p>
+      </div>
+      <div>
+        <div class="note" style="margin-bottom:22px">
+          <div class="lab">Guion / concepto</div>
+          <p>Gancho de tensión en 4 golpes → giro → resolución de marca. Texto blanco serif sobre tu b-roll; la palabra clave de cada frase en <em style="font-style:italic;color:var(--gold-700)">oro itálica</em>. Música: tensión calma que resuelve. Sin voz en off o con tu voz grave y pausada.</p>
+        </div>
+        <div style="font-family:var(--font-sans);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint);margin:0 0 12px">Storyboard · keyframes</div>
+        <div class="board">
+          <div class="kf"><div class="mini" style="background:linear-gradient(160deg,#274039,#07211A)"><p>Tu negocio factura.</p></div><div class="tc"><span>01</span><span>0–2 s</span></div></div>
+          <div class="kf"><div class="mini" style="background:linear-gradient(160deg,#2b3b2f,#07211A)"><p>Pero todo depende de <em>vos</em>.</p></div><div class="tc"><span>02</span><span>2–4 s</span></div></div>
+          <div class="kf"><div class="mini" style="background:linear-gradient(160deg,#3a2f25,#1d2a22)"><p>Eso no es un negocio.</p></div><div class="tc"><span>03</span><span>4–7 s</span></div></div>
+          <div class="kf"><div class="mini" style="background:linear-gradient(160deg,#11503D,#07211A)"><p>Un trabajo que no podés <em>soltar</em>.</p></div><div class="tc"><span>04</span><span>7–9 s</span></div></div>
+          <div class="kf"><div class="mini" style="background:linear-gradient(160deg,#0E3B2E,#07211A)"><p>El caos, en <em>método</em>.</p></div><div class="tc"><span>05</span><span>9–11 s</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:80px;border-top:1px solid var(--border-strong);padding-top:24px;font-family:var(--font-sans);font-size:12px;color:var(--text-faint);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <span>Gumercindo Jiménez · Reel, carrusel y video</span>
+    <span>Portada 1080×1920 · Carrusel 1080×1350 · Video 1080×1920</span>
+  </div>
+</div>
+
+<script>
+// Build the carousel slides
+const SLIDES = [
+  { type:'cover' },
+  { n:'01', t:'Todo pasa por vos.', s:'Si parás una semana, para todo. No tenés un negocio: tenés un puesto del que no te podés ir.' },
+  { n:'02', t:'Vivís apagando incendios.', s:'El día se va en urgencias. Nunca llega el momento de construir lo importante.' },
+  { n:'03', t:'Vendés, pero no sabés por qué.', s:'A veces explota, a veces no. Sin un sistema, no podés repetir lo que funciona.' },
+  { n:'04', t:'Tu equipo te pregunta todo.', s:'Sin procesos, vos sos el cuello de botella. Delegar se siente más caro que hacerlo solo.' },
+  { type:'cta' },
+];
+const car = document.getElementById('car');
+const S = 0.30; // display scale for 1080x1350
+function frame(inner){
+  return `<div class="slide-wrap"><div class="holder" style="width:${Math.round(1080*S)}px;height:${Math.round(1350*S)}px">`+
+    `<div class="art" style="width:1080px;height:1350px;transform:scale(${S});position:relative">${inner}</div></div></div>`;
+}
+let html='';
+SLIDES.forEach((sl,i)=>{
+  if(sl.type==='cover'){
+    html+=frame(`<div style="position:absolute;inset:0;background:linear-gradient(160deg,#11503D,#07211A)"></div><div class="grain" style="position:absolute;inset:0"></div>
+      <div style="position:absolute;left:90px;right:90px;top:96px"><span class="ey" style="font-size:28px">Diagnóstico rápido</span></div>
+      <div style="position:absolute;left:90px;right:90px;top:300px"><h2 class="disp" style="font-size:110px;line-height:1.0">5 señales de que tu negocio vive del <em>caos</em>.</h2></div>
+      <div style="position:absolute;left:90px;right:90px;bottom:110px;display:flex;justify-content:space-between;align-items:center">
+        <img src="../assets/logo/gj-symbol-gold.png" style="height:72px"/>
+        <span style="font-family:var(--font-sans);font-size:30px;font-weight:600;letter-spacing:.04em;color:var(--gold-400);display:inline-flex;align-items:center;gap:14px">Deslizá <span style="font-size:38px">→</span></span>
+      </div>`);
+  } else if(sl.type==='cta'){
+    html+=frame(`<div style="position:absolute;inset:0;background:var(--bone-50)"></div>
+      <div style="position:absolute;left:90px;right:90px;top:110px"><span class="ey" style="font-size:28px;color:var(--clay-600)">¿Te identificaste?</span></div>
+      <div style="position:absolute;left:90px;right:90px;top:300px"><h2 class="disp" style="font-size:96px;line-height:1.04;color:var(--ink-900)">Eso no se arregla <em style="color:var(--green-700)">trabajando más</em>. Se arregla con un sistema.</h2></div>
+      <div style="position:absolute;left:90px;right:90px;bottom:230px"><span style="font-family:var(--font-sans);font-size:30px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--green-950);background:var(--gold-400);padding:32px 46px;border-radius:8px;display:inline-flex;gap:14px">Pedí tu auditoría — gratis →</span></div>
+      <div style="position:absolute;left:90px;right:90px;bottom:110px;display:flex;justify-content:space-between;align-items:center;border-top:2px solid var(--border-gold);padding-top:32px">
+        <img src="../assets/logo/gj-lockup-light.png" style="height:54px"/>
+        <span style="font-family:var(--font-sans);font-size:26px;font-weight:600;color:var(--green-700)">@gumercindoweb</span></div>`);
+  } else {
+    html+=frame(`<div style="position:absolute;inset:0;background:linear-gradient(160deg,#0E3B2E,#07211A)"></div><div class="grain" style="position:absolute;inset:0"></div>
+      <div style="position:absolute;left:90px;right:90px;top:96px"><span style="font-family:var(--font-display);font-size:200px;font-weight:600;color:rgba(191,217,205,.18);line-height:.8">${sl.n}</span></div>
+      <div style="position:absolute;left:90px;right:90px;top:560px"><h2 class="disp" style="font-size:84px;line-height:1.05">${sl.t}</h2>
+        <p style="font-family:var(--font-serif);font-size:44px;line-height:1.45;color:var(--green-200);margin-top:40px">${sl.s}</p></div>
+      <div style="position:absolute;left:90px;right:90px;bottom:96px;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-family:var(--font-sans);font-size:24px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-400)">Señal ${sl.n}</span>
+        <span style="font-family:var(--font-sans);font-size:24px;color:var(--text-on-dark-muted)">→</span></div>`);
+  }
+});
+car.innerHTML=html;
+const dots=document.getElementById('dots');
+dots.innerHTML=SLIDES.map((_,i)=>`<span class="dot${i===0?' on':''}"></span>`).join('');
+car.addEventListener('scroll',()=>{
+  const i=Math.round(car.scrollLeft/(car.scrollWidth/SLIDES.length));
+  [...dots.children].forEach((d,k)=>d.classList.toggle('on',k===Math.min(i,SLIDES.length-1)));
+});
+</script>
+</body>
+</html>

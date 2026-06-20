@@ -1,0 +1,47 @@
+<!-- @dsCard group="Workbook" viewport="1240x800" name="Workbook & Diario — páginas interiores" subtitle="'Hay que salir del bar' (verde) y 'Mata al quejica' (violeta), reconstruidos sobre el sistema" -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gumercindo Jiménez — Workbook & Diario</title>
+<link rel="icon" href="../../assets/logo/favicon.png" />
+<link rel="stylesheet" href="../../styles.css" />
+<style>
+  html, body { margin: 0; }
+  body { background: var(--bone-100); }
+  .stage { display: flex; gap: 48px; justify-content: center; align-items: flex-start; flex-wrap: wrap; padding: 56px 40px 90px; }
+  .col { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .cap { font-family: var(--font-sans); font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--text-faint); }
+  .head { text-align: center; padding: 48px 24px 0; }
+  .head .k { font-family: var(--font-sans); font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--text-accent); }
+  .head h1 { font-family: var(--font-display); font-weight: 600; font-size: 40px; color: var(--text-strong); margin: 12px 0 0; }
+  .head p { font-family: var(--font-serif); font-size: 15px; color: var(--text-muted); max-width: 60ch; margin: 12px auto 0; }
+</style>
+</head>
+<body>
+<div class="head">
+  <span class="k">Línea editorial · Libros & diarios</span>
+  <h1>Páginas interiores</h1>
+  <p>La misma estructura serif/oro, dos acentos. El workbook vive en verde; el diario "Mata al quejica" cambia a violeta con solo envolver la página en <code>[data-line="quejica"]</code>.</p>
+</div>
+<div class="stage" id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<script type="text/babel" src="sections.jsx"></script>
+<script type="text/babel">
+const { WorkbookPage, DiarioPage } = window.GJWorkbook;
+function Kit() {
+  return (
+    <React.Fragment>
+      <div className="col"><WorkbookPage /><span className="cap">Workbook · Hay que salir del bar</span></div>
+      <div className="col"><DiarioPage /><span className="cap">Diario · Mata al quejica</span></div>
+    </React.Fragment>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Kit />);
+</script>
+</body>
+</html>

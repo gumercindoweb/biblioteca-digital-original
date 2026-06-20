@@ -1,0 +1,51 @@
+<!-- @dsCard group="Components" viewport="700x520" name="Feedback — Accordion, Testimonial, Stat" subtitle="FAQ, pull-quotes & proof-point metrics" -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; padding: 30px; background: var(--surface-page); }
+  .wrap { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 36px; max-width: 660px; align-items: start; }
+  .stats { display: flex; gap: 30px; margin-top: 26px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<script type="text/babel">
+const { Accordion, Testimonial, Stat } = window.GumercindoJimNezDesignSystem_5d8aa6;
+function Demo() {
+  return (
+    <div className="wrap">
+      <div>
+        <Accordion
+          defaultOpen={[0]}
+          items={[
+            { q: '¿Qué incluye la consultoría?', a: 'Diagnóstico, implementación y formación — adaptados a tu negocio, no a una plantilla genérica.' },
+            { q: '¿Cuánto toma ver resultados?', a: 'Depende del punto de partida. La auditoría te da claridad desde la primera semana.' },
+            { q: '¿En qué se diferencia de una agencia?', a: 'No tercerizo tu criterio. Trabajo desde adentro, con vos.' },
+          ]}
+        />
+        <div className="stats">
+          <Stat value="8" suffix="años" label="Liderando transformación desde adentro" />
+          <Stat prefix="+$" value="2.2K" label="Fee mensual recurrente" />
+        </div>
+      </div>
+      <Testimonial
+        size="md"
+        quote="Pensé que necesitaba más seguidores para vender. Hoy vendo con menos esfuerzo y más foco."
+        author="Cliente de consultoría"
+        role="Crecimiento"
+      />
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+</script>
+</body>
+</html>

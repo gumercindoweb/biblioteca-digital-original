@@ -1,343 +1,396 @@
-import React, { useState, useRef, useEffect } from "react";
-import { X, Plus, Trash2, Sparkles, ExternalLink, Clock, Play } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { X, Plus, Trash2, BookOpen, ExternalLink, Clock, Play, Youtube } from "lucide-react";
 import { useNotes } from "@/contexts/NotesContext";
 import { Note, NoteType } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { nanoid } from "nanoid";
 
-/**
- * NotesPanel - Estética Futurista Visionaria
- * Diseño innovador con gradientes cibernéticos, colores vibrantes y efectos de luz
- * Incluye reproductor de video en modal popup y captura de timestamp
- */
+/* ---- GJ tokens ---- */
+const FONT_DISPLAY = "'Cormorant Garamond', 'Times New Roman', serif";
+const FONT_UI      = "'Hanken Grotesk', system-ui, sans-serif";
+const FONT_SERIF   = "'Spectral', Georgia, serif";
+const IVORY     = "#F8F5EE";
+const BONE      = "#F1ECE0";
+const SAND      = "#E5DDCC";
+const INK       = "#221F17";
+const EARTH     = "#897F66";
+const KHAKI     = "#B2A789";
+const GREEN_900 = "#0A2E25";
+const GREEN_800 = "#0E3B2E";
+const GREEN     = "#11503D";
+const GOLD      = "#B89455";
+const CLAY      = "#AB4A40";
 
-const noteTypeConfig: Record<NoteType, { label: string; gradient: string; accentColor: string; glowColor: string }> = {
-  aprendizaje: {
-    label: "Aprendizaje",
-    gradient: "from-cyan-500 via-blue-500 to-purple-500",
-    accentColor: "#00D9FF",
-    glowColor: "rgba(0, 217, 255, 0.2)",
-  },
-  semilla: {
-    label: "Semilla",
-    gradient: "from-emerald-400 via-teal-500 to-cyan-500",
-    accentColor: "#10B981",
-    glowColor: "rgba(16, 185, 129, 0.2)",
-  },
-  conexion: {
-    label: "Conexión",
-    gradient: "from-violet-500 via-pink-500 to-rose-500",
-    accentColor: "#A78BFA",
-    glowColor: "rgba(167, 139, 250, 0.2)",
-  },
+const noteTypeConfig: Record<NoteType, { label: string; desc: string; color: string; bg: string }> = {
+  aprendizaje: { label: "Aprendizaje", desc: "Ideas y conceptos clave",  color: GREEN, bg: "rgba(17,80,61,0.07)"   },
+  semilla:     { label: "Semilla",     desc: "Preguntas a explorar",      color: GOLD,  bg: "rgba(184,148,85,0.09)" },
+  conexion:    { label: "Conexión",    desc: "Vínculos con otros temas",  color: CLAY,  bg: "rgba(171,74,64,0.07)"  },
 };
 
-// Función para extraer ID de YouTube de una URL
-function getYouTubeEmbedUrl(url: string): string | null {
+function getYouTubeId(url: string): string | null {
   if (!url) return null;
-  
-  const patterns = [
-    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
-  ];
-  
-  for (const pattern of patterns) {
-    const match = url.match(pattern);
-    if (match && match[1]) {
-      return `https://www.youtube.com/embed/${match[1]}?modestbranding=1&rel=0`;
-    }
-  }
-  
-  return null;
+  const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/);
+  return match?.[1] ?? null;
 }
 
-// Función para formatear tiempo (mm:ss)
 function formatTime(seconds: number): string {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  const m = Math.floor(seconds / 60).toString().padStart(2, "0");
+  const s = Math.floor(seconds % 60).toString().padStart(2, "0");
+  return `${m}:${s}`;
 }
 
-// Modal de video popup
-function VideoModal({ embedUrl, title, onClose }: { embedUrl: string; title: string; onClose: () => void }) {
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Fondo oscuro con blur */}
-      <div 
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-        onClick={onClose}
-      />
-      
-      {/* Modal centralizado */}
-      <div className="relative z-50 w-full max-w-2xl mx-4 rounded-xl overflow-hidden border border-cyan-500/30 shadow-2xl" style={{
-        boxShadow: "0 0 40px rgba(0, 217, 255, 0.3), 0 0 80px rgba(0, 217, 255, 0.1)"
-      }}>
-        {/* Header del modal */}
-        <div className="relative bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 px-6 py-4 border-b border-cyan-500/20">
-          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent" />
-          
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-playfair font-bold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent line-clamp-2">
-              {title}
-            </h3>
-            <button
-              onClick={onClose}
-              className="text-cyan-400/60 hover:text-cyan-300 transition-all flex-shrink-0 hover:scale-110 hover:drop-shadow-lg"
-              style={{ textShadow: "0 0 8px rgba(0, 217, 255, 0.3)" }}
-            >
-              <X size={24} />
-            </button>
-          </div>
-        </div>
+function InlineVideoPlayer({ videoId, title, youtubeUrl }: { videoId: string; title: string; youtubeUrl: string }) {
+  const [playing, setPlaying] = useState(false);
+  const thumbUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+  const embedUrl = `https://www.youtube.com/embed/${videoId}?modestbranding=1&rel=0&autoplay=1`;
 
-        {/* Video player */}
-        <div className="relative bg-black" style={{ paddingBottom: "56.25%", height: 0 }}>
+  return (
+    <div style={{ flexShrink: 0 }}>
+      {/* Área de video */}
+      <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, background: "#111" }}>
+        {playing ? (
           <iframe
             src={embedUrl}
             title={title}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
-            className="absolute top-0 left-0 w-full h-full border-0"
+            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0 }}
           />
-        </div>
+        ) : (
+          <div
+            style={{ position: "absolute", inset: 0, cursor: "pointer" }}
+            onClick={() => setPlaying(true)}
+          >
+            <img
+              src={thumbUrl}
+              alt={title}
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            />
+            <div style={{ position: "absolute", inset: 0, background: "rgba(10,46,37,0.28)" }} />
+
+            {/* Botón Play */}
+            <div style={{
+              position: "absolute", inset: 0,
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}>
+              <div
+                style={{
+                  width: 64, height: 64, borderRadius: "50%",
+                  background: "rgba(255,255,255,0.93)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  boxShadow: "0 4px 24px rgba(0,0,0,0.45)",
+                  transition: "transform 160ms ease, box-shadow 160ms ease",
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.transform = "scale(1.1)";
+                  (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 32px rgba(0,0,0,0.55)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.transform = "scale(1)";
+                  (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 24px rgba(0,0,0,0.45)";
+                }}
+              >
+                <Play size={24} fill={GREEN_900} color={GREEN_900} style={{ marginLeft: 4 }} />
+              </div>
+            </div>
+
+            {/* Gradiente inferior con título */}
+            <div style={{
+              position: "absolute", bottom: 0, left: 0, right: 0,
+              padding: "40px 14px 10px",
+              background: "linear-gradient(transparent, rgba(10,46,37,0.72))",
+              pointerEvents: "none",
+            }}>
+              <p style={{
+                fontFamily: FONT_UI, fontSize: "0.68rem",
+                color: "rgba(248,245,238,0.92)", lineHeight: 1.3,
+              }}>
+                {title}
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Barra inferior — tip configuración player */}
+      <div style={{
+        background: GREEN_900,
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+        padding: "7px 14px",
+        borderBottom: `1px solid rgba(248,245,238,0.06)`,
+      }}>
+        <span style={{
+          fontFamily: FONT_UI, fontSize: "0.56rem", fontWeight: 500,
+          letterSpacing: "0.04em",
+          color: "rgba(248,245,238,0.38)",
+        }}>
+          💡 En ⚙ del player podés elegir <strong style={{ color: "rgba(248,245,238,0.55)" }}>Pista de audio</strong> en español y activar <strong style={{ color: "rgba(248,245,238,0.55)" }}>Subtítulos</strong>
+        </span>
+        <a
+          href={youtubeUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: "flex", alignItems: "center", gap: "5px",
+            padding: "3px 10px", borderRadius: "999px",
+            background: "rgba(255,255,255,0.07)",
+            border: "1px solid rgba(248,245,238,0.12)",
+            fontFamily: FONT_UI, fontSize: "0.6rem", fontWeight: 600,
+            letterSpacing: "0.05em", color: GOLD,
+            textDecoration: "none",
+            transition: "background 150ms ease",
+          }}
+          onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.13)")}
+          onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.07)")}
+        >
+          <Youtube size={11} />
+          Ver en YouTube
+        </a>
       </div>
     </div>
   );
 }
 
 export function NotesPanel() {
-  const { selectedResource, setSelectedResource, getResourceNotes, addNote, deleteNote } =
-    useNotes();
-  const [activeTab, setActiveTab] = useState<NoteType>("aprendizaje");
+  const { selectedResource, setSelectedResource, getResourceNotes, addNote, deleteNote } = useNotes();
+  const [activeTab, setActiveTab]           = useState<NoteType>("aprendizaje");
   const [newNoteContent, setNewNoteContent] = useState("");
-  const [isAddingNote, setIsAddingNote] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [showVideoModal, setShowVideoModal] = useState(false);
+  const [isAddingNote, setIsAddingNote]     = useState(false);
+  const [currentTime, setCurrentTime]       = useState(0);
+  const [visible, setVisible]               = useState(false);
+
+  useEffect(() => {
+    if (selectedResource) requestAnimationFrame(() => setVisible(true));
+    else setVisible(false);
+  }, [selectedResource]);
 
   if (!selectedResource) return null;
 
-  // Ahora es seguro acceder a selectedResource
-  const notes = getResourceNotes(selectedResource.id);
+  const notes    = getResourceNotes(selectedResource.id);
   const tabNotes = notes.filter((n) => n.type === activeTab);
-  const config = noteTypeConfig[activeTab];
-  
-  // Verificar si es un podcast y obtener URL de embed
-  const isPodcast = selectedResource.type === "podcast";
-  const embedUrl = isPodcast && selectedResource.url ? getYouTubeEmbedUrl(selectedResource.url) : null;
+  const config   = noteTypeConfig[activeTab];
+  const isVideo  = selectedResource.type === "podcast" || selectedResource.type === "audiolibro" || selectedResource.type === "documental";
+  const videoId  = isVideo && selectedResource.url ? getYouTubeId(selectedResource.url) : null;
 
-  const handleAddNote = () => {
-    if (newNoteContent.trim()) {
-      // Incluir timestamp en la nota si es un podcast
-      const timestamp = isPodcast ? `[${formatTime(currentTime)}] ` : "";
-      const fullContent = timestamp + newNoteContent;
-
-      const newNote: Note = {
-        id: nanoid(),
-        type: activeTab,
-        content: fullContent,
-        createdAt: new Date().toISOString(),
-      };
-      addNote(selectedResource.id, newNote);
-      setNewNoteContent("");
-      setIsAddingNote(false);
-    }
+  const handleClose = () => {
+    setVisible(false);
+    setTimeout(() => setSelectedResource(null), 200);
   };
 
-  const handleCaptureTimestamp = () => {
-    // Insertar timestamp en el textarea
-    const timestamp = `[${formatTime(currentTime)}] `;
-    setNewNoteContent(prev => timestamp + prev);
+  const handleAddNote = () => {
+    if (!newNoteContent.trim()) return;
+    const timestamp = isVideo ? `[${formatTime(currentTime)}] ` : "";
+    addNote(selectedResource.id, {
+      id: nanoid(),
+      type: activeTab,
+      content: timestamp + newNoteContent,
+      createdAt: new Date().toISOString(),
+    } as Note);
+    setNewNoteContent("");
+    setIsAddingNote(false);
   };
 
   return (
     <>
-      <div className="fixed right-0 top-0 h-screen w-96 z-40 flex flex-col overflow-hidden">
-        {/* Fondo futurista con gradiente y efecto de luz */}
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900" />
-        <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-cyan-500/5" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-cyan-500/10 via-purple-500/5 to-transparent rounded-full blur-3xl" />
-        
-        {/* Contenido relativo */}
-        <div className="relative flex flex-col h-full">
-          {/* Header con efecto de borde luminoso */}
-          <div className="relative p-6 border-b border-cyan-500/20 backdrop-blur-sm bg-gradient-to-b from-cyan-500/5 to-transparent">
-            {/* Línea de luz superior */}
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent" />
-            
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-2">
-                  <Sparkles size={16} className="text-cyan-400" />
-                  <h2 className="text-lg font-playfair font-bold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent line-clamp-2">
+      {/* Backdrop */}
+      <div
+        className="fixed inset-0 z-40"
+        style={{
+          background: "rgba(10,46,37,0.50)",
+          backdropFilter: "blur(3px)",
+          transition: "opacity 200ms ease",
+          opacity: visible ? 1 : 0,
+        }}
+        onClick={handleClose}
+      />
+
+      {/* Modal centrado */}
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
+        <div
+          className="w-full flex flex-col pointer-events-auto"
+          style={{
+            maxWidth: 600,
+            maxHeight: "92vh",
+            background: IVORY,
+            borderRadius: "10px",
+            border: `1px solid ${SAND}`,
+            boxShadow: "0 32px 80px -20px rgba(10,46,37,0.45), 0 8px 24px -6px rgba(33,31,23,0.15)",
+            transition: "opacity 200ms ease, transform 200ms cubic-bezier(0.22, 1, 0.36, 1)",
+            opacity: visible ? 1 : 0,
+            transform: visible ? "scale(1) translateY(0)" : "scale(0.96) translateY(10px)",
+            overflow: "hidden",
+          }}
+        >
+          {/* ── Header verde ── */}
+          <div style={{ background: GREEN_800, borderRadius: "10px 10px 0 0", flexShrink: 0 }}>
+            <div className="px-6 py-4">
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <BookOpen size={11} style={{ color: GOLD, flex: "none" }} />
+                    <span style={{
+                      fontFamily: FONT_UI, fontSize: "0.57rem", fontWeight: 600,
+                      letterSpacing: "0.14em", textTransform: "uppercase", color: GOLD,
+                    }}>
+                      Mis notas
+                    </span>
+                  </div>
+                  <h2 style={{
+                    fontFamily: FONT_DISPLAY, fontSize: "1rem", fontWeight: 600,
+                    color: IVORY, lineHeight: 1.25, letterSpacing: "-0.01em",
+                  }}>
                     {selectedResource.title}
                   </h2>
+                  {selectedResource.author && (
+                    <p style={{
+                      fontFamily: FONT_SERIF, fontSize: "0.72rem",
+                      fontStyle: "italic", color: "rgba(248,245,238,0.55)", marginTop: "3px",
+                    }}>
+                      {selectedResource.author}
+                    </p>
+                  )}
                 </div>
-                {selectedResource.author && (
-                  <p className="text-xs text-cyan-300/60 italic">{selectedResource.author}</p>
-                )}
-              </div>
-              <div className="flex gap-2 flex-shrink-0">
-                {isPodcast && embedUrl && (
+                <div className="flex gap-2 flex-shrink-0 mt-0.5">
+                  {selectedResource.url && (
+                    <a
+                      href={selectedResource.url} target="_blank" rel="noopener noreferrer"
+                      style={{ color: "rgba(248,245,238,0.45)" }}
+                      onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = GOLD)}
+                      onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "rgba(248,245,238,0.45)")}
+                    >
+                      <ExternalLink size={17} />
+                    </a>
+                  )}
                   <button
-                    onClick={() => setShowVideoModal(true)}
-                    className="text-cyan-400/60 hover:text-cyan-300 transition-all hover:scale-110 hover:drop-shadow-lg"
-                    title="Reproducir video"
+                    onClick={handleClose}
+                    style={{ color: "rgba(248,245,238,0.45)" }}
+                    onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.color = IVORY)}
+                    onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.color = "rgba(248,245,238,0.45)")}
                   >
-                    <Play size={18} fill="currentColor" />
+                    <X size={20} />
                   </button>
-                )}
-                {isPodcast && selectedResource.url && (
-                  <a
-                    href={selectedResource.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-cyan-400/60 hover:text-cyan-300 transition-all hover:scale-110 hover:drop-shadow-lg"
-                    title="Abrir en YouTube"
-                  >
-                    <ExternalLink size={18} />
-                  </a>
-                )}
-                <button
-                  onClick={() => setSelectedResource(null)}
-                  className="text-cyan-400/60 hover:text-cyan-300 transition-all flex-shrink-0 hover:scale-110 hover:drop-shadow-lg"
-                  style={{ textShadow: "0 0 8px rgba(0, 217, 255, 0.3)" }}
-                >
-                  <X size={20} />
-                </button>
+                </div>
               </div>
+            </div>
+
+            {/* Tabs */}
+            <div className="flex px-4 gap-1" style={{ borderTop: `1px solid rgba(248,245,238,0.08)` }}>
+              {(["aprendizaje", "semilla", "conexion"] as NoteType[]).map((type) => {
+                const active = activeTab === type;
+                const cfg    = noteTypeConfig[type];
+                return (
+                  <button
+                    key={type}
+                    onClick={() => setActiveTab(type)}
+                    className="pb-3 pt-2.5 px-4 relative"
+                    style={{
+                      fontFamily: FONT_UI, fontWeight: active ? 600 : 500,
+                      fontSize: "0.7rem", letterSpacing: "0.04em",
+                      color: active ? IVORY : "rgba(248,245,238,0.38)",
+                    }}
+                  >
+                    {active && (
+                      <span style={{
+                        position: "absolute", bottom: 0, left: 8, right: 8,
+                        height: "2px", background: cfg.color, borderRadius: "2px 2px 0 0",
+                      }} />
+                    )}
+                    {cfg.label}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
-          {/* Tabs con efecto de neón */}
-          <div className="relative flex border-b border-cyan-500/10 px-4 pt-3 gap-2 backdrop-blur-sm bg-gradient-to-b from-cyan-500/3 to-transparent">
-            {(["aprendizaje", "semilla", "conexion"] as NoteType[]).map((type) => {
-              const isActive = activeTab === type;
-              const typeConfig = noteTypeConfig[type];
-              return (
-                <button
-                  key={type}
-                  onClick={() => setActiveTab(type)}
-                  className={`pb-3 px-4 text-xs font-medium transition-all relative ${
-                    isActive
-                      ? "text-white"
-                      : "text-cyan-300/50 hover:text-cyan-300/80"
-                  }`}
-                >
-                  {isActive && (
-                    <>
-                      <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent" />
-                      <div
-                        className="absolute inset-x-0 bottom-0 h-0.5 blur-sm"
-                        style={{
-                          background: `linear-gradient(to right, transparent, ${typeConfig.accentColor}, transparent)`,
-                          filter: "blur(4px)",
-                        }}
-                      />
-                    </>
-                  )}
-                  <span className="relative z-10">{typeConfig.label}</span>
-                </button>
-              );
-            })}
-          </div>
+          {/* ── Video inline ── */}
+          {videoId && <InlineVideoPlayer videoId={videoId} title={selectedResource.title} youtubeUrl={selectedResource.url!} />}
 
-          {/* Content - Scroll area */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-4 backdrop-blur-sm">
+          {/* ── Notas (scrollable) ── */}
+          <div className="flex-1 overflow-y-auto p-5 space-y-3" style={{ minHeight: 0 }}>
             {tabNotes.length === 0 && !isAddingNote && (
-              <div className="text-center py-12">
-                <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center">
-                  <Sparkles size={24} className="text-cyan-400/60" />
+              <div className="flex flex-col items-center justify-center py-10">
+                <div style={{
+                  width: 40, height: 40, borderRadius: "50%", background: "#EAF2EE",
+                  display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "10px",
+                }}>
+                  <BookOpen size={16} style={{ color: GREEN, opacity: 0.45 }} />
                 </div>
-                <p className="text-sm text-cyan-300/60">
-                  No hay {noteTypeConfig[activeTab].label.toLowerCase()}s aún
+                <p style={{
+                  fontFamily: FONT_SERIF, fontSize: "0.83rem",
+                  fontStyle: "italic", color: KHAKI, marginBottom: "3px",
+                }}>
+                  Sin {config.label.toLowerCase()}s aún
                 </p>
-                <p className="text-xs mt-2 text-cyan-400/40">Haz click en "Agregar" para empezar</p>
+                <p style={{ fontFamily: FONT_UI, fontSize: "0.67rem", color: KHAKI, letterSpacing: "0.03em" }}>
+                  Haz clic en «Agregar» para empezar
+                </p>
               </div>
             )}
 
             {tabNotes.map((note) => (
               <div
                 key={note.id}
-                className="relative p-4 rounded-lg border border-cyan-500/20 hover:border-cyan-400/40 transition-all group backdrop-blur-sm overflow-hidden"
-                style={{
-                  background: `linear-gradient(135deg, ${noteTypeConfig[note.type].glowColor} 0%, rgba(15, 23, 42, 0.4) 100%)`,
-                }}
+                className="group rounded p-4"
+                style={{ background: noteTypeConfig[note.type].bg, border: `1px solid ${SAND}` }}
               >
-                {/* Efecto de brillo en hover */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                  <div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-500/10 to-transparent"
-                    style={{
-                      animation: "shimmer 2s infinite",
-                    }}
-                  />
-                </div>
-
-                <div className="relative flex items-start justify-between gap-3">
+                <div className="flex items-start justify-between gap-3">
                   <div className="flex-1">
-                    <p className="text-sm text-cyan-50 leading-relaxed whitespace-pre-wrap">
+                    <p style={{
+                      fontFamily: FONT_SERIF, fontSize: "0.85rem",
+                      color: INK, lineHeight: 1.65, whiteSpace: "pre-wrap",
+                    }}>
                       {note.content}
                     </p>
-                    <p className="text-xs text-cyan-300/40 mt-2">
+                    <p style={{
+                      fontFamily: FONT_UI, fontSize: "0.6rem", color: KHAKI,
+                      letterSpacing: "0.04em", marginTop: "8px",
+                    }}>
                       {new Date(note.createdAt).toLocaleDateString("es-ES", {
-                        day: "numeric",
-                        month: "short",
-                        year: "numeric",
+                        day: "numeric", month: "short", year: "numeric",
                       })}
                     </p>
                   </div>
                   <button
                     onClick={() => deleteNote(selectedResource.id, note.id)}
-                    className="text-cyan-400/40 hover:text-rose-400 transition-all flex-shrink-0 hover:scale-110"
+                    className="opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 mt-0.5"
+                    style={{ color: KHAKI }}
+                    onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.color = "#9E3B33")}
+                    onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.color = KHAKI)}
                   >
-                    <Trash2 size={16} />
+                    <Trash2 size={14} />
                   </button>
                 </div>
               </div>
             ))}
 
             {isAddingNote && (
-              <div className="relative p-4 rounded-lg border border-cyan-400/30 space-y-3 backdrop-blur-sm bg-gradient-to-br from-cyan-500/5 to-purple-500/5">
-                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
-                
-                {/* Botón para capturar timestamp */}
-                {isPodcast && (
+              <div className="rounded p-4 space-y-3" style={{ background: BONE, border: `1px solid ${SAND}` }}>
+                {isVideo && (
                   <button
-                    onClick={handleCaptureTimestamp}
-                    className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-cyan-400/30 text-cyan-300 hover:bg-cyan-500/10 transition-all text-xs font-medium"
+                    onClick={() => setNewNoteContent(prev => `[${formatTime(currentTime)}] ` + prev)}
+                    className="w-full flex items-center justify-center gap-2 py-2 rounded"
+                    style={{
+                      border: `1px solid ${SAND}`, background: "#EAF2EE", color: GREEN,
+                      fontFamily: FONT_UI, fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.05em",
+                    }}
                   >
-                    <Clock size={14} />
-                    Capturar timestamp ({formatTime(currentTime)})
+                    <Clock size={13} />
+                    Capturar tiempo ({formatTime(currentTime)})
                   </button>
                 )}
-
                 <Textarea
-                  placeholder={`Escribe tu ${noteTypeConfig[activeTab].label.toLowerCase()}...`}
+                  placeholder={`Escribe tu ${config.label.toLowerCase()}...`}
                   value={newNoteContent}
                   onChange={(e) => setNewNoteContent(e.target.value)}
-                  className="min-h-24 resize-none text-sm bg-slate-800/50 border-cyan-500/20 text-cyan-50 placeholder-cyan-400/30"
+                  className="min-h-24 resize-none text-sm"
                   autoFocus
                 />
                 <div className="flex gap-2">
-                  <Button
-                    size="sm"
-                    onClick={handleAddNote}
-                    className="flex-1 text-white font-medium transition-all hover:shadow-lg hover:drop-shadow-lg"
-                    style={{
-                      background: `linear-gradient(135deg, ${config.accentColor}, ${config.accentColor}dd)`,
-                      boxShadow: `0 0 12px ${config.glowColor}`,
-                    }}
-                  >
-                    Guardar
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => {
-                      setIsAddingNote(false);
-                      setNewNoteContent("");
-                    }}
-                    className="flex-1 border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/10"
+                  <Button size="sm" onClick={handleAddNote} className="flex-1">Guardar</Button>
+                  <Button size="sm" variant="outline"
+                    onClick={() => { setIsAddingNote(false); setNewNoteContent(""); }}
+                    className="flex-1"
                   >
                     Cancelar
                   </Button>
@@ -346,47 +399,59 @@ export function NotesPanel() {
             )}
           </div>
 
-          {/* Footer - Add Note Button */}
+          {/* ── Footer: botón + leyenda ── */}
           {!isAddingNote && (
-            <div className="relative p-6 border-t border-cyan-500/10 backdrop-blur-sm bg-gradient-to-t from-cyan-500/3 to-transparent">
-              <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent" />
-              <Button
+            <div
+              className="px-4 pb-4 pt-3 flex-shrink-0"
+              style={{ borderTop: `1px solid ${SAND}`, background: "#FFFFFF", borderRadius: "0 0 10px 10px" }}
+            >
+              <button
                 onClick={() => setIsAddingNote(true)}
-                className="w-full text-white font-medium transition-all hover:shadow-lg hover:drop-shadow-lg relative overflow-hidden group"
+                className="w-full flex items-center justify-center gap-2 py-2.5 rounded mb-3"
                 style={{
-                  background: `linear-gradient(135deg, ${config.accentColor}, ${config.accentColor}dd)`,
-                  boxShadow: `0 0 16px ${config.glowColor}`,
+                  background: GREEN, color: IVORY, border: `1px solid ${GREEN}`,
+                  fontFamily: FONT_UI, fontSize: "0.72rem", fontWeight: 600,
+                  letterSpacing: "0.07em", textTransform: "uppercase",
                 }}
+                onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.background = "#166B4F")}
+                onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.background = GREEN)}
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
-                <Plus size={16} className="mr-2 relative z-10" />
-                <span className="relative z-10">Agregar {noteTypeConfig[activeTab].label.toLowerCase()}</span>
-              </Button>
+                <Plus size={14} />
+                Agregar {config.label.toLowerCase()}
+              </button>
+
+              {/* Leyenda de tipos */}
+              <div className="flex justify-center gap-6">
+                {(["aprendizaje", "semilla", "conexion"] as NoteType[]).map((type) => {
+                  const cfg = noteTypeConfig[type];
+                  return (
+                    <div key={type} className="flex flex-col items-center gap-0.5">
+                      <div className="flex items-center gap-1.5">
+                        <span style={{
+                          width: 7, height: 7, borderRadius: "50%",
+                          background: cfg.color, flex: "none",
+                        }} />
+                        <span style={{
+                          fontFamily: FONT_UI, fontSize: "0.62rem",
+                          fontWeight: 600, color: INK, letterSpacing: "0.01em",
+                        }}>
+                          {cfg.label}
+                        </span>
+                      </div>
+                      <span style={{
+                        fontFamily: FONT_UI, fontSize: "0.55rem",
+                        color: EARTH, letterSpacing: "0.02em",
+                      }}>
+                        {cfg.desc}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           )}
         </div>
-
-        {/* Estilos globales para animaciones */}
-        <style>{`
-          @keyframes shimmer {
-            0% {
-              transform: translateX(-100%);
-            }
-            100% {
-              transform: translateX(100%);
-            }
-          }
-        `}</style>
       </div>
-
-      {/* Modal de video popup */}
-      {showVideoModal && embedUrl && (
-        <VideoModal
-          embedUrl={embedUrl}
-          title={selectedResource.title}
-          onClose={() => setShowVideoModal(false)}
-        />
-      )}
     </>
   );
 }

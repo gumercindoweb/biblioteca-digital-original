@@ -203,7 +203,59 @@ function vitePluginStorageProxy(): Plugin {
   };
 }
 
-const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy()];
+async function fetchOgImageVite(pageUrl: string): Promise<string | null> {
+  try {
+    const resp = await fetch(pageUrl, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      },
+      signal: AbortSignal.timeout(8000),
+    });
+    if (!resp.ok) return null;
+    const html = await resp.text();
+    const patterns = [
+      /<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i,
+      /<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/i,
+      /<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["']/i,
+      /<meta[^>]+content=["']([^"']+)["'][^>]+name=["']twitter:image["']/i,
+    ];
+    for (const pattern of patterns) {
+      const match = html.match(pattern);
+      if (match?.[1]) {
+        try { return new URL(match[1], pageUrl).href; } catch { return match[1]; }
+      }
+    }
+    return null;
+  } catch { return null; }
+}
+
+function vitePluginThumbnailProxy(): Plugin {
+  return {
+    name: "thumbnail-proxy",
+    configureServer(server: ViteDevServer) {
+      server.middlewares.use("/api/thumbnail", async (req, res) => {
+        const qs = req.url?.split("?")[1] ?? "";
+        const url = new URLSearchParams(qs).get("url");
+        if (!url) {
+          res.writeHead(400, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({ error: "Missing url" }));
+          return;
+        }
+        try {
+          const thumbnail = await fetchOgImageVite(url);
+          res.writeHead(200, { "Content-Type": "application/json", "Cache-Control": "public, max-age=3600" });
+          res.end(JSON.stringify({ thumbnail }));
+        } catch (e) {
+          res.writeHead(500, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({ error: String(e) }));
+        }
+      });
+    },
+  };
+}
+
+const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy(), vitePluginThumbnailProxy()];
 
 export default defineConfig({
   plugins,
