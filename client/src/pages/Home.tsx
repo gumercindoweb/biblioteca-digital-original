@@ -9,7 +9,7 @@ import { useStatus } from "@/contexts/StatusContext";
 import Sidebar from "@/components/Sidebar";
 import ResourceCard from "@/components/ResourceCard";
 import AddResourceModal from "@/components/AddResourceModal";
-import { BookOpen, Headphones, Monitor, Youtube, Grid3X3, List, Star, Volume2, Film } from "lucide-react";
+import { BookOpen, Headphones, Monitor, Youtube, Grid3X3, List, Star, Volume2, Film, Menu, Search, X } from "lucide-react";
 import { nanoid } from "nanoid";
 
 const typeIcons: Record<ResourceType, React.ReactNode> = {
@@ -51,6 +51,8 @@ export default function Home() {
   const [viewMode, setViewMode]             = useState<"grid" | "list">("grid");
   const [showOnlyFeatured, setShowOnlyFeatured] = useState(false);
   const [selectedTema, setSelectedTema] = useState<PodcastTema | "todos">("todos");
+  const [mobileNavOpen, setMobileNavOpen]   = useState(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
 
   // Reset tema filter when leaving podcast view
   const handleTypeChange = useCallback((type: ResourceType | "todos") => {
@@ -104,14 +106,82 @@ export default function Home() {
         onSearchChange={setSearchQuery}
         totalCount={allResources.length}
         onAddResource={() => setIsModalOpen(true)}
+        mobileOpen={mobileNavOpen}
+        onMobileClose={() => setMobileNavOpen(false)}
       />
 
+      {/* ── Barra top mobile ── */}
+      <div
+        className="md:hidden fixed top-0 left-0 right-0 z-30 flex items-center justify-between px-4"
+        style={{
+          height: 52,
+          background: "#0E3B2E",
+          borderBottom: "1px solid rgba(248,245,238,0.12)",
+        }}
+      >
+        <button onClick={() => setMobileNavOpen(true)} style={{ color: "rgba(248,245,238,0.7)", padding: 4 }}>
+          <Menu size={20} />
+        </button>
+
+        <div className="flex items-center gap-2">
+          <img src="/brand/logo/gj-symbol-ivory.png" alt="GJ" style={{ height: 22, width: "auto" }} />
+          <span style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: "1rem",
+            fontWeight: 600,
+            color: "#F8F5EE",
+          }}>
+            Mi Biblioteca
+          </span>
+        </div>
+
+        <button
+          onClick={() => setMobileSearchOpen(s => !s)}
+          style={{ color: "rgba(248,245,238,0.7)", padding: 4 }}
+        >
+          {mobileSearchOpen ? <X size={18} /> : <Search size={18} />}
+        </button>
+      </div>
+
+      {/* Barra de búsqueda mobile expandible */}
+      {mobileSearchOpen && (
+        <div
+          className="md:hidden fixed top-[52px] left-0 right-0 z-30 px-4 py-2"
+          style={{ background: "#0A2E25", borderBottom: "1px solid rgba(248,245,238,0.10)" }}
+        >
+          <div
+            className="flex items-center gap-2 px-3 py-2 rounded"
+            style={{ background: "rgba(248,245,238,0.07)", border: "1px solid rgba(184,148,85,0.35)" }}
+          >
+            <Search size={13} style={{ color: "rgba(248,245,238,0.45)" }} />
+            <input
+              autoFocus
+              type="text"
+              placeholder="Buscar recurso..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="flex-1 bg-transparent outline-none"
+              style={{
+                fontFamily: "'Hanken Grotesk', sans-serif",
+                color: "#F8F5EE",
+                fontSize: "0.85rem",
+              }}
+            />
+            {searchQuery && (
+              <button onClick={() => setSearchQuery("")}>
+                <X size={12} style={{ color: "rgba(248,245,238,0.4)" }} />
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Área principal */}
-      <main className="flex-1 min-w-0 flex flex-col">
+      <main className="flex-1 min-w-0 flex flex-col md:pt-0 pt-[52px]">
 
         {/* ── Header editorial ── */}
         <div
-          className="relative px-8 pt-10 pb-7 overflow-hidden"
+          className="relative px-4 md:px-8 pt-5 md:pt-10 pb-4 md:pb-7 overflow-hidden"
           style={{
             background: "#FFFFFF",
             borderBottom: `1px solid ${SAND}`,
@@ -136,7 +206,7 @@ export default function Home() {
             {/* Título de categoría */}
             <h2 style={{
               fontFamily: FONT_DISPLAY,
-              fontSize: "2.4rem",
+              fontSize: "clamp(1.6rem, 5vw, 2.4rem)",
               fontWeight: 600,
               color: INK,
               lineHeight: 1.05,
@@ -233,7 +303,7 @@ export default function Home() {
 
             {/* Filtro por estado — oculto en plataformas */}
             {selectedType !== "plataforma" && (
-            <div className="flex flex-wrap gap-2 mb-3">
+            <div className="flex gap-2 mb-3 overflow-x-auto pb-1" style={{ scrollbarWidth: "none" }}>
               {(["todos", "en-cola", "leyendo", "completado"] as (Status | "todos")[]).map((status) => {
                 const active = selectedStatus === status;
                 const color  = status === "todos" ? GREEN : statusColors[status as Status];
@@ -246,7 +316,7 @@ export default function Home() {
                   <button
                     key={status}
                     onClick={() => setSelectedStatus(status as Status | "todos")}
-                    className="px-3 py-1.5 rounded-full text-xs transition-all"
+                    className="px-3 py-1.5 rounded-full text-xs transition-all flex-shrink-0"
                     style={{
                       fontFamily: FONT_UI,
                       fontWeight: active ? 600 : 500,
@@ -267,10 +337,10 @@ export default function Home() {
 
             {/* Filtro de temas — solo visible en Podcasts */}
             {selectedType === "podcast" && (
-              <div className="flex flex-wrap gap-2 mb-3">
+              <div className="flex gap-2 mb-3 overflow-x-auto pb-1" style={{ scrollbarWidth: "none" }}>
                 <button
                   onClick={() => setSelectedTema("todos")}
-                  className="px-3 py-1 rounded-full text-xs transition-all"
+                  className="px-3 py-1 rounded-full text-xs transition-all flex-shrink-0"
                   style={{
                     fontFamily: FONT_UI,
                     fontWeight: selectedTema === "todos" ? 600 : 500,
@@ -290,7 +360,7 @@ export default function Home() {
                     <button
                       key={t.id}
                       onClick={() => setSelectedTema(active ? "todos" : t.id)}
-                      className="px-3 py-1 rounded-full text-xs transition-all"
+                      className="px-3 py-1 rounded-full text-xs transition-all flex-shrink-0"
                       style={{
                         fontFamily: FONT_UI,
                         fontWeight: active ? 600 : 500,
@@ -350,12 +420,12 @@ export default function Home() {
         </div>
 
         {/* ── Grid de tarjetas ── */}
-        <div className="flex-1 p-8" style={{ background: IVORY }}>
+        <div className="flex-1 p-4 md:p-8" style={{ background: IVORY }}>
           {filteredResources.length > 0 ? (
             <div
               className={viewMode === "grid" ? "grid gap-4" : "flex flex-col gap-3"}
               style={viewMode === "grid"
-                ? { gridTemplateColumns: "repeat(auto-fill, minmax(288px, 1fr))" }
+                ? { gridTemplateColumns: "repeat(auto-fill, minmax(min(288px, 100%), 1fr))" }
                 : {}}
             >
               {filteredResources.map((resource, index) => (

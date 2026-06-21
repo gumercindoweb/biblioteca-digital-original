@@ -25,6 +25,8 @@ interface SidebarProps {
   onSearchChange: (q: string) => void;
   totalCount: number;
   onAddResource?: () => void;
+  mobileOpen?: boolean;
+  onMobileClose?: () => void;
 }
 
 export default function Sidebar({
@@ -36,8 +38,15 @@ export default function Sidebar({
   onSearchChange,
   totalCount,
   onAddResource,
+  mobileOpen = false,
+  onMobileClose,
 }: SidebarProps) {
   const [searchFocused, setSearchFocused] = useState(false);
+
+  const handleNavClick = (fn: () => void) => {
+    fn();
+    onMobileClose?.();
+  };
 
   const allTypes: Array<{ id: ResourceType | "todos"; label: string }> = [
     { id: "todos",       label: "Todos los tipos" },
@@ -60,42 +69,65 @@ export default function Sidebar({
   const FONT_SER = "'Cormorant Garamond', 'Times New Roman', serif";
 
   return (
+    <>
+      {/* Backdrop mobile */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 z-40 md:hidden"
+          style={{ background: "rgba(10,46,37,0.55)", backdropFilter: "blur(2px)" }}
+          onClick={onMobileClose}
+        />
+      )}
+
     <aside
-      className="w-[228px] min-w-[228px] h-screen sticky top-0 flex flex-col overflow-y-auto"
+      className={`w-[228px] min-w-[228px] h-screen flex flex-col overflow-y-auto
+        md:sticky md:top-0
+        max-md:fixed max-md:inset-y-0 max-md:left-0 max-md:z-50 max-md:transition-transform max-md:duration-300
+        ${mobileOpen ? "max-md:translate-x-0" : "max-md:-translate-x-full"}`}
       style={{ background: BG, borderRight: `1px solid ${BORDER}` }}
     >
       {/* ── Logo / Identidad ── */}
       <div className="px-5 pt-7 pb-5">
-        <div className="flex items-center gap-3 mb-4">
-          <img
-            src="/brand/logo/gj-symbol-ivory.png"
-            alt="GJ"
-            style={{ height: 36, width: "auto", objectFit: "contain" }}
-          />
-          <div>
-            <p style={{
-              fontFamily: FONT_UI,
-              fontSize: "0.58rem",
-              fontWeight: 600,
-              letterSpacing: "0.16em",
-              textTransform: "uppercase",
-              color: GOLD,
-              lineHeight: 1,
-              marginBottom: "3px",
-            }}>
-              Mi
-            </p>
-            <h1 style={{
-              fontFamily: FONT_SER,
-              fontSize: "1.15rem",
-              fontWeight: 600,
-              color: IVORY,
-              lineHeight: 1,
-              letterSpacing: "-0.01em",
-            }}>
-              Biblioteca
-            </h1>
+        <div className="flex items-center justify-between gap-3 mb-4">
+          <div className="flex items-center gap-3">
+            <img
+              src="/brand/logo/gj-symbol-ivory.png"
+              alt="GJ"
+              style={{ height: 36, width: "auto", objectFit: "contain" }}
+            />
+            <div>
+              <p style={{
+                fontFamily: FONT_UI,
+                fontSize: "0.58rem",
+                fontWeight: 600,
+                letterSpacing: "0.16em",
+                textTransform: "uppercase",
+                color: GOLD,
+                lineHeight: 1,
+                marginBottom: "3px",
+              }}>
+                Mi
+              </p>
+              <h1 style={{
+                fontFamily: FONT_SER,
+                fontSize: "1.15rem",
+                fontWeight: 600,
+                color: IVORY,
+                lineHeight: 1,
+                letterSpacing: "-0.01em",
+              }}>
+                Biblioteca
+              </h1>
+            </div>
           </div>
+          {/* Botón cerrar — solo mobile */}
+          <button
+            className="md:hidden flex items-center justify-center rounded"
+            style={{ color: "rgba(248,245,238,0.5)", padding: 4 }}
+            onClick={onMobileClose}
+          >
+            <X size={18} />
+          </button>
         </div>
         {/* Regla gold */}
         <div style={{ height: "1.5px", background: GOLD, opacity: 0.35 }} />
@@ -151,7 +183,7 @@ export default function Sidebar({
             return (
               <li key={cat.id}>
                 <button
-                  onClick={() => onCategoryChange(cat.id)}
+                  onClick={() => handleNavClick(() => onCategoryChange(cat.id))}
                   className="w-full flex items-center gap-2.5 px-3 py-2 rounded text-left transition-all"
                   style={{
                     background: active ? "rgba(184,148,85,0.14)" : "transparent",
@@ -203,7 +235,7 @@ export default function Sidebar({
             return (
               <li key={t.id}>
                 <button
-                  onClick={() => onTypeChange(t.id)}
+                  onClick={() => handleNavClick(() => onTypeChange(t.id))}
                   className="w-full flex items-center gap-2.5 px-3 py-2 rounded text-left transition-all"
                   style={{
                     background: active ? "rgba(184,148,85,0.14)" : "transparent",
@@ -232,7 +264,7 @@ export default function Sidebar({
       <div className="px-4 py-5 mt-auto">
         <div style={{ height: "1px", background: BORDER, marginBottom: "14px" }} />
         <button
-          onClick={onAddResource}
+          onClick={() => { onAddResource?.(); onMobileClose?.(); }}
           className="w-full flex items-center justify-center gap-2 py-2.5 rounded transition-all"
           style={{
             background: "rgba(184,148,85,0.14)",
@@ -265,5 +297,6 @@ export default function Sidebar({
         </p>
       </div>
     </aside>
+    </>
   );
 }
