@@ -34,6 +34,12 @@ function getYouTubeId(url: string): string | null {
   return match?.[1] ?? null;
 }
 
+function getPlaylistId(url: string): string | null {
+  if (!url) return null;
+  const match = url.match(/[?&]list=([^&\n?#]+)/);
+  return match?.[1] ?? null;
+}
+
 function formatTime(seconds: number): string {
   const m = Math.floor(seconds / 60).toString().padStart(2, "0");
   const s = Math.floor(seconds % 60).toString().padStart(2, "0");
@@ -43,7 +49,10 @@ function formatTime(seconds: number): string {
 function InlineVideoPlayer({ videoId, title, youtubeUrl }: { videoId: string; title: string; youtubeUrl: string }) {
   const [playing, setPlaying] = useState(false);
   const thumbUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
-  const embedUrl = `https://www.youtube.com/embed/${videoId}?modestbranding=1&rel=0&autoplay=1`;
+  const playlistId = getPlaylistId(youtubeUrl);
+  const embedUrl = playlistId
+    ? `https://www.youtube.com/embed/${videoId}?list=${playlistId}&listType=playlist&modestbranding=1&rel=0&autoplay=1`
+    : `https://www.youtube.com/embed/${videoId}?modestbranding=1&rel=0&autoplay=1`;
 
   return (
     <div style={{ flexShrink: 0 }}>
