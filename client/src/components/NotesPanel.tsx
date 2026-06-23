@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { X, Plus, Trash2, BookOpen, ExternalLink, Clock, Play, Youtube } from "lucide-react";
+import { X, Plus, Trash2, BookOpen, ExternalLink, Clock, Play, Youtube, ChevronRight } from "lucide-react";
 import { useNotes } from "@/contexts/NotesContext";
-import { Note, NoteType } from "@/lib/data";
+import { Note, NoteType, CourseModule } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { nanoid } from "nanoid";
@@ -161,6 +161,130 @@ function InlineVideoPlayer({ videoId, title, youtubeUrl }: { videoId: string; ti
   );
 }
 
+function CursoPlayer({ modules, courseUrl }: { modules: CourseModule[]; courseUrl?: string }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const active = modules[activeIndex];
+  const [playing, setPlaying] = useState(false);
+  const thumbUrl = `https://img.youtube.com/vi/${active.videoId}/hqdefault.jpg`;
+  const embedUrl = `https://www.youtube.com/embed/${active.videoId}?autoplay=1&modestbranding=1&rel=0`;
+
+  const handleSelect = (i: number) => {
+    setActiveIndex(i);
+    setPlaying(true);
+  };
+
+  return (
+    <div style={{ flexShrink: 0 }}>
+      {/* Video player */}
+      <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, background: "#111" }}>
+        {playing ? (
+          <iframe
+            key={active.videoId}
+            src={embedUrl}
+            title={active.title}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0 }}
+          />
+        ) : (
+          <div style={{ position: "absolute", inset: 0, cursor: "pointer" }} onClick={() => setPlaying(true)}>
+            <img src={thumbUrl} alt={active.title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            <div style={{ position: "absolute", inset: 0, background: "rgba(10,46,37,0.28)" }} />
+            <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <div style={{
+                width: 64, height: 64, borderRadius: "50%",
+                background: "rgba(255,255,255,0.93)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                boxShadow: "0 4px 24px rgba(0,0,0,0.45)",
+              }}>
+                <Play size={24} fill={GREEN_900} color={GREEN_900} style={{ marginLeft: 4 }} />
+              </div>
+            </div>
+            <div style={{
+              position: "absolute", bottom: 0, left: 0, right: 0,
+              padding: "40px 14px 10px",
+              background: "linear-gradient(transparent, rgba(10,46,37,0.72))",
+              pointerEvents: "none",
+            }}>
+              <p style={{ fontFamily: FONT_UI, fontSize: "0.7rem", color: "rgba(248,245,238,0.92)" }}>{active.title}</p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Module list */}
+      <div style={{
+        background: GREEN_900,
+        borderBottom: "1px solid rgba(248,245,238,0.06)",
+      }}>
+        <div style={{
+          padding: "8px 14px 6px",
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+        }}>
+          <span style={{
+            fontFamily: FONT_UI, fontSize: "0.58rem", fontWeight: 600,
+            letterSpacing: "0.10em", textTransform: "uppercase",
+            color: GOLD,
+          }}>
+            Módulos — {modules.length} videos
+          </span>
+          {courseUrl && (
+            <a href={courseUrl} target="_blank" rel="noopener noreferrer" style={{
+              display: "flex", alignItems: "center", gap: 5,
+              padding: "3px 10px", borderRadius: 999,
+              background: "rgba(255,255,255,0.07)",
+              border: "1px solid rgba(248,245,238,0.12)",
+              fontFamily: FONT_UI, fontSize: "0.6rem", fontWeight: 600,
+              letterSpacing: "0.05em", color: GOLD, textDecoration: "none",
+            }}>
+              <Youtube size={11} /> Ver en YouTube
+            </a>
+          )}
+        </div>
+        <div style={{ maxHeight: 220, overflowY: "auto" }}>
+          {modules.map((mod, i) => {
+            const isActive = i === activeIndex;
+            return (
+              <button
+                key={mod.videoId}
+                onClick={() => handleSelect(i)}
+                style={{
+                  width: "100%", display: "flex", alignItems: "center", gap: 10,
+                  padding: "8px 14px",
+                  background: isActive ? "rgba(184,148,85,0.12)" : "transparent",
+                  borderLeft: `3px solid ${isActive ? GOLD : "transparent"}`,
+                  borderBottom: "1px solid rgba(248,245,238,0.05)",
+                  cursor: "pointer", textAlign: "left", transition: "background 120ms ease",
+                }}
+                onMouseEnter={(e) => { if (!isActive) (e.currentTarget as HTMLElement).style.background = "rgba(248,245,238,0.04)"; }}
+                onMouseLeave={(e) => { if (!isActive) (e.currentTarget as HTMLElement).style.background = "transparent"; }}
+              >
+                <span style={{
+                  fontFamily: FONT_UI, fontSize: "0.58rem", fontWeight: 600,
+                  color: isActive ? GOLD : "rgba(248,245,238,0.28)",
+                  minWidth: 22, flexShrink: 0,
+                }}>
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span style={{
+                  fontFamily: FONT_UI, fontSize: "0.75rem",
+                  color: isActive ? IVORY : "rgba(248,245,238,0.65)",
+                  fontWeight: isActive ? 500 : 400,
+                  lineHeight: 1.35, flex: 1,
+                }}>
+                  {mod.title}
+                </span>
+                {isActive && playing && <ChevronRight size={12} style={{ color: GOLD, flexShrink: 0 }} />}
+                {isActive && !playing && <Play size={11} fill={GOLD} style={{ color: GOLD, flexShrink: 0 }} />}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function NotesPanel() {
   const { selectedResource, setSelectedResource, getResourceNotes, addNote, deleteNote } = useNotes();
   const [activeTab, setActiveTab]           = useState<NoteType>("aprendizaje");
@@ -179,6 +303,7 @@ export function NotesPanel() {
   const notes    = getResourceNotes(selectedResource.id);
   const tabNotes = notes.filter((n) => n.type === activeTab);
   const config   = noteTypeConfig[activeTab];
+  const isCurso  = selectedResource.type === "curso";
   const isVideo  = selectedResource.type === "podcast" || selectedResource.type === "audiolibro" || selectedResource.type === "documental";
   const videoId  = isVideo && selectedResource.url ? getYouTubeId(selectedResource.url) : null;
 
@@ -312,7 +437,12 @@ export function NotesPanel() {
             </div>
           </div>
 
-          {/* ── Video inline ── */}
+          {/* ── Curso: lista de módulos ── */}
+          {isCurso && selectedResource.modules && selectedResource.modules.length > 0 && (
+            <CursoPlayer modules={selectedResource.modules} courseUrl={selectedResource.url} />
+          )}
+
+          {/* ── Video inline (podcast / audiolibro / documental) ── */}
           {videoId && <InlineVideoPlayer videoId={videoId} title={selectedResource.title} youtubeUrl={selectedResource.url!} />}
 
           {/* ── Notas (scrollable) ── */}

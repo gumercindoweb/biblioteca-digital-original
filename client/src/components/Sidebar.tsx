@@ -5,7 +5,7 @@
 
 import { useState } from "react";
 import { categories, ResourceType } from "@/lib/data";
-import { BookOpen, Headphones, Monitor, Youtube, Library, Search, X, Plus, Volume2, Film } from "lucide-react";
+import { BookOpen, Headphones, Monitor, Youtube, Library, Search, X, Plus, Volume2, Film, GraduationCap } from "lucide-react";
 
 const typeIcons: Record<ResourceType, React.ReactNode> = {
   libro:      <BookOpen size={14} />,
@@ -14,6 +14,7 @@ const typeIcons: Record<ResourceType, React.ReactNode> = {
   documental: <Film size={14} />,
   plataforma: <Monitor size={14} />,
   youtube:    <Youtube size={14} />,
+  curso:      <GraduationCap size={14} />,
 };
 
 interface SidebarProps {
@@ -56,6 +57,7 @@ export default function Sidebar({
     { id: "documental",  label: "Documentales" },
     { id: "plataforma",  label: "Plataformas" },
     { id: "youtube",     label: "YouTube" },
+    { id: "curso",       label: "Cursos" },
   ];
 
   /* ---- tokens ---- */

@@ -7,7 +7,7 @@ import { useState } from "react";
 import { Resource, ResourceType, statusColors, statusLabels, resourceTypeLabels } from "@/lib/data";
 import {
   BookOpen, Headphones, Monitor, Youtube,
-  ExternalLink, Tag, FileText, Clock, Star, Play, X, Link,
+  ExternalLink, Tag, FileText, Clock, Star, Play, X, Link, GraduationCap, Layers,
 } from "lucide-react";
 import { useNotes } from "@/contexts/NotesContext";
 import { useStatus } from "@/contexts/StatusContext";
@@ -89,6 +89,8 @@ function CardThumbnail({ resource, onPlayClick }: { resource: Resource; onPlayCl
 
   const videoId = (resource.type === "podcast" || resource.type === "audiolibro" || resource.type === "documental")
     ? getYouTubeId(resource.url)
+    : resource.type === "curso" && resource.modules && resource.modules.length > 0
+    ? resource.modules[0].videoId
     : null;
 
   // For YouTube channels and platforms, fetch og:image via server proxy
@@ -120,6 +122,26 @@ function CardThumbnail({ resource, onPlayClick }: { resource: Resource; onPlayCl
           className="absolute inset-0"
           style={{ background: "linear-gradient(to top, rgba(10,46,37,0.55) 0%, transparent 55%)" }}
         />
+        {/* Módulos badge — solo para cursos */}
+        {resource.type === "curso" && resource.modules && (
+          <div style={{
+            position: "absolute", top: 8, right: 8,
+            background: "rgba(10,46,37,0.80)",
+            backdropFilter: "blur(4px)",
+            borderRadius: 999,
+            padding: "3px 10px",
+            display: "flex", alignItems: "center", gap: 5,
+          }}>
+            <Layers size={10} style={{ color: "#B89455" }} />
+            <span style={{
+              fontFamily: "'Hanken Grotesk', sans-serif",
+              fontSize: "0.6rem", fontWeight: 600,
+              color: "#F8F5EE", letterSpacing: "0.05em",
+            }}>
+              {resource.modules.length} módulos
+            </span>
+          </div>
+        )}
         {/* Play button — abre modal de notas directamente */}
         <button
           className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
@@ -326,6 +348,9 @@ const typeIcons: Record<ResourceType, React.ReactNode> = {
   podcast:    <Headphones size={12} />,
   plataforma: <Monitor size={12} />,
   youtube:    <Youtube size={12} />,
+  audiolibro: <Headphones size={12} />,
+  documental: <Youtube size={12} />,
+  curso:      <GraduationCap size={12} />,
 };
 
 const typeColors: Record<ResourceType, string> = {
@@ -335,6 +360,7 @@ const typeColors: Record<ResourceType, string> = {
   documental: "#2C6E8A",
   plataforma: "#A6843F",
   youtube:    "#8F3B36",
+  curso:      "#2E6B4F",
 };
 
 const typeBg: Record<ResourceType, string> = {
@@ -344,6 +370,7 @@ const typeBg: Record<ResourceType, string> = {
   documental: "rgba(44,110,138,0.09)",
   plataforma: "rgba(166,132,63,0.09)",
   youtube:    "rgba(143,59,54,0.08)",
+  curso:      "rgba(46,107,79,0.09)",
 };
 
 /* ── ResourceCard ─────────────────────────────────────────── */
@@ -374,7 +401,7 @@ export default function ResourceCard({ resource, index }: ResourceCardProps) {
   };
 
   const subscriptionStatus = getSubscriptionStatus();
-  const hasThumbnail = resource.type !== "libro";
+  const hasThumbnail = resource.type !== "libro" && !(resource.type === "curso" && (!resource.modules || resource.modules.length === 0));
 
   return (
     <>

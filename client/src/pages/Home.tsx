@@ -9,7 +9,7 @@ import { useStatus } from "@/contexts/StatusContext";
 import Sidebar from "@/components/Sidebar";
 import ResourceCard from "@/components/ResourceCard";
 import AddResourceModal from "@/components/AddResourceModal";
-import { BookOpen, Headphones, Monitor, Youtube, Grid3X3, List, Star, Volume2, Film, Menu, Search, X } from "lucide-react";
+import { BookOpen, Headphones, Monitor, Youtube, Grid3X3, List, Star, Volume2, Film, Menu, Search, X, GraduationCap } from "lucide-react";
 import { nanoid } from "nanoid";
 
 const typeIcons: Record<ResourceType, React.ReactNode> = {
@@ -19,6 +19,7 @@ const typeIcons: Record<ResourceType, React.ReactNode> = {
   documental: <Film size={14} />,
   plataforma: <Monitor size={14} />,
   youtube:    <Youtube size={14} />,
+  curso:      <GraduationCap size={14} />,
 };
 
 const bookStatusLabels: Record<Status, string> = {
