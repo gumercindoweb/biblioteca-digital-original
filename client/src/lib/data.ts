@@ -33,6 +33,8 @@ export type CourseModule = {
   videoId: string;
 };
 
+export type PlatformType = "libros" | "audiolibros" | "resúmenes" | "educación" | "otros";
+
 export type Resource = {
   id: string;
   title: string;
@@ -49,6 +51,7 @@ export type Resource = {
   tema?: PodcastTema;
   affiliate?: boolean;
   modules?: CourseModule[];
+  platformType?: PlatformType;
 };
 
 export const categories: Category[] = [
@@ -295,6 +298,95 @@ export const resources: Resource[] = [
     category: "negocios",
     status: "en-cola",
     tags: ["objetivos", "crecimiento", "mentalidad"],
+  },
+  // ─── LIBROS FAVORITOS RECOMENDADOS ──────────────────────────
+  {
+    id: "secretos-mente-millonaria",
+    title: "Los secretos de una mente millonaria",
+    author: "T. Harv Eker",
+    description: "Los patrones de pensamiento que separan a los ricos de los pobres. Cómo reprogramar tu mentalidad financiera.",
+    type: "libro",
+    category: "finanzas",
+    status: "completado",
+    tags: ["mentalidad", "riqueza", "finanzas personales", "hábitos"],
+    featured: true,
+  },
+  {
+    id: "problema-dinero-eres-tu",
+    title: "El problema no es el dinero, eres tú",
+    author: "Jen Sincero",
+    description: "Identifica y supera los bloqueos mentales que te impiden generar y mantener riqueza.",
+    type: "libro",
+    category: "finanzas",
+    status: "completado",
+    tags: ["mentalidad", "dinero", "transformación", "abundancia"],
+    featured: true,
+  },
+  {
+    id: "piense-hagase-rico",
+    title: "Piense y hágase Rico",
+    author: "Napoleon Hill",
+    description: "Clásico sobre cómo el pensamiento crea realidad. Principios fundamentales para generar riqueza y éxito.",
+    type: "libro",
+    category: "finanzas",
+    status: "completado",
+    tags: ["clásico", "éxito", "riqueza", "principios"],
+    featured: true,
+  },
+  {
+    id: "aprendiendo-mejores",
+    title: "Aprendiendo de los mejores",
+    author: "Varios autores",
+    description: "Lecciones y estrategias de emprendedores y empresarios exitosos de América Latina.",
+    type: "libro",
+    category: "negocios",
+    status: "completado",
+    tags: ["emprendimiento", "mentalidad", "estrategia", "éxito"],
+    featured: true,
+  },
+  {
+    id: "zonas-erroneas",
+    title: "Zonas Erroneas",
+    author: "Wayne Dyer",
+    description: "Cómo identificar y eliminar patrones de pensamiento autolimitantes que obstaculizan tu felicidad.",
+    type: "libro",
+    category: "psicologia",
+    status: "completado",
+    tags: ["psicología", "autosabotaje", "libertad", "consciencia"],
+    featured: true,
+  },
+  {
+    id: "juego-vida-como-jugarlo",
+    title: "El Juego de la vida y cómo jugarlo",
+    author: "Florence Scovel Shinn",
+    description: "Revelaciones sobre las leyes espirituales del universo y cómo atraer lo que deseas.",
+    type: "libro",
+    category: "espiritualidad",
+    status: "completado",
+    tags: ["manifestación", "leyes universales", "abundancia", "espíritu"],
+    featured: true,
+  },
+  {
+    id: "21-creencias-amargan-vida",
+    title: "21 creencias que te amargan la vida",
+    author: "Varios autores",
+    description: "Identifica las creencias limitantes que te mantienen estancado y aprende a transformarlas.",
+    type: "libro",
+    category: "psicologia",
+    status: "completado",
+    tags: ["creencias", "transformación", "mentalidad", "crecimiento"],
+    featured: true,
+  },
+  {
+    id: "placebo-eres-tu",
+    title: "El placebo eres tú",
+    author: "Joe Dispenza",
+    description: "Cómo el poder de la mente puede transformar tu realidad física y emocional.",
+    type: "libro",
+    category: "espiritualidad",
+    status: "completado",
+    tags: ["mente", "transformación", "consciente", "realidad"],
+    featured: true,
   },
   // ─── YOUTUBE ────────────────────────────────────────────────
   {
@@ -586,6 +678,87 @@ export const resources: Resource[] = [
     status: "en-cola",
     url: "https://official.mastermind.com/c/start-here",
     tags: ["mastermind", "emprendimiento", "comunidad"],
+    subscription: {
+      expiresAt: "evergreen",
+      isActive: true,
+    },
+  },
+  // ─── PLATAFORMAS DE LIBROS Y AUDIOLIBROS ────────────────────
+  {
+    id: "plat-audible",
+    title: "Audible",
+    description: "Plataforma de audiolibros de Amazon con millones de títulos narrados profesionalmente. Acceso a libros de desarrollo personal, negocios, ficción, historia y más.",
+    type: "plataforma",
+    category: "desarrollo-personal",
+    status: "en-cola",
+    url: "https://www.audible.com/",
+    tags: ["audiolibros", "narración profesional", "acceso ilimitado", "aprendizaje"],
+    featured: true,
+    platformType: "audiolibros",
+    subscription: {
+      expiresAt: "evergreen",
+      isActive: true,
+    },
+  },
+  {
+    id: "plat-storytell",
+    title: "Storytell",
+    description: "Plataforma latinoamericana de audiolibros con títulos en español. Enfocada en desarrollo personal, ficción, historia y educación.",
+    type: "plataforma",
+    category: "desarrollo-personal",
+    status: "en-cola",
+    url: "https://www.storytellatl.com/",
+    tags: ["audiolibros", "español", "desarrollo personal", "comunidad"],
+    featured: true,
+    platformType: "audiolibros",
+    subscription: {
+      expiresAt: "evergreen",
+      isActive: true,
+    },
+  },
+  {
+    id: "plat-wiser",
+    title: "Wiser - Resúmenes de Libros",
+    description: "Plataforma de resúmenes de libros de no-ficción. Aprende los conceptos clave de los mejores libros de desarrollo personal, negocios y más en 15 minutos.",
+    type: "plataforma",
+    category: "desarrollo-personal",
+    status: "en-cola",
+    url: "https://wiser.com/",
+    tags: ["resúmenes", "libros", "conceptos clave", "aprendizaje rápido"],
+    featured: true,
+    platformType: "resúmenes",
+    subscription: {
+      expiresAt: "evergreen",
+      isActive: true,
+    },
+  },
+  {
+    id: "plat-scribd",
+    title: "Scribd",
+    description: "Biblioteca digital con millones de libros, audiolibros, revistas y documentos. Acceso ilimitado a contenido educativo y de entretenimiento.",
+    type: "plataforma",
+    category: "desarrollo-personal",
+    status: "en-cola",
+    url: "https://www.scribd.com/",
+    tags: ["libros", "audiolibros", "revistas", "documentos", "acceso ilimitado"],
+    featured: true,
+    platformType: "libros",
+    subscription: {
+      expiresAt: "evergreen",
+      isActive: true,
+    },
+  },
+  {
+    id: "plat-everand",
+    title: "Everand",
+    description: "Plataforma de lectura digital con ebooks, audiolibros y documentos. Acceso a miles de títulos de no-ficción, desarrollo personal y más.",
+    type: "plataforma",
+    category: "desarrollo-personal",
+    status: "en-cola",
+    url: "https://www.everand.com/",
+    tags: ["ebooks", "audiolibros", "lectura digital", "no-ficción"],
+    featured: true,
+    platformType: "libros",
     subscription: {
       expiresAt: "evergreen",
       isActive: true,
