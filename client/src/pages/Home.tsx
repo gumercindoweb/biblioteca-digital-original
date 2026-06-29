@@ -3,8 +3,9 @@
 // Editorial luxury: ivory page · deep green header · brass detail
 // ============================================================
 
-import { useState, useMemo, useCallback } from "react";
-import { resources as initialResources, categories, Resource, ResourceType, Category, Status, statusLabels, statusColors, podcastTemas, PodcastTema } from "@/lib/data";
+import { useState, useMemo, useCallback, useEffect } from "react";
+import { resources as fallbackResources, categories, Resource, ResourceType, Category, Status, statusLabels, statusColors, podcastTemas, PodcastTema } from "@/lib/data";
+import { supabase } from "@/lib/supabase";
 import { useStatus } from "@/contexts/StatusContext";
 import Sidebar from "@/components/Sidebar";
 import ResourceCard from "@/components/ResourceCard";
@@ -43,7 +44,37 @@ const GREEN_HOVER  = "#166B4F";
 
 export default function Home() {
   const { resourceStatuses } = useStatus();
-  const [allResources, setAllResources]     = useState<Resource[]>(initialResources);
+  const [allResources, setAllResources]     = useState<Resource[]>(fallbackResources);
+
+  useEffect(() => {
+    supabase
+      .from("resources")
+      .select("*")
+      .then(({ data, error }) => {
+        if (error || !data || data.length === 0) return;
+        const mapped: Resource[] = data.map((r: any) => ({
+          id: r.id,
+          title: r.title,
+          author: r.author ?? undefined,
+          description: r.description ?? undefined,
+          type: r.type as ResourceType,
+          category: r.category,
+          status: r.status as Status,
+          url: r.url ?? undefined,
+          tags: r.tags ?? [],
+          featured: r.featured ?? false,
+          tema: r.tema ?? undefined,
+          affiliate: r.affiliate ?? false,
+          platformType: r.platform_type ?? undefined,
+          subscription: r.subscription_expires_at ? {
+            expiresAt: r.subscription_expires_at,
+            isActive: r.subscription_is_active ?? true,
+          } : undefined,
+          modules: r.modules ?? undefined,
+        }));
+        setAllResources(mapped);
+      });
+  }, []);
   const [selectedCategory, setSelectedCategory] = useState("todos");
   const [selectedType, setSelectedType]     = useState<ResourceType | "todos">("todos");
   const [selectedStatus, setSelectedStatus] = useState<Status | "todos">("todos");
