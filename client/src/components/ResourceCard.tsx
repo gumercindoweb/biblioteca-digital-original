@@ -163,6 +163,34 @@ function CardThumbnail({ resource, onPlayClick }: { resource: Resource; onPlayCl
     );
   }
 
+  /* — Libro con portada — */
+  if ((resource.type === "libro" || resource.type === "audiolibro") && resource.coverUrl) {
+    return (
+      <div
+        className="relative overflow-hidden flex items-center justify-center"
+        style={{ height: 180, background: "#0E3B2E", marginBottom: 0 }}
+      >
+        <img
+          src={resource.coverUrl}
+          alt={`Portada de ${resource.title}`}
+          style={{
+            height: "100%",
+            width: "auto",
+            maxWidth: "100%",
+            objectFit: "contain",
+            display: "block",
+            filter: "drop-shadow(0 8px 24px rgba(0,0,0,0.5))",
+          }}
+          onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{ background: "linear-gradient(to top, rgba(10,46,37,0.4) 0%, transparent 60%)" }}
+        />
+      </div>
+    );
+  }
+
   /* — YouTube channel — */
   if (resource.type === "youtube") {
     return (
@@ -401,7 +429,7 @@ export default function ResourceCard({ resource, index }: ResourceCardProps) {
   };
 
   const subscriptionStatus = getSubscriptionStatus();
-  const hasThumbnail = resource.type !== "libro" && !(resource.type === "curso" && (!resource.modules || resource.modules.length === 0));
+  const hasThumbnail = (resource.type !== "libro" && !(resource.type === "curso" && (!resource.modules || resource.modules.length === 0))) || !!(resource.coverUrl);
 
   return (
     <>

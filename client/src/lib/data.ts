@@ -52,6 +52,7 @@ export type Resource = {
   affiliate?: boolean;
   modules?: CourseModule[];
   platformType?: PlatformType;
+  coverUrl?: string;
 };
 
 export const categories: Category[] = [

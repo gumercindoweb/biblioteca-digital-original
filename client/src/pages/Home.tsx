@@ -71,6 +71,7 @@ export default function Home() {
             isActive: r.subscription_is_active ?? true,
           } : undefined,
           modules: r.modules ?? undefined,
+          coverUrl: r.cover_url ?? undefined,
         }));
         setAllResources(mapped);
       });
