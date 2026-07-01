@@ -5,7 +5,8 @@
 
 import { useState } from "react";
 import { categories, ResourceType } from "@/lib/data";
-import { BookOpen, Headphones, Monitor, Youtube, Library, Search, X, Plus, Volume2, Film, GraduationCap } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { BookOpen, Headphones, Monitor, Youtube, Library, Search, X, Plus, Volume2, Film, GraduationCap, Lock, LogOut } from "lucide-react";
 
 const typeIcons: Record<ResourceType, React.ReactNode> = {
   libro:      <BookOpen size={14} />,
@@ -26,6 +27,7 @@ interface SidebarProps {
   onSearchChange: (q: string) => void;
   totalCount: number;
   onAddResource?: () => void;
+  onLoginClick?: () => void;
   mobileOpen?: boolean;
   onMobileClose?: () => void;
 }
@@ -39,10 +41,12 @@ export default function Sidebar({
   onSearchChange,
   totalCount,
   onAddResource,
+  onLoginClick,
   mobileOpen = false,
   onMobileClose,
 }: SidebarProps) {
   const [searchFocused, setSearchFocused] = useState(false);
+  const { isAdmin, signOut } = useAuth();
 
   const handleNavClick = (fn: () => void) => {
     fn();
@@ -265,28 +269,79 @@ export default function Sidebar({
       {/* ── Footer ── */}
       <div className="px-4 py-5 mt-auto">
         <div style={{ height: "1px", background: BORDER, marginBottom: "14px" }} />
-        <button
-          onClick={() => { onAddResource?.(); onMobileClose?.(); }}
-          className="w-full flex items-center justify-center gap-2 py-2.5 rounded transition-all"
-          style={{
-            background: "rgba(184,148,85,0.14)",
-            border: `1px solid rgba(184,148,85,0.38)`,
-            color: GOLD,
-            fontFamily: FONT_UI,
-            fontSize: "0.75rem",
-            fontWeight: 600,
-            letterSpacing: "0.05em",
-          }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.background = "rgba(184,148,85,0.24)";
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.background = "rgba(184,148,85,0.14)";
-          }}
-        >
-          <Plus size={13} />
-          Agregar recurso
-        </button>
+
+        {isAdmin ? (
+          <>
+            {/* Admin: agregar recurso */}
+            <button
+              onClick={() => { onAddResource?.(); onMobileClose?.(); }}
+              className="w-full flex items-center justify-center gap-2 py-2.5 rounded transition-all"
+              style={{
+                background: "rgba(184,148,85,0.14)",
+                border: `1px solid rgba(184,148,85,0.38)`,
+                color: GOLD,
+                fontFamily: FONT_UI,
+                fontSize: "0.75rem",
+                fontWeight: 600,
+                letterSpacing: "0.05em",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.background = "rgba(184,148,85,0.24)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.background = "rgba(184,148,85,0.14)";
+              }}
+            >
+              <Plus size={13} />
+              Agregar recurso
+            </button>
+            {/* Cerrar sesión */}
+            <button
+              onClick={() => { signOut(); onMobileClose?.(); }}
+              className="w-full flex items-center justify-center gap-1.5 mt-2 py-1.5 rounded transition-all"
+              style={{
+                background: "transparent",
+                color: "rgba(248,245,238,0.45)",
+                fontFamily: FONT_UI,
+                fontSize: "0.62rem",
+                fontWeight: 500,
+                letterSpacing: "0.06em",
+              }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.color = IVORY)}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.color = "rgba(248,245,238,0.45)")}
+            >
+              <LogOut size={11} />
+              Cerrar sesión
+            </button>
+          </>
+        ) : (
+          /* Visitante: acceso discreto de admin */
+          <button
+            onClick={() => { onLoginClick?.(); onMobileClose?.(); }}
+            className="w-full flex items-center justify-center gap-1.5 py-2 rounded transition-all"
+            style={{
+              background: "transparent",
+              border: `1px solid ${BORDER}`,
+              color: "rgba(248,245,238,0.40)",
+              fontFamily: FONT_UI,
+              fontSize: "0.62rem",
+              fontWeight: 500,
+              letterSpacing: "0.08em",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.color = GOLD;
+              (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(184,148,85,0.38)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.color = "rgba(248,245,238,0.40)";
+              (e.currentTarget as HTMLButtonElement).style.borderColor = BORDER;
+            }}
+          >
+            <Lock size={10} />
+            Acceso administrador
+          </button>
+        )}
+
         <p style={{
           fontFamily: FONT_UI,
           fontSize: "0.58rem",

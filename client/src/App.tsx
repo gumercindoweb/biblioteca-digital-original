@@ -4,6 +4,7 @@ import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { AuthProvider } from "./contexts/AuthContext";
 import { NotesProvider } from "./contexts/NotesContext";
 import { StatusProvider } from "./contexts/StatusContext";
 import { NotesPanel } from "./components/NotesPanel";
@@ -33,15 +34,17 @@ function App() {
         defaultTheme="light"
         // switchable
       >
-        <NotesProvider>
-          <StatusProvider>
-            <TooltipProvider>
-              <Toaster />
-              <Router />
-              <NotesPanel />
-            </TooltipProvider>
-          </StatusProvider>
-        </NotesProvider>
+        <AuthProvider>
+          <NotesProvider>
+            <StatusProvider>
+              <TooltipProvider>
+                <Toaster />
+                <Router />
+                <NotesPanel />
+              </TooltipProvider>
+            </StatusProvider>
+          </NotesProvider>
+        </AuthProvider>
       </ThemeProvider>
     </ErrorBoundary>
   );

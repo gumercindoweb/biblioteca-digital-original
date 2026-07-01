@@ -3,8 +3,8 @@
 // Paper white · green primary · brass detail · Hanken labels
 // ============================================================
 
-import { useState } from "react";
-import { categories, ResourceType, Status } from "@/lib/data";
+import { useState, useEffect } from "react";
+import { categories, Resource, ResourceType, Status } from "@/lib/data";
 import { X, BookOpen, Headphones, Monitor, Youtube, Volume2, Film } from "lucide-react";
 
 interface AddResourceModalProps {
@@ -19,10 +19,23 @@ interface AddResourceModalProps {
     status: Status;
     url?: string;
     tags?: string[];
-  }) => void;
+  }) => Promise<string | null>;
+  editResource?: Resource;
+  onUpdate?: (id: string, resource: {
+    title: string;
+    author?: string;
+    description?: string;
+    type: ResourceType;
+    category: string;
+    status: Status;
+    url?: string;
+    tags?: string[];
+  }) => Promise<string | null>;
 }
 
-export default function AddResourceModal({ isOpen, onClose, onAdd }: AddResourceModalProps) {
+export default function AddResourceModal({ isOpen, onClose, onAdd, editResource, onUpdate }: AddResourceModalProps) {
+  const isEditMode = !!editResource;
+
   const [title, setTitle]           = useState("");
   const [author, setAuthor]         = useState("");
   const [description, setDescription] = useState("");
@@ -31,22 +44,56 @@ export default function AddResourceModal({ isOpen, onClose, onAdd }: AddResource
   const [status, setStatus]         = useState<Status>("en-cola");
   const [url, setUrl]               = useState("");
   const [tags, setTags]             = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError]           = useState<string | null>(null);
+
+  // Pre-fill form when entering edit mode
+  useEffect(() => {
+    if (editResource) {
+      setTitle(editResource.title);
+      setAuthor(editResource.author ?? "");
+      setDescription(editResource.description ?? "");
+      setType(editResource.type);
+      setCategory(editResource.category);
+      setStatus(editResource.status);
+      setUrl(editResource.url ?? "");
+      setTags(editResource.tags?.join(", ") ?? "");
+    } else {
+      setTitle(""); setAuthor(""); setDescription(""); setUrl(""); setTags("");
+      setType("libro"); setCategory("marketing"); setStatus("en-cola");
+    }
+    setError(null);
+  }, [editResource, isOpen]);
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim()) return;
-    onAdd({
+    setSubmitting(true);
+    setError(null);
+
+    const payload = {
       title: title.trim(),
       author: author.trim() || undefined,
       description: description.trim() || undefined,
       type, category, status,
       url: url.trim() || undefined,
       tags: tags.trim() ? tags.split(",").map((t) => t.trim()).filter(Boolean) : undefined,
-    });
-    setTitle(""); setAuthor(""); setDescription(""); setUrl(""); setTags("");
-    setType("libro"); setCategory("marketing"); setStatus("en-cola");
+    };
+
+    let err: string | null;
+    if (isEditMode && onUpdate && editResource) {
+      err = await onUpdate(editResource.id, payload);
+    } else {
+      err = await onAdd(payload);
+    }
+
+    setSubmitting(false);
+    if (err) {
+      setError("No se pudo guardar. Verificá que tengas sesión de administrador activa.");
+      return;
+    }
     onClose();
   };
 
@@ -120,7 +167,7 @@ export default function AddResourceModal({ isOpen, onClose, onAdd }: AddResource
             <div className="flex items-center gap-2.5 mb-1.5">
               <span style={{ width: 20, height: 1.5, background: GOLD, opacity: 0.65 }} />
               <span style={{ fontFamily: FONT_UI, fontSize: "0.6rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: GOLD }}>
-                Nueva entrada
+                {isEditMode ? "Editar entrada" : "Nueva entrada"}
               </span>
             </div>
             <h2 style={{
@@ -130,7 +177,7 @@ export default function AddResourceModal({ isOpen, onClose, onAdd }: AddResource
               color: INK,
               letterSpacing: "-0.01em",
             }}>
-              Agregar a la biblioteca
+              {isEditMode ? "Editar recurso" : "Agregar a la biblioteca"}
             </h2>
           </div>
           <button
@@ -278,6 +325,12 @@ export default function AddResourceModal({ isOpen, onClose, onAdd }: AddResource
             />
           </div>
 
+          {error && (
+            <p style={{ fontFamily: FONT_UI, fontSize: "0.72rem", color: "#AB4A40" }}>
+              {error}
+            </p>
+          )}
+
           {/* Botones */}
           <div className="flex gap-3 pt-2">
             <button
@@ -298,6 +351,7 @@ export default function AddResourceModal({ isOpen, onClose, onAdd }: AddResource
             </button>
             <button
               type="submit"
+              disabled={submitting}
               className="flex-1 py-2.5 rounded transition-all"
               style={{
                 background: GREEN,
@@ -308,11 +362,13 @@ export default function AddResourceModal({ isOpen, onClose, onAdd }: AddResource
                 fontWeight: 600,
                 letterSpacing: "0.06em",
                 textTransform: "uppercase",
+                opacity: submitting ? 0.65 : 1,
+                cursor: submitting ? "default" : "pointer",
               }}
-              onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.background = GREEN_HOVER)}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.background = GREEN)}
+              onMouseEnter={(e) => { if (!submitting) (e.currentTarget as HTMLButtonElement).style.background = GREEN_HOVER; }}
+              onMouseLeave={(e) => { if (!submitting) (e.currentTarget as HTMLButtonElement).style.background = GREEN; }}
             >
-              Agregar al estante
+              {submitting ? "Guardando..." : isEditMode ? "Guardar cambios" : "Agregar al estante"}
             </button>
           </div>
         </form>

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { Resource, Note } from "@/lib/data";
 
 interface NotesContextType {
@@ -14,7 +14,16 @@ const NotesContext = createContext<NotesContextType | undefined>(undefined);
 
 export function NotesProvider({ children }: { children: React.ReactNode }) {
   const [selectedResource, setSelectedResource] = useState<Resource | null>(null);
-  const [notesMap, setNotesMap] = useState<Record<string, Note[]>>({});
+  const [notesMap, setNotesMap] = useState<Record<string, Note[]>>(() => {
+    try {
+      const stored = localStorage.getItem("gj-notes");
+      return stored ? JSON.parse(stored) : {};
+    } catch { return {}; }
+  });
+
+  useEffect(() => {
+    localStorage.setItem("gj-notes", JSON.stringify(notesMap));
+  }, [notesMap]);
 
   const updateNotes = (resourceId: string, notes: Note[]) => {
     setNotesMap((prev) => ({ ...prev, [resourceId]: notes }));

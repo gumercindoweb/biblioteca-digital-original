@@ -7,7 +7,7 @@ import { useState } from "react";
 import { Resource, ResourceType, statusColors, statusLabels, resourceTypeLabels } from "@/lib/data";
 import {
   BookOpen, Headphones, Monitor, Youtube,
-  ExternalLink, Tag, FileText, Clock, Star, Play, X, Link, GraduationCap, Layers,
+  ExternalLink, Tag, FileText, Clock, Star, Play, X, Link, GraduationCap, Layers, Trash2, Pencil,
 } from "lucide-react";
 import { useNotes } from "@/contexts/NotesContext";
 import { useStatus } from "@/contexts/StatusContext";
@@ -405,9 +405,11 @@ const typeBg: Record<ResourceType, string> = {
 interface ResourceCardProps {
   resource: Resource;
   index: number;
+  onDelete?: (id: string) => void;
+  onEdit?: (resource: Resource) => void;
 }
 
-export default function ResourceCard({ resource, index }: ResourceCardProps) {
+export default function ResourceCard({ resource, index, onDelete, onEdit }: ResourceCardProps) {
   const { setSelectedResource, getResourceNotes } = useNotes();
   const { getResourceStatus } = useStatus();
   const notes         = getResourceNotes(resource.id);
@@ -441,10 +443,51 @@ export default function ResourceCard({ resource, index }: ResourceCardProps) {
       `}</style>
 
       <div
-        className="resource-card animate-fade-slide-up cursor-pointer overflow-hidden"
+        className="resource-card animate-fade-slide-up cursor-pointer overflow-hidden relative group/card"
         style={{ animationDelay: `${index * 35}ms` }}
         onClick={() => setSelectedResource(resource)}
       >
+        {/* ── Botones admin (editar / eliminar) ── */}
+        {(onEdit || onDelete) && (
+          <div className="absolute top-2 right-2 z-20 flex items-center gap-1 opacity-0 group-hover/card:opacity-100 transition-opacity">
+            {onEdit && (
+              <button
+                onClick={(e) => { e.stopPropagation(); onEdit(resource); }}
+                className="flex items-center justify-center rounded-full"
+                title="Editar recurso"
+                style={{
+                  width: 28, height: 28,
+                  background: "rgba(17,80,61,0.92)",
+                  color: "#F8F5EE",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+                }}
+              >
+                <Pencil size={12} />
+              </button>
+            )}
+            {onDelete && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (window.confirm(`¿Eliminar "${resource.title}" de la biblioteca?`)) {
+                    onDelete(resource.id);
+                  }
+                }}
+                className="flex items-center justify-center rounded-full"
+                title="Eliminar recurso"
+                style={{
+                  width: 28, height: 28,
+                  background: "rgba(171,74,64,0.92)",
+                  color: "#F8F5EE",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+                }}
+              >
+                <Trash2 size={13} />
+              </button>
+            )}
+          </div>
+        )}
+
         {/* ── Thumbnail ── */}
         {hasThumbnail && <CardThumbnail resource={resource} onPlayClick={() => setSelectedResource(resource)} />}
 

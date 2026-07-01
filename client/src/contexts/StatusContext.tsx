@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { Status } from "@/lib/data";
 
 interface StatusContextType {
@@ -10,7 +10,16 @@ interface StatusContextType {
 const StatusContext = createContext<StatusContextType | undefined>(undefined);
 
 export function StatusProvider({ children }: { children: React.ReactNode }) {
-  const [resourceStatuses, setResourceStatuses] = useState<Record<string, Status>>({});
+  const [resourceStatuses, setResourceStatuses] = useState<Record<string, Status>>(() => {
+    try {
+      const stored = localStorage.getItem("gj-statuses");
+      return stored ? JSON.parse(stored) : {};
+    } catch { return {}; }
+  });
+
+  useEffect(() => {
+    localStorage.setItem("gj-statuses", JSON.stringify(resourceStatuses));
+  }, [resourceStatuses]);
 
   const setResourceStatus = (resourceId: string, status: Status) => {
     setResourceStatuses((prev) => ({ ...prev, [resourceId]: status }));

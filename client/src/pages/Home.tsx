@@ -7,9 +7,11 @@ import { useState, useMemo, useCallback, useEffect } from "react";
 import { resources as fallbackResources, categories, Resource, ResourceType, Category, Status, statusLabels, statusColors, podcastTemas, PodcastTema } from "@/lib/data";
 import { supabase } from "@/lib/supabase";
 import { useStatus } from "@/contexts/StatusContext";
+import { useAuth } from "@/contexts/AuthContext";
 import Sidebar from "@/components/Sidebar";
 import ResourceCard from "@/components/ResourceCard";
 import AddResourceModal from "@/components/AddResourceModal";
+import LoginModal from "@/components/LoginModal";
 import { BookOpen, Headphones, Monitor, Youtube, Grid3X3, List, Star, Volume2, Film, Menu, Search, X, GraduationCap } from "lucide-react";
 import { nanoid } from "nanoid";
 
@@ -22,6 +24,31 @@ const typeIcons: Record<ResourceType, React.ReactNode> = {
   youtube:    <Youtube size={14} />,
   curso:      <GraduationCap size={14} />,
 };
+
+// Mapea una fila de Supabase al tipo Resource del cliente
+function mapDbRow(r: any): Resource {
+  return {
+    id: r.id,
+    title: r.title,
+    author: r.author ?? undefined,
+    description: r.description ?? undefined,
+    type: r.type as ResourceType,
+    category: r.category,
+    status: r.status as Status,
+    url: r.url ?? undefined,
+    tags: r.tags ?? [],
+    featured: r.featured ?? false,
+    tema: r.tema ?? undefined,
+    affiliate: r.affiliate ?? false,
+    platformType: r.platform_type ?? undefined,
+    subscription: r.subscription_expires_at ? {
+      expiresAt: r.subscription_expires_at,
+      isActive: r.subscription_is_active ?? true,
+    } : undefined,
+    modules: r.modules ?? undefined,
+    coverUrl: r.cover_url ?? undefined,
+  };
+}
 
 const bookStatusLabels: Record<Status, string> = {
   "en-cola": "Por leer",
@@ -44,7 +71,10 @@ const GREEN_HOVER  = "#166B4F";
 
 export default function Home() {
   const { resourceStatuses } = useStatus();
+  const { isAdmin } = useAuth();
   const [allResources, setAllResources]     = useState<Resource[]>(fallbackResources);
+  const [loginOpen, setLoginOpen]           = useState(false);
+  const [editingResource, setEditingResource] = useState<Resource | undefined>(undefined);
 
   useEffect(() => {
     supabase
@@ -52,28 +82,7 @@ export default function Home() {
       .select("*")
       .then(({ data, error }) => {
         if (error || !data || data.length === 0) return;
-        const mapped: Resource[] = data.map((r: any) => ({
-          id: r.id,
-          title: r.title,
-          author: r.author ?? undefined,
-          description: r.description ?? undefined,
-          type: r.type as ResourceType,
-          category: r.category,
-          status: r.status as Status,
-          url: r.url ?? undefined,
-          tags: r.tags ?? [],
-          featured: r.featured ?? false,
-          tema: r.tema ?? undefined,
-          affiliate: r.affiliate ?? false,
-          platformType: r.platform_type ?? undefined,
-          subscription: r.subscription_expires_at ? {
-            expiresAt: r.subscription_expires_at,
-            isActive: r.subscription_is_active ?? true,
-          } : undefined,
-          modules: r.modules ?? undefined,
-          coverUrl: r.cover_url ?? undefined,
-        }));
-        setAllResources(mapped);
+        setAllResources(data.map(mapDbRow));
       });
   }, []);
   const [selectedCategory, setSelectedCategory] = useState("todos");
@@ -118,10 +127,75 @@ export default function Home() {
     return counts;
   }, [filteredResources]);
 
+  // Inserta el recurso en Supabase. Devuelve un mensaje de error o null si OK.
   const handleAddResource = useCallback(
-    (data: Omit<Resource, "id">) => {
-      const newResource: Resource = { ...data, id: nanoid(), status: data.status || "en-cola" };
-      setAllResources((prev) => [...prev, newResource]);
+    async (data: Omit<Resource, "id">): Promise<string | null> => {
+      const row = {
+        id: nanoid(),
+        title: data.title,
+        author: data.author ?? null,
+        description: data.description ?? null,
+        type: data.type,
+        category: data.category,
+        status: data.status || "en-cola",
+        url: data.url ?? null,
+        tags: data.tags ?? [],
+        featured: data.featured ?? false,
+        tema: data.tema ?? null,
+        affiliate: data.affiliate ?? false,
+      };
+      const { data: inserted, error } = await supabase
+        .from("resources")
+        .insert(row)
+        .select()
+        .single();
+      if (error) return error.message;
+      if (inserted) setAllResources((prev) => [...prev, mapDbRow(inserted)]);
+      return null;
+    },
+    []
+  );
+
+  // Actualiza un recurso en Supabase y en el estado local (solo admin).
+  const handleUpdateResource = useCallback(
+    async (id: string, data: Omit<Resource, "id">): Promise<string | null> => {
+      const row = {
+        title: data.title,
+        author: data.author ?? null,
+        description: data.description ?? null,
+        type: data.type,
+        category: data.category,
+        status: data.status || "en-cola",
+        url: data.url ?? null,
+        tags: data.tags ?? [],
+        featured: data.featured ?? false,
+        tema: data.tema ?? null,
+        affiliate: data.affiliate ?? false,
+      };
+      const { data: updated, error } = await supabase
+        .from("resources")
+        .update(row)
+        .eq("id", id)
+        .select()
+        .single();
+      if (error) return error.message;
+      if (updated) {
+        setAllResources((prev) => prev.map((r) => r.id === id ? mapDbRow(updated) : r));
+      }
+      return null;
+    },
+    []
+  );
+
+  // Elimina un recurso de Supabase y del estado local (solo admin).
+  const handleDeleteResource = useCallback(
+    async (id: string) => {
+      const { error } = await supabase.from("resources").delete().eq("id", id);
+      if (error) {
+        alert("No se pudo eliminar: " + error.message);
+        return;
+      }
+      setAllResources((prev) => prev.filter((r) => r.id !== id));
     },
     []
   );
@@ -138,7 +212,8 @@ export default function Home() {
         onTypeChange={handleTypeChange}
         onSearchChange={setSearchQuery}
         totalCount={allResources.length}
-        onAddResource={() => setIsModalOpen(true)}
+        onAddResource={() => { setEditingResource(undefined); setIsModalOpen(true); }}
+        onLoginClick={() => setLoginOpen(true)}
         mobileOpen={mobileNavOpen}
         onMobileClose={() => setMobileNavOpen(false)}
       />
@@ -412,8 +487,8 @@ export default function Home() {
               </div>
             )}
 
-            {/* Filtro destacados */}
-            <div className="flex items-center gap-2">
+            {/* Filtro destacados + controles de vista */}
+            <div className="flex items-center justify-between gap-2">
               <button
                 onClick={() => setShowOnlyFeatured(!showOnlyFeatured)}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-all"
@@ -430,25 +505,24 @@ export default function Home() {
                 <Star size={11} fill={showOnlyFeatured ? "currentColor" : "none"} />
                 Destacados
               </button>
-            </div>
-          </div>
 
-          {/* Controles de vista */}
-          <div className="absolute right-8 bottom-6 flex items-center gap-1.5">
-            <button
-              onClick={() => setViewMode("grid")}
-              className="p-1.5 rounded transition-colors"
-              style={{ color: viewMode === "grid" ? GREEN : KHAKI }}
-            >
-              <Grid3X3 size={14} />
-            </button>
-            <button
-              onClick={() => setViewMode("list")}
-              className="p-1.5 rounded transition-colors"
-              style={{ color: viewMode === "list" ? GREEN : KHAKI }}
-            >
-              <List size={14} />
-            </button>
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={() => setViewMode("grid")}
+                  className="p-1.5 rounded transition-colors"
+                  style={{ color: viewMode === "grid" ? GREEN : KHAKI }}
+                >
+                  <Grid3X3 size={14} />
+                </button>
+                <button
+                  onClick={() => setViewMode("list")}
+                  className="p-1.5 rounded transition-colors"
+                  style={{ color: viewMode === "list" ? GREEN : KHAKI }}
+                >
+                  <List size={14} />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -456,13 +530,18 @@ export default function Home() {
         <div className="flex-1 p-4 md:p-8" style={{ background: IVORY }}>
           {filteredResources.length > 0 ? (
             <div
-              className={viewMode === "grid" ? "grid gap-4" : "flex flex-col gap-3"}
-              style={viewMode === "grid"
-                ? { gridTemplateColumns: "repeat(auto-fill, minmax(min(288px, 100%), 1fr))" }
-                : {}}
+              className={viewMode === "grid"
+                ? "grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+                : "flex flex-col gap-3"}
             >
               {filteredResources.map((resource, index) => (
-                <ResourceCard key={resource.id} resource={resource} index={index} />
+                <ResourceCard
+                  key={resource.id}
+                  resource={resource}
+                  index={index}
+                  onDelete={isAdmin ? handleDeleteResource : undefined}
+                  onEdit={isAdmin ? (r) => { setEditingResource(r); setIsModalOpen(true); } : undefined}
+                />
               ))}
             </div>
           ) : (
@@ -496,26 +575,28 @@ export default function Home() {
                 letterSpacing: "0.02em",
                 marginBottom: "24px",
               }}>
-                Agrega tu primer recurso a esta categoría
+                {isAdmin ? "Agrega tu primer recurso a esta categoría" : "Probá con otro estante o filtro"}
               </p>
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className="px-5 py-2.5 rounded transition-all"
-                style={{
-                  background: GREEN,
-                  border: `1px solid ${GREEN}`,
-                  color: IVORY,
-                  fontFamily: FONT_UI,
-                  fontSize: "0.75rem",
-                  fontWeight: 600,
-                  letterSpacing: "0.06em",
-                  textTransform: "uppercase",
-                }}
-                onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.background = GREEN_HOVER)}
-                onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.background = GREEN)}
-              >
-                Agregar recurso
-              </button>
+              {isAdmin && (
+                <button
+                  onClick={() => { setEditingResource(undefined); setIsModalOpen(true); }}
+                  className="px-5 py-2.5 rounded transition-all"
+                  style={{
+                    background: GREEN,
+                    border: `1px solid ${GREEN}`,
+                    color: IVORY,
+                    fontFamily: FONT_UI,
+                    fontSize: "0.75rem",
+                    fontWeight: 600,
+                    letterSpacing: "0.06em",
+                    textTransform: "uppercase",
+                  }}
+                  onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.background = GREEN_HOVER)}
+                  onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.background = GREEN)}
+                >
+                  Agregar recurso
+                </button>
+              )}
             </div>
           )}
         </div>
@@ -523,8 +604,15 @@ export default function Home() {
 
       <AddResourceModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={() => { setIsModalOpen(false); setEditingResource(undefined); }}
         onAdd={handleAddResource}
+        editResource={editingResource}
+        onUpdate={handleUpdateResource}
+      />
+
+      <LoginModal
+        isOpen={loginOpen}
+        onClose={() => setLoginOpen(false)}
       />
     </div>
   );
