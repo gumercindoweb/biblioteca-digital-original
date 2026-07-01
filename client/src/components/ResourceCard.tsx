@@ -449,7 +449,7 @@ export default function ResourceCard({ resource, index, onDelete, onEdit }: Reso
       >
         {/* ── Botones admin (editar / eliminar) ── */}
         {(onEdit || onDelete) && (
-          <div className="absolute top-2 right-2 z-20 flex items-center gap-1 opacity-0 group-hover/card:opacity-100 transition-opacity">
+          <div className="absolute top-2 right-2 z-20 flex items-center gap-1 opacity-80 group-hover/card:opacity-100 transition-opacity">
             {onEdit && (
               <button
                 onClick={(e) => { e.stopPropagation(); onEdit(resource); }}
